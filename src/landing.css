@@ -1,0 +1,77 @@
+.landing-top{
+    background-color: #F0F1EA;
+    padding: 5rem;
+}
+
+.buttom-empieza-landing{
+    background-color: #004AAC; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
+    border-radius: 6rem;
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 100;
+
+}
+
+@media (min-width: 768px) {
+    .container-medio {
+        max-width: 90%; /* Puedes ajustarlo al porcentaje que prefieras */
+    }
+}
+
+.landing-top p{
+    font-size: 20px;
+    padding: 20px 0px;
+}
+
+.landing-top h1{
+    font-size: 70px;
+    padding: 0 0;
+}
+
+.landing-top img{
+    max-width: 200%;
+    height: auto;
+}
+
+.container-medio{
+    background-color: #004AAC99;
+    border-radius: 2rem;
+    padding: 2rem;
+    max-width: 65%; /* Para que ocupe todo el ancho posible */
+}
+
+.seccion-medio{
+    padding: 2rem;
+}
+
+.buttom-media-landing{
+    background-color: #FFFFFF; /* Color de fondo */
+    padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
+    border-radius: 6rem;
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 100;
+}
+  
+.seccion-medio h2{
+    font-size: 50px;
+    color: #FFFFFF;
+}
+
+.seccion-medio p{
+    font-size: 32px;
+    color: #FFFFFF;
+    padding: 6rem 1rem;
+}
+
+.seccion-medio img{
+    max-width: 100%;
+    height: auto;
+}
+
+.buttom-general:hover{
+    background-color: #0056b3; /* Color del botón al hacer hover */
+    color: white;
+}

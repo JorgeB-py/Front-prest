@@ -1,11 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Header } from "./components/header";
-
+import { Landing } from "./landing";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
     <React.StrictMode>
-        <Header></Header>
+        <Landing></Landing>
     </React.StrictMode>
 );
