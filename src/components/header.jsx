@@ -1,51 +1,54 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/header.css';
+import { Link } from "react-router-dom";
 
 
-export default function Header(font) {
+export function Header() {
+    const nav_links = [
+        { name: "Soluciones", url: "soluciones"},
+        { name: "Nosotros", url: "nosotros"},
+        { name: "Recursos", url: "recursos"},
+    ];
 
-    const nav_links = [{
-        name: "Prest",
-        url: "/",
-    },
-    {
-        name: "Soluciones",
-        url: "/soluciones",
-    },
-    {
-        name: "Nosotros",
-        url: "/nosotros",
-    },
-    {
-        name: "Recursos",
-        url: "/Recursos",
-
-    }, {
-        name: "Entra",
-        url: "/login"
-    },
-    {
-        name: "Empieza ahora",
-        url: "/register"
-    }
-    ]
     return (
-        <section>
+        <header>
+            <nav className="navbar navbar-expand-lg custom-navbar">
+                <div className="container-fluid">
+                    {/* Logo */}
+                    <Link className="navbar-brand custom-logo" to="/">
+                        <img src="/Logo_letras.png" alt="Logo" width="213" height="73" />
+                    </Link>
 
-            <nav className="nav nav-pills flex-column flex-sm-row">
-                {
-                    nav_links.map((link, index) => {
-                        return (
-                            <a key={index} class="flex-sm-fill text-sm-center nav-link" href={link.url}>{link.name}</a>
-                        )
-                    })
-                }
-                <a className="navbar-brand" href="/home">
-                    <img src="C:\Users\jorgi\Desktop\Uniandes\WEB\ISIS3710_202420_S2_E10_Front\src\img\Logo.png" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />
-                </a>
+                    {/* Botón para mobile */}
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
+                    {/* Links del menú */}
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav separation">
+                            {nav_links.map((link, index) => (
+                                <li key={index} className="nav-item">
+                                    <Link className="nav-link custom-links" to={link.url}>
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
 
+                        <ul className="navbar-nav ms-auto separation">
+                            <li className="nav-item">
+                                <Link className="nav-link custom-links" to="login">Entra</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="signup" className="buttom-empieza">Empieza ahora</Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {/* Definición de las rutas */}
             </nav>
-        </section>
+        </header>
     );
 }

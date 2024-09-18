@@ -1,0 +1,52 @@
+@font-face {
+    font-family: "TWK Lausanne";
+    src: url('/src/components/fonts/550.ttf') format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.custom-navbar{
+    background-color: #F0F1EA;
+    font-family: "TWK Lausanne", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 2rem;
+}
+
+.custom-logo{
+    color: #000;
+    cursor: pointer;
+    margin-left: 2%;
+}
+
+.custom-links{
+    color: #000000;
+}
+
+.separation{
+    gap : 3rem;
+    margin-left: 2rem;
+}
+
+.nav-link:hover {
+    color: #473d3dcf;
+}
+
+.login{
+    margin-left: 2rem;
+}
+
+.buttom-empieza {
+    background-color: #004AAC; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
+    border-radius: 6rem;
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 100;
+}
+
+.buttom-empieza:hover {
+    background-color: #0056b3; /* Color del botón al hacer hover */
+    color: white;
+}
