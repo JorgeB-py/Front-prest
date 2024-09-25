@@ -4,12 +4,30 @@ import './styles/header.css';
 import { Link } from "react-router-dom";
 
 
-export function Header() {
-    const nav_links = [
-        { name: "Soluciones", url: "soluciones"},
-        { name: "Nosotros", url: "nosotros"},
-        { name: "Recursos", url: "recursos"},
-    ];
+export function Header({nav_links, logged, usuario}) {
+
+    const Greetings = () => {
+            if(logged){
+                return(
+                    <ul className="navbar-nav ms-auto separation">
+                        <li className="nav-item">
+                            <Link to="perfil" className="buttom-empieza">{usuario}</Link>
+                        </li>
+                    </ul>
+                )
+            }else{
+                return(
+                    <ul className="navbar-nav ms-auto separation">
+                        <li className="nav-item">
+                            <Link className="nav-link custom-links" to="login">Entra</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="signup" className="buttom-empieza">Empieza ahora</Link>
+                        </li>
+                    </ul>
+                )
+            }
+    }
 
     return (
         <header>
@@ -37,17 +55,9 @@ export function Header() {
                             ))}
                         </ul>
 
-                        <ul className="navbar-nav ms-auto separation">
-                            <li className="nav-item">
-                                <Link className="nav-link custom-links" to="login">Entra</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="signup" className="buttom-empieza">Empieza ahora</Link>
-                            </li>
-                        </ul>
+                        <Greetings></Greetings>
                     </div>
                 </div>
-                {/* Definición de las rutas */}
             </nav>
         </header>
     );

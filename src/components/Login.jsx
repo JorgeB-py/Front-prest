@@ -5,6 +5,7 @@ export default function Login() {
         <div>
             <h1>Iniciar Sesión</h1>
             <p>En esta sección encontrarás las soluciones que ofrecemos</p>
+            navlink
         </div>
     );
 }
