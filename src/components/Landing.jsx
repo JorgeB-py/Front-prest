@@ -1,13 +1,18 @@
 import { Footer } from "./footer";
 import { Header } from "./header";
-import "./landing.css"
+import "./styles/landing.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function Landing() {    
+export default function Landing() {   
+    const nav_links = [
+        { name: "Soluciones", url: "soluciones"},
+        { name: "Nosotros", url: "nosotros"},
+        { name: "Recursos", url: "recursos"},
+    ]; 
     return (
         <>
-            <Header></Header>
+            <Header nav_links={nav_links}></Header>
             <section className="landing-top">
                 <Container className="container-md ">
                     <Row>
