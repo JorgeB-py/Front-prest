@@ -7,6 +7,7 @@ import Login from "./Login"
 import Landing from "./Landing";
 import { Routes, Route } from "react-router-dom";
 import Index from "./Index";
+import DeudorApp from "./deudorApp";
 
 export default function App() {
     const nav_links = [
@@ -16,7 +17,8 @@ export default function App() {
         { url: "signup", component: Signup },
         { url: "login", component: Login},
         { url: "/", component: Landing },
-        { url:"index", component: Index}
+        { url:"index", component: Index},
+        { url:"deudorApp", component: DeudorApp}
     ];
     return (
         <Routes>

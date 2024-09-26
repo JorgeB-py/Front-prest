@@ -2,8 +2,13 @@
 import React from 'react';
 import DeudorInfo from './deudorInfo';
 import HistorialPagos from './historialpagos';
+import { Header } from './header';
+import { Footer } from './footer';
+import { Container, Col, Row } from 'react-bootstrap';
+import SmallCalendar from './SmallCalendar';
+import './styles/deudorApp.css';
 
-const DeudorApp = () => { 
+export default function DeudorApp(){
   const deudorData = {
     nombre: 'Juan Pérez',
     fechaVencimiento: '2024-09-30',
@@ -16,15 +21,36 @@ const DeudorApp = () => {
     { fecha: '2024-07-15', cantidad: 500, interes: 55, principal: 445, balance: 5000 },
   ];
 
-  return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Información de Deuda</h1>
-      <DeudorInfo deudor={deudorData} />
+  const nav_links = [
+    { name: "Dashboard", url: "dashboard" },
+    { name: "Deudores", url: "deudores" },
+    { name: "Mi dinero", url: "midinero" },
+  ]
 
-      <h2 className="mt-5">Historial de Pagos</h2>
-      <HistorialPagos pagos={historialPagos} />
-    </div>
+  return (
+    <>
+      <Header nav_links={nav_links} logged={true} usuario={'Jorge'}/>
+        <Row>
+          <Container>
+            <Row>
+              <Col className='columna-perfil'>
+                <img src="./2148859448.jpg" alt="perfil-img" />
+                <DeudorInfo deudor={deudorData}/>
+              </Col>
+              <Col>
+                <Row>
+                  <h3>Fecha de pago</h3>
+                  <p>{deudorData.fechaPago}</p>
+                  <SmallCalendar date={deudorData.fechaPago}/>
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+          <Container>
+            <HistorialPagos pagos={historialPagos}/>
+          </Container>
+        </Row>
+      <Footer/>
+    </>
   );
 };
-
-export default DeudorApp;

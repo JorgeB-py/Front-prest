@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header } from './header';
 import { Container, Row, Col } from 'react-bootstrap';
-import './Index.css';
+import './styles/Index.css';
 import { Footer } from './footer';
 
 export default function Index() {
@@ -20,7 +20,7 @@ export default function Index() {
                     <div className="card-body">
                         <h5 className="card-title">{nombre}</h5>
                         <p className="card-text">Modificado: {fecha}</p>
-                        <a href="#" className="btn btn-primary">Información</a>
+                        <a href="/deudorApp" className="btn btn-primary">Información</a>
                     </div>
                 </div>
             </Col>

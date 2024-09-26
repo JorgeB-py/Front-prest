@@ -1,9 +1,8 @@
 import React from "react";
-import "./Login.css";
+import "./styles/Login.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Header } from "./header";
 
 export default function Login() {
     const irIndex = (e) => {
@@ -12,7 +11,6 @@ export default function Login() {
     }
     return (
         <section className="vh-100">
-            
             <div className="container-fluid h-custom">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-md-9 col-lg-6 col-xl-5">

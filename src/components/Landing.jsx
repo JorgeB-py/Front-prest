@@ -1,6 +1,6 @@
 import { Footer } from "./footer";
 import { Header } from "./header";
-import "./landing.css"
+import "./styles/landing.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
