@@ -8,6 +8,10 @@ import Landing from "./Landing";
 import { Routes, Route } from "react-router-dom";
 import Index from "./Index";
 import DeudorApp from "./deudorApp";
+import CrearCliente from "./CrearCliente";
+import ConsultarCliente from "./consultarCliente";
+import ListaCreditos from "./listaCreditos";
+import VisualizarTransacciones from "./visualizarTransacciones";
 
 export default function App() {
     const nav_links = [
@@ -18,7 +22,12 @@ export default function App() {
         { url: "login", component: Login},
         { url: "/", component: Landing },
         { url:"index", component: Index},
-        { url:"deudorApp", component: DeudorApp}
+        { url:"deudorApp", component: DeudorApp}, 
+        { url:"crearcliente", component: CrearCliente},
+        { url:"consultarcliente", component: ConsultarCliente},
+        { url: "creditos", component: ListaCreditos }, 
+        { url: "visualizar-transacciones/:id", component: VisualizarTransacciones }
+
     ];
     return (
         <Routes>
