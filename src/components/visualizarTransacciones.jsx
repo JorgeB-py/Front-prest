@@ -11,9 +11,9 @@ export default function VisualizarTransacciones() {
 
     // Simulación de créditos (esto debería venir de una API en un entorno real)
     const creditosMock = [
-        { id: 1, nombre: "Crédito Hipotecario", monto: 100000 },
-        { id: 2, nombre: "Crédito Vehicular", monto: 50000 },
-        { id: 3, nombre: "Crédito Personal", monto: 20000 },
+        { id: 1, nombre: "Crédito Hipotecario", monto: 100000, fechaPago: "2024-10-15", estado: "Pendiente" },
+        { id: 2, nombre: "Crédito Vehicular", monto: 50000, fechaPago: "2024-09-10", estado: "Saldado" },
+        { id: 3, nombre: "Crédito Personal", monto: 20000, fechaPago: "2024-08-25", estado: "En mora" },
     ];
 
     // Buscar el crédito por ID
@@ -78,8 +78,15 @@ export default function VisualizarTransacciones() {
             <Container className="visualizar-transacciones-container">
                 <Row className="justify-content-md-center">
                     <Col md={10}>
-                        {/* Mostrar el nombre del crédito seleccionado */}
-                        {credito && <h1>Transacciones de {credito.nombre}</h1>}
+                        {/* Mostrar toda la información del crédito seleccionado */}
+                        {credito && (
+                            <div>
+                                <h1>Transacciones de {credito.nombre}</h1>
+                                <p>Monto: ${credito.monto}</p>
+                                <p>Fecha de Pago: {credito.fechaPago}</p>
+                                <p>Estado: {credito.estado}</p>
+                            </div>
+                        )}
 
                         <Form className="mb-4">
                             <Row>
@@ -117,7 +124,7 @@ export default function VisualizarTransacciones() {
                                 </Col>
                             </Row>
                             <div className="mt-3">
-                            <Button className="me-2 boton-filtrar" onClick={filtrarTransacciones}>
+                                <Button className="me-2 boton-filtrar" onClick={filtrarTransacciones}>
                                     Filtrar
                                 </Button>
                                 <Button variant="secondary" onClick={eliminarFiltros}>
@@ -193,4 +200,3 @@ export default function VisualizarTransacciones() {
         </>
     );
 }
-
