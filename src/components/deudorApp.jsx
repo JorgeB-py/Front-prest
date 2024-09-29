@@ -5,6 +5,7 @@ import HistorialPagos from './historialpagos';
 import { Header } from './header';
 import { Footer } from './footer';
 import { Container, Col, Row } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
 import SmallCalendar from './SmallCalendar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/deudorApp.css';  // Estilos personalizados
@@ -99,7 +100,7 @@ export default function DeudorApp() {
 
             {/* Botón para modificar el interés */}
             <Button className="mt-3" style={{display:'flex'}} onClick={() => setShowModalInteres(true)}>
-              Modificar interés
+              <FormattedMessage id="app.modifyInterest" defaultMessage="Modify interest" />
             </Button>
           </Col>
           <Col md={6}>
@@ -113,8 +114,8 @@ export default function DeudorApp() {
 
         <Row className="mt-5">
           <Col>
-            <h3>Pagos recientes</h3>
-            <Button onClick={() => setShowModal(true)}>Agregar pago</Button>
+            <h3><FormattedMessage id="app.recents" defaultMessage="Recents" /></h3>
+            <Button onClick={() => setShowModal(true)}><FormattedMessage id="app.addPayment" defaultMessage="Add payment" /></Button>
             <HistorialPagos pagos={historialPagos} />
           </Col>
         </Row>
@@ -124,12 +125,12 @@ export default function DeudorApp() {
       {/* Modal para agregar pagos */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Agregar Pago</Modal.Title>
+          <Modal.Title><FormattedMessage id="app.addPayment" defaultMessage="Add payment" /></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group>
-              <Form.Label>Cantidad</Form.Label>
+              <Form.Label><FormattedMessage id="app.quantity" defaultMessage="Quantity" /></Form.Label>
               <Form.Control
                 type="number"
                 value={cantidad}
@@ -140,10 +141,10 @@ export default function DeudorApp() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancelar
+            <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
           </Button>
           <Button variant="primary" onClick={agregarPago}>
-            Agregar Pago
+            <FormattedMessage id="app.addPayment" defaultMessage="Add payment" />
           </Button>
         </Modal.Footer>
       </Modal>
@@ -151,12 +152,12 @@ export default function DeudorApp() {
       {/* Modal para modificar el interés */}
       <Modal show={showModalInteres} onHide={() => setShowModalInteres(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Modificar Interés</Modal.Title>
+          <Modal.Title><FormattedMessage id="app.modifyInterest" defaultMessage="Modify interest" /></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group>
-              <Form.Label>Nuevo Interés (%)</Form.Label>
+              <Form.Label><FormattedMessage id="app.newInterest" defaultMessage="new Interest (%)" /></Form.Label>
               <Form.Control
                 type="number"
                 value={nuevoInteres}
@@ -167,10 +168,10 @@ export default function DeudorApp() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModalInteres(false)}>
-            Cancelar
+            <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
           </Button>
           <Button variant="primary" onClick={actualizarInteres}>
-            Guardar Cambios
+            <FormattedMessage id="app.save" defaultMessage="Save" />
           </Button>
         </Modal.Footer>
       </Modal>
