@@ -9,18 +9,18 @@ export function Header({ nav_links = [{ name: "Soluciones", url: "soluciones" },
             return (
                 <Nav className="ms-auto">
                     <Nav.Item>
-                        <Link to="perfil" className="btn btn-primary buttom-empieza">{usuario}</Link>
+                        <Button as={Link} to="/perfil" variant="primary" className="button-empieza-landing" size="lg">{usuario}</Button>
                     </Nav.Item>
                 </Nav>
             );
         } else {
             return (
                 <Nav className="ms-auto">
-                    <Nav.Item>
-                        <Link className="nav-link custom-links" to="login">Entra</Link>
+                    <Nav.Item className="custom-links">
+                        <Link className="nav-link" to="login">Entra</Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Link to="signup" className="btn btn-primary buttom-empieza">Empieza ahora</Link>
+                        <Button as={Link} to="/signup" variant="primary" className="button-empieza-landing" size="lg">Empieza ahora</Button>
                     </Nav.Item>
                 </Nav>
             );
