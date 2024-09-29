@@ -14,6 +14,7 @@ export default function CrearCliente() {
         direccion: "",
         telefono: "",
         ocupacion: "",
+        correo: "", 
         foto: null
     });
 
@@ -37,24 +38,37 @@ export default function CrearCliente() {
 
     // Validación para asegurarse de que los campos requeridos estén completos
     const validarDatos = () => {
-        const { nombre, identificacion, ingresos, ocupacion, direccion, telefono } = cliente;
-        if (!nombre || !identificacion || !ingresos || !ocupacion || !direccion || !telefono) {
+        const { nombre, identificacion, ingresos, ocupacion, direccion, telefono, correo } = cliente;
+        
+        // Verificar que todos los campos requeridos estén llenos
+        if (!nombre || !identificacion || !ingresos || !ocupacion || !direccion || !telefono || !correo) {
             setMensaje("Por favor, completa todos los campos obligatorios. La foto es opcional.");
-            setError(true); // Indicar que es un error
+            setError(true);
             return false;
         }
+
         // Validar que la identificación solo contenga números
         if (!/^\d+$/.test(identificacion)) {
             setMensaje("El número de identificación solo debe contener dígitos.");
             setError(true);
             return false;
         }
+
         // Validar que el teléfono contenga solo números
-        if (telefono && !/^\d+$/.test(telefono)) {
+        if (!/^\d+$/.test(telefono)) {
             setMensaje("El número de teléfono solo debe contener dígitos.");
             setError(true);
             return false;
         }
+
+        // Validar formato de correo electrónico
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(correo)) {
+            setMensaje("Por favor, ingresa un correo electrónico válido.");
+            setError(true);
+            return false;
+        }
+
         setError(false);
         return true;
     };
@@ -156,6 +170,18 @@ export default function CrearCliente() {
                                 </Col>
                             </Row>
                             <Row>
+                                <Col md={6}>
+                                    <Form.Group controlId="correo">
+                                        <Form.Label>Correo Electrónico</Form.Label>
+                                        <Form.Control
+                                            type="email"
+                                            name="correo"
+                                            value={cliente.correo}
+                                            onChange={handleChange}
+                                            placeholder="Ingresa el correo electrónico"
+                                        />
+                                    </Form.Group>
+                                </Col>
                                 <Col md={6}>
                                     <Form.Group controlId="foto">
                                         <Form.Label>Foto del Cliente (opcional)</Form.Label>

@@ -1,44 +1,67 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row, Table, Form, Alert, Button } from "react-bootstrap";
-import { useParams, Link } from "react-router-dom"; // Para capturar el ID del crédito y redirigir al menú
+import { useParams, Link } from "react-router-dom"; // Importar useParams para obtener el ID de la URL
 import { Header } from "./header";
 import { Footer } from "./footer";
-import "./styles/visualizarTransacciones.css"; // Asegúrate de que esta ruta apunte a tu archivo CSS
+import "./styles/visualizarTransacciones.css";
 
 export default function VisualizarTransacciones() {
     const { id } = useParams(); // Capturar el ID del crédito desde la URL
-    const [credito, setCredito] = useState(null); // Estado para almacenar la información del crédito
-
-    // Simulación de créditos (esto debería venir de una API en un entorno real)
-    const creditosMock = [
-        { id: 1, nombre: "Crédito Hipotecario", monto: 100000, fechaPago: "2024-10-15", estado: "Pendiente" },
-        { id: 2, nombre: "Crédito Vehicular", monto: 50000, fechaPago: "2024-09-10", estado: "Saldado" },
-        { id: 3, nombre: "Crédito Personal", monto: 20000, fechaPago: "2024-08-25", estado: "En mora" },
-    ];
-
-    // Buscar el crédito por ID
-    useEffect(() => {
-        const creditoEncontrado = creditosMock.find(c => c.id === parseInt(id));
-        if (creditoEncontrado) {
-            setCredito(creditoEncontrado);
-        }
-    }, [id]);
-
+    const [credito, setCredito] = useState(null); // Para almacenar los detalles del crédito
+    const [transacciones, setTransacciones] = useState([]); // Para las transacciones del crédito
     const [filtro, setFiltro] = useState({ fecha: "", total: "", balance: "" });
     const [transaccionesFiltradas, setTransaccionesFiltradas] = useState([]); // Para guardar transacciones filtradas
     const [mostrarTodas, setMostrarTodas] = useState(true); // Estado para controlar si se muestran todas las transacciones
     const [mensajeError, setMensajeError] = useState("");
+    const [loading, setLoading] = useState(true); // Estado de carga
 
-    // Simulación de transacciones para el crédito seleccionado
-    const transaccionesMock = [
-        { fecha: "2024-09-15", capital: 150, interes: 50, total: 200, balance: 9800, registrado: true },
-        { fecha: "2024-09-10", capital: 300, interes: 200, total: 500, balance: 10000, registrado: true },
-        { fecha: "2024-09-05", capital: 100, interes: 200, total: 300, balance: 10300, registrado: true },
-        { fecha: "2024-08-25", capital: 400, interes: 200, total: 600, balance: 10600, registrado: false }, // Transacción no registrada correctamente
-    ];
+    // Fetch de los detalles del crédito
+    useEffect(() => {
+        const fetchCredito = async () => {
+            try {
+                const response = await fetch("https://my.api.mockaroo.com/lista_creditos_mock.json?key=2a692260");
+                if (!response.ok) {
+                    throw new Error("Error al obtener los datos del crédito");
+                }
+                const data = await response.json();
 
-    // Ordenar transacciones por fecha (más recientes primero)
-    const transaccionesOrdenadas = transaccionesMock.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                // Buscar el crédito específico por su ID
+                const creditoSeleccionado = data.find(c => c.id === parseInt(id));
+                setCredito(creditoSeleccionado);
+            } catch (error) {
+                console.error(error);
+                setMensajeError("Error al cargar los datos del crédito.");
+            }
+        };
+
+        fetchCredito();
+    }, [id]);
+
+    // Fetch de las transacciones del crédito
+    useEffect(() => {
+        const fetchTransacciones = async () => {
+            try {
+                const response = await fetch("https://my.api.mockaroo.com/transaccionesmock.json?key=2a692260");
+                if (!response.ok) {
+                    throw new Error("Error al obtener las transacciones");
+                }
+                const data = await response.json();
+
+                // Filtrar las transacciones para el crédito seleccionado usando creditoId
+                const transaccionesCredito = data.filter(t => t.creditoId === parseInt(id));
+                setTransacciones(transaccionesCredito);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+                setMensajeError("Error al cargar las transacciones.");
+            }
+        };
+
+        fetchTransacciones();
+    }, [id]);
+
+    // Ordenar las transacciones por fecha (más recientes primero)
+    const transaccionesOrdenadas = transacciones.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
     // Filtrar transacciones por criterios de fecha, total o balance
     const filtrarTransacciones = () => {
@@ -54,7 +77,6 @@ export default function VisualizarTransacciones() {
             transacciones = transacciones.filter(t => t.balance === parseFloat(filtro.balance));
         }
 
-        // Si no se encuentran transacciones, mostrar mensaje de error
         if (transacciones.length === 0) {
             setMostrarTodas(false); // Ocultar la tabla si no hay transacciones filtradas
             setMensajeError("No se encontraron transacciones con los filtros seleccionados.");
@@ -71,6 +93,10 @@ export default function VisualizarTransacciones() {
         setMostrarTodas(true); // Mostrar todas las transacciones nuevamente
         setMensajeError(""); // Limpiar cualquier mensaje de error
     };
+
+    if (loading) {
+        return <p>Cargando transacciones...</p>;
+    }
 
     return (
         <>
