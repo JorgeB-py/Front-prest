@@ -1,90 +1,119 @@
-.landing-top{
+.landing-top {
     background-color: #F0F1EA;
-    padding: 5rem;
+    padding: 3rem 1rem;
     background-size: cover;
-
 }
 
-.button-empieza-landing{
-    background-color: #004AAC; /* Color de fondo */
-    color: white; /* Color del texto */
-    padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
-    border-radius: 6rem;
+.button-empieza-landing {
+    background-color: #004bac;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 3rem;
     text-decoration: none;
-    font-size: 1.8rem;
-    font-weight: 100;
-
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
-@media (min-width: 768px) {
-    .container-medio {
-        max-width: 90%; /* Puedes ajustarlo al porcentaje que prefieras */
-    }
+.carta-izquierda{
+    padding: 1rem 0rem;
+    background-color: rgba(0, 74, 172, 0.6);
+}
+.carta-derecha{
+    padding: 1rem 0rem;
+    background-color: #004bac;
 }
 
-.landing-top p{
-    font-size: 20px;
-    padding: 20px 0px;
+.carta h3{
+    padding: 1rem;
 }
-
-.landing-top h1{
-    font-size: 70px;
-    padding: 0 0;
-}
-
-.landing-top img{
-    max-width: 200%;
-    height: auto;
-}
-
-.container-medio{
-    border-radius: 2rem;
-    max-width: 80%; /* Para que ocupe todo el ancho posible */
-    background-color: #004AAC;
-}
-.container-abajo{
-    border-radius: 2rem;
-    max-width: 100%; /* Para que ocupe todo el ancho posible */
-    background-color: #FFFFFF;
-}
-.seccion-medio{
-    padding: 5rem;
-}
-
-.button-media-landing{
-    background-color: #FFFFFF; /* Color de fondo */
-    color: black; /* Color del texto */
-    padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
-    border-radius: 6rem;
-    text-decoration: none;
-    font-size: 1.8rem;
-    font-weight: 100;
-}
-
-  
-.seccion-medio h2{
-    font-size: 3rem;
-    color: #FFFFFF;
-}
-
-.seccion-medio h3{
-    font-size: 3rem;
-    color: black;
-}
-
-.seccion-medio p{
-    font-size: 32px;
-    color: #FFFFFF;
+.carta p{
     padding: 1rem;
 }
 
-.seccion-medio img{
-    max-width: 100%;
-    width: 600px;
-    height: 360px;
+.container-medio {
     border-radius: 2rem;
+    background-color: rgba(0, 74, 172, 0.6);
 }
-.button-general:hover{
-    background-color: #0056b3; /* Color del botón al hacer hover */
+
+.seccion-medio {
+    padding: 3rem 1rem;
+}
+
+.button-media-landing {
+    background-color: #FFFFFF;
+    color: black;
+    padding: 0.75rem 1.5rem;
+    border-radius: 3rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.seccion-medio h2 {
+    font-size: 2.5rem;
+    color: #FFFFFF;
+}
+
+.seccion-medio h3 {
+    font-size: 2.5rem;
+    color: black;
+}
+
+.seccion-medio p {
+    font-size: 1.2rem;
+    color: #FFFFFF;
+    padding: 1rem 0;
+}
+
+.button-general:hover {
+    background-color: #0056b3;
     color: white;
+}
+
+@media (min-width: 768px) {
+    .landing-top {
+        padding: 5rem;
+    }
+
+    .landing-top h1 {
+        font-size: 4rem;
+    }
+
+    .landing-top p {
+        font-size: 1.5rem;
+        padding: 1.5rem 0;
+    }
+
+    .button-empieza-landing,
+    .button-media-landing {
+        font-size: 1.5rem;
+        padding: 1rem 2rem;
+    }
+
+    .seccion-medio {
+        padding: 5rem;
+    }
+
+    .seccion-medio h2,
+    .seccion-medio h3 {
+        font-size: 3rem;
+    }
+
+    .seccion-medio p {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .container-medio {
+        max-width: 80%;
+    }
+
+    .landing-top h1 {
+        font-size: 5rem;
+    }
+
+    .landing-top p {
+        font-size: 2rem;
+    }
 }

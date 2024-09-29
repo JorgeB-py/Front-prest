@@ -21,8 +21,10 @@ export function Footer() {
 
     return (
         <footer className=" text-center text-lg-start footer-color">
+            
             <div className="container p-4">
                 {/* Sección de enlaces */}
+                <img src="/Logo_letras.png" alt="Logo" width="213" height="73" className="img-fluid" style={{paddingBottom:'4rem'}} />
                 <div className="row">
                     <div className="col-lg-4 col-md-12 mb-4 mb-md-0">
                         <h5 className="text-uppercase">Enlaces</h5>
