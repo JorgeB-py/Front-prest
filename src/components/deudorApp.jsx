@@ -1,56 +1,179 @@
-// src/components/DeudorApp.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';  // Importar Modal y Form de react-bootstrap
 import DeudorInfo from './deudorInfo';
 import HistorialPagos from './historialpagos';
 import { Header } from './header';
 import { Footer } from './footer';
 import { Container, Col, Row } from 'react-bootstrap';
 import SmallCalendar from './SmallCalendar';
-import './styles/deudorApp.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/deudorApp.css';  // Estilos personalizados
 
-export default function DeudorApp(){
-  const deudorData = {
-    nombre: 'Juan Pérez',
-    fechaVencimiento: '2024-09-30',
-    balance: 5000,
-    fechaPago: '2024-09-10',
+export default function DeudorApp() {
+  const [deudorData, setDeudorData] = useState({
+    nombre: '',
+    fechaVencimiento: '',
+    prestado: 0,
+    interes: 5,
+    fechaPago: ''
+  });
+
+  const [historialPagos, setHistorialPagos] = useState([]);
+  const [showModal, setShowModal] = useState(false);  // Estado para controlar el modal de pagos
+  const [showModalInteres, setShowModalInteres] = useState(false); // Estado para controlar el modal de modificar interés
+  const [cantidad, setCantidad] = useState(500);      // Estado para la cantidad de pago
+  const [nuevoInteres, setNuevoInteres] = useState(0);  // Estado para modificar el interés del deudor
+
+  useEffect(() => {
+    fetch("https://my.api.mockaroo.com/userdata.json?key=b93c22a0")
+      .then((response) => response.json())
+      .then((data) => {
+        setDeudorData(data[0]);
+
+        // Inicializar el historial de pagos después de recibir los datos del deudor
+        setHistorialPagos([
+          { fecha: '2024-08-15', cantidad: 0, interes: 0, porcentaje_interes: data[0].interes ,balance: data[0].prestado }
+        ]);
+
+        setNuevoInteres(data[0].interes);  // Inicializar el interés
+      });
+  }, []);
+
+  // Función para calcular el balance del deudor
+  const deudorDataBalance = () => {
+    return ({
+      nombre: deudorData.nombre,
+      fechaVencimiento: deudorData.fechaVencimiento,
+      prestado: deudorData.prestado,
+      interes: deudorData.interes,
+      fechaPago: deudorData.fechaPago,
+      sumaIntereses: historialPagos.reduce((acc, pago) => acc + pago.interes, 0), // Sumar todos los intereses
+      balance: historialPagos[historialPagos.length - 1]?.balance || 0 // Obtener el último balance
+    });
   };
 
-  const historialPagos = [
-    { fecha: '2024-08-15', cantidad: 500, interes: 50, principal: 450, balance: 4550 },
-    { fecha: '2024-07-15', cantidad: 500, interes: 55, principal: 445, balance: 5000 },
+  // Almacenamos el balance calculado en una variable
+  const deudorData_lista = deudorDataBalance();
+
+  // Links de navegación
+  const nav_links = [
+    { name: "Dashboard", url: "/dashboard" },
+    { name: "Deudores", url: "/deudores" },
+    { name: "Mi dinero", url: "/midinero" },
   ];
 
-  const nav_links = [
-    { name: "Dashboard", url: "dashboard" },
-    { name: "Deudores", url: "deudores" },
-    { name: "Mi dinero", url: "midinero" },
-  ]
+  // Función para agregar un nuevo pago
+  const agregarPago = () => {
+    const ultimoBalance = historialPagos[historialPagos.length - 1].balance;
+    const nuevoBalance = ultimoBalance - cantidad;
+
+    const nuevoPago = {
+      fecha: new Date().toISOString().split('T')[0], // Fecha actual
+      cantidad: cantidad,
+      interes: cantidad * (deudorData.interes / 100),
+      porcentaje_interes: deudorData.interes,
+      balance: nuevoBalance
+    };
+
+    // Usar setHistorialPagos con una nueva copia del arreglo (sin mutarlo)
+    setHistorialPagos([...historialPagos, nuevoPago]);
+    setShowModal(false);  // Cerrar el modal después de agregar el pago
+  };
+
+  // Función para actualizar el interés
+  const actualizarInteres = () => {
+    setDeudorData({
+      ...deudorData,
+      interes: nuevoInteres
+    });
+    setShowModalInteres(false); // Cerrar el modal después de actualizar el interés
+  };
 
   return (
     <>
-      <Header nav_links={nav_links} logged={true} usuario={'Jorge'}/>
-        <Row>
-          <Container>
+      <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
+      <Container>
+        <Row className="mt-4">
+          <Col md={6} className="text-center">
+            <DeudorInfo deudor={deudorData_lista} />
+
+            {/* Botón para modificar el interés */}
+            <Button className="mt-3" style={{display:'flex'}} onClick={() => setShowModalInteres(true)}>
+              Modificar interés
+            </Button>
+          </Col>
+          <Col md={6}>
             <Row>
-              <Col className='columna-perfil'>
-                <img src="./2148859448.jpg" alt="perfil-img" />
-                <DeudorInfo deudor={deudorData}/>
-              </Col>
-              <Col>
-                <Row>
-                  <h3>Fecha de pago</h3>
-                  <p>{deudorData.fechaPago}</p>
-                  <SmallCalendar date={deudorData.fechaPago}/>
-                </Row>
+              <Col style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                <SmallCalendar date_inicial={deudorData_lista.fechaPago} deudorData={deudorData_lista} />
               </Col>
             </Row>
-          </Container>
-          <Container>
-            <HistorialPagos pagos={historialPagos}/>
-          </Container>
+          </Col>
         </Row>
-      <Footer/>
+
+        <Row className="mt-5">
+          <Col>
+            <h3>Pagos recientes</h3>
+            <Button onClick={() => setShowModal(true)}>Agregar pago</Button>
+            <HistorialPagos pagos={historialPagos} />
+          </Col>
+        </Row>
+      </Container>
+      <Footer />
+
+      {/* Modal para agregar pagos */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Agregar Pago</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Cantidad</Form.Label>
+              <Form.Control
+                type="number"
+                value={cantidad}
+                onChange={(e) => setCantidad(parseFloat(e.target.value))}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={agregarPago}>
+            Agregar Pago
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal para modificar el interés */}
+      <Modal show={showModalInteres} onHide={() => setShowModalInteres(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modificar Interés</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Nuevo Interés (%)</Form.Label>
+              <Form.Control
+                type="number"
+                value={nuevoInteres}
+                onChange={(e) => setNuevoInteres(parseFloat(e.target.value))}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModalInteres(false)}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={actualizarInteres}>
+            Guardar Cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
-};
+}

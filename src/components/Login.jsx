@@ -7,7 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 export default function Login() {
     const irIndex = (e) => {
         e.preventDefault();
-        window.location.href = "/index";
+        window.location.href = "/deudores";
     }
     return (
         <section className="vh-100">

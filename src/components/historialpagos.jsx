@@ -9,7 +9,7 @@ const HistorialPagos = ({ pagos }) => {
             <th>Fecha</th>
             <th>Cantidad</th>
             <th>Interés</th>
-            <th>Principal</th>
+            <th>Porcentaje interés</th>
             <th>Balance</th>
           </tr>
         </thead>
@@ -19,7 +19,7 @@ const HistorialPagos = ({ pagos }) => {
               <td>{pago.fecha}</td>
               <td>${pago.cantidad}</td>
               <td>${pago.interes}</td>
-              <td>${pago.principal}</td>
+              <td>{pago.porcentaje_interes}%</td>
               <td>${pago.balance}</td>
             </tr>
           ))}

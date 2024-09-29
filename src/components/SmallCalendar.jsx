@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import './styles/smallCalendar.css';
 
-const SmallCalendar = ({date}) => {
-  const [startDate, setStartDate] = useState(date);
+const SmallCalendar = ({date_inicial, deudorData}) => {
+  const [startDate, setStartDate] = useState(deudorData.fechaPago);
+
+  const setdate = (date) => {
+    deudorData.fechaPago = date.toDateString();
+    setStartDate(date);
+  }
+  useEffect(() => {
+    setStartDate(date_inicial);
+  }, [deudorData]);
 
   return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-auto">
-          <h5>Selecciona una fecha:</h5>
+          <h3 style={{textAlign:'center'}}>Fecha de pago</h3>
+          <p style={{textAlign:'center'}}>{deudorData.fechaPago}</p>
           <DatePicker
             selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            onChange={(date) => setdate(date)}
             inline
           />
         </div>

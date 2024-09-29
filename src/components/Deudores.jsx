@@ -6,9 +6,9 @@ import { Footer } from './footer';
 
 export default function Index() {
     const nav_links = [
-        { name: "Dashboard", url: "dashboard" },
-        { name: "Deudores", url: "deudores" },
-        { name: "Mi dinero", url: "midinero" },
+        { name: "Dashboard", url: "/dashboard" },
+        { name: "Deudores", url: "/deudores" },
+        { name: "Mi dinero", url: "/midinero" },
     ];
     const nombre_usuario = "Jorge";
 

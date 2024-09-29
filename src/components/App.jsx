@@ -6,7 +6,7 @@ import Signup from "./Signup"
 import Login from "./Login"
 import Landing from "./Landing";
 import { Routes, Route } from "react-router-dom";
-import Index from "./Index";
+import Deudores from "./Deudores";
 import DeudorApp from "./deudorApp";
 import CrearCliente from "./CrearCliente";
 import ConsultarCliente from "./consultarCliente";
@@ -21,7 +21,7 @@ export default function App() {
         { url: "signup", component: Signup },
         { url: "login", component: Login},
         { url: "/", component: Landing },
-        { url:"index", component: Index},
+        { url:"deudores", component: Deudores},
         { url:"deudorApp", component: DeudorApp}, 
         { url:"crearcliente", component: CrearCliente},
         { url:"consultarcliente", component: ConsultarCliente},
