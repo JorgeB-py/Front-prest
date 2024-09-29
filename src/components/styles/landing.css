@@ -5,7 +5,7 @@
 
 }
 
-.buttom-empieza-landing{
+.button-empieza-landing{
     background-color: #004AAC; /* Color de fondo */
     color: white; /* Color del texto */
     padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
@@ -51,15 +51,16 @@
     padding: 5rem;
 }
 
-.buttom-media-landing{
+.button-media-landing{
     background-color: #FFFFFF; /* Color de fondo */
-    color: #004AAC; /* Color del texto */
+    color: black; /* Color del texto */
     padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
     border-radius: 6rem;
     text-decoration: none;
     font-size: 1.8rem;
     font-weight: 100;
 }
+
   
 .seccion-medio h2{
     font-size: 3rem;
@@ -83,7 +84,7 @@
     height: 360px;
     border-radius: 2rem;
 }
-.buttom-general:hover{
+.button-general:hover{
     background-color: #0056b3; /* Color del botón al hacer hover */
     color: white;
 }

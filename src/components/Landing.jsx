@@ -15,7 +15,7 @@ export default function Landing() {
                         <Col md={6} className="text-center">
                             <h1>Administra tus préstamos sin esfuerzo</h1>
                             <p>Olvídate de las hojas de cálculo, y dile hola a una plataforma que administre tus préstamos en un solo lugar</p>
-                            <Link to="/signup" className="btn buttom-empieza-landing buttom-general">Empieza ahora</Link>
+                            <Link to="/signup" className="btn button-empieza-landing button-general">Empieza ahora</Link>
                         </Col>
                         <Col md={4} className="text-center">
                             <img src="/Imagen_landing_1.png" alt="imagen_principal" className="img-fluid" />
@@ -28,10 +28,10 @@ export default function Landing() {
                         <Col md={6} className="text-center">
                             <h2>Manejador de préstamos</h2>
                             <p>Toma el control de tus finanzas, y administra sin esfuerzo toda la información de tus deudores</p>
-                            <Link to="/signup" className="btn buttom-media-landing buttom-general">Ir a dashboard</Link>
+                            <Link to="/signup" className="btn button-media-landing button-general">Ir a dashboard</Link>
                         </Col>
                         <Col md={6} className="text-center">
-                            <img src="/Imagen3.png" alt="Imagen_media" style={{width: '485px', height:'525px'}}/>
+                            <img src="/Imagen3.png" alt="Imagen_media" style={{width: '40rem', height:'40rem'}}/>
                         </Col>
                     </Row>
                 </Container>
@@ -46,7 +46,7 @@ export default function Landing() {
                                     <Col className="text-center">
                                         <h2 style={{ color: 'white' }}>Con <span style={{ fontWeight: 'bold' }}>prest</span> tienes el control de tus finanzas</h2>
                                         <p>Dile adiós a las hojas de cálculo sin orden, ahora tendrás control sobre lo que prestas</p>
-                                        <Link to="/signup" className="btn buttom-media-landing buttom-general" style={{ backgroundColor: 'white', color: 'black' }}>Ir a dashboard</Link>
+                                        <Link to="/signup" className="btn button-media-landing button-general" style={{ backgroundColor: 'white', color: 'black' }}>Ir a dashboard</Link>
                                     </Col>
                                 </Row>
                             </Container>
@@ -59,7 +59,7 @@ export default function Landing() {
                                     <Col className="text-center">
                                         <h2 style={{ color: 'white' }}>Todo en un solo <span style={{ fontWeight: 'bold' }}>lugar</span> y sin esfuerzo</h2>
                                         <p>Dile adiós a las hojas de cálculo sin orden, ahora tendrás control sobre lo que prestas</p>
-                                        <Link to="/signup" className="btn buttom-media-landing buttom-general" style={{ backgroundColor: 'white', color: 'black' }}>Ir a dashboard</Link>
+                                        <Link to="/signup" className="btn button-media-landing button-general" style={{ backgroundColor: 'white', color: 'black' }}>Ir a dashboard</Link>
                                     </Col>
                                 </Row>
                             </Container>
