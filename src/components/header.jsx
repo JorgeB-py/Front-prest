@@ -4,7 +4,7 @@ import './styles/header.css';
 import { Link } from "react-router-dom";
 
 
-export function Header({nav_links, logged, usuario}) {
+export function Header({nav_links= [{ name: "Soluciones", url: "soluciones"},{ name: "Nosotros", url: "nosotros"},{ name: "Recursos", url: "recursos"}], logged, usuario}) {
 
     const Greetings = () => {
             if(logged){

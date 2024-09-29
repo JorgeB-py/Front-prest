@@ -30,11 +30,8 @@ export default function Index() {
     return (
         <>
             <Header nav_links={nav_links} logged={true} usuario={nombre_usuario}></Header>
-            <Container style={{ display: "grid" }}>
-                <a href="/" style={{ padding: "5px" }}>
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-                <h1>Bienvenido, Jorge</h1>
+            <Container style={{ display: "grid", padding:'1rem' }}>
+                <h1 style={{textAlign:'left'}}>Bienvenido, Jorge</h1>
                 <h3>Este mes has ganado</h3>
                 <h2 style={{ color: "#004AAC" }}>$3000000</h2>
                 <Col className='filtros'>

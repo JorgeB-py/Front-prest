@@ -1,6 +1,8 @@
 .landing-top{
     background-color: #F0F1EA;
     padding: 5rem;
+    background-size: cover;
+
 }
 
 .buttom-empieza-landing{
@@ -36,18 +38,22 @@
 }
 
 .container-medio{
-    background-color: #004AAC99;
     border-radius: 2rem;
-    padding: 2rem;
-    max-width: 65%; /* Para que ocupe todo el ancho posible */
+    max-width: 80%; /* Para que ocupe todo el ancho posible */
+    background-color: #004AAC;
 }
-
+.container-abajo{
+    border-radius: 2rem;
+    max-width: 100%; /* Para que ocupe todo el ancho posible */
+    background-color: #FFFFFF;
+}
 .seccion-medio{
-    padding: 2rem;
+    padding: 5rem;
 }
 
 .buttom-media-landing{
     background-color: #FFFFFF; /* Color de fondo */
+    color: #004AAC; /* Color del texto */
     padding: 10px 20px; /* Aumenta el padding para hacer que el botón se vea más grande */
     border-radius: 6rem;
     text-decoration: none;
@@ -56,21 +62,27 @@
 }
   
 .seccion-medio h2{
-    font-size: 50px;
+    font-size: 3rem;
     color: #FFFFFF;
+}
+
+.seccion-medio h3{
+    font-size: 3rem;
+    color: black;
 }
 
 .seccion-medio p{
     font-size: 32px;
     color: #FFFFFF;
-    padding: 6rem 1rem;
+    padding: 1rem;
 }
 
 .seccion-medio img{
     max-width: 100%;
-    height: auto;
+    width: 600px;
+    height: 360px;
+    border-radius: 2rem;
 }
-
 .buttom-general:hover{
     background-color: #0056b3; /* Color del botón al hacer hover */
     color: white;
