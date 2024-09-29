@@ -42,7 +42,9 @@ export function Footer() {
 
                     <div className="col-lg-4 col-md-12 mb-4 mb-md-0">
                         <h5 className="text-uppercase">Redes Sociales</h5>
-                        {orgLinks(social)}
+                        <ul>
+                            {orgLinks(social)}
+                        </ul>
                     </div>
                 </div>
             </div>
