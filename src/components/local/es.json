@@ -23,5 +23,12 @@
   "app.paymentDate": "Fecha de pago",
   "app.interestRate": "Tasa de interés",
   "app.debtors": "Deudores",
-  "app.mymoney": "Mi dinero"
+  "app.mymoney": "Mi dinero",
+  "app.year": "año",
+  "app.month": "mes",
+  "app.months": "meses",
+  "app.Modified": "Modificado",
+  "app.welcome": "Bienvenido",
+  "app.information": "Información",
+  "app.thismonth": "Este mes has ganado"
   }
