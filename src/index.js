@@ -6,7 +6,7 @@ import messages_es from './components/local/es.json';
 import messages_en from './components/local/en.json';
 import { IntlProvider } from 'react-intl';
 
-// Definir el idioma predeterminado
+// Definir el idioma predeterminado x
 const messages = {
   'es': messages_es,
   'en': messages_en
