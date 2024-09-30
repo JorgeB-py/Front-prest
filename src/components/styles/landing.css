@@ -16,11 +16,11 @@
 
 .carta-izquierda{
     padding: 1rem 0rem;
-    background-color: rgba(0, 74, 172, 0.6);
+    background-color: rgba(0, 74, 172, 0.6) !important;
 }
 .carta-derecha{
     padding: 1rem 0rem;
-    background-color: #004bac;
+    background-color: #004bac !important;
 }
 
 .carta h3{
