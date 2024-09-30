@@ -106,7 +106,6 @@ export default function VisualizarTransacciones() {
             <Header
                 nav_links={[
                     { name: intl.formatMessage({ id: 'nav.creditos' }), url: "/creditos" },
-                    { name: intl.formatMessage({ id: 'nav.midinero' }), url: "/midinero" },
                 ]} logged={true} usuario={nombre_usuario}
             />
             <Container className="visualizar-transacciones-container">

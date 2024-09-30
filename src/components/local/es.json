@@ -64,7 +64,7 @@
   "nav.deudores": "Deudores",
   "nav.midinero": "Mi Dinero",
   "nav.crearDeudor": "Crear Deudor",
-  "nac.creditos": "Mis Créditos",
+  "nav.creditos": "Mis Créditos",
   "nav.consultarDeudor": "Consultar Deudor",
   "misCreditos": "Mis Créditos",
   "cargandoCreditos": "Cargando créditos...",
@@ -105,6 +105,17 @@
   "visualizarTransacciones.sinTransacciones": "No se encontraron transacciones con los filtros seleccionados.",
   "visualizarTransacciones.volverMenu": "Volver al Menú Principal",
   "visualizarTransacciones.errorCargarCredito": "Error al cargar los datos del crédito.",
-  "visualizarTransacciones.errorCargarTransacciones": "Error al cargar las transacciones."
-
+  "visualizarTransacciones.errorCargarTransacciones": "Error al cargar las transacciones.",
+  "app.placeholderName": "Ingresa el nombre del cliente",
+  "app.placeholderID": "Ingresa el número de identificación",
+  "app.placeholderIncome": "Ingresa los ingresos mensuales",
+  "app.placeholderOccupation": "Ingresa la ocupación del cliente",
+  "app.placeholderAddress": "Ingresa la dirección del cliente",
+  "app.placeholderPhone": "Ingresa el teléfono del cliente",
+  "app.placeholderEmail": "Ingresa el correo electrónico",
+  "app.errorFields": "Por favor, completa todos los campos obligatorios. La foto es opcional.",
+  "app.errorID": "El número de identificación solo debe contener dígitos.",
+  "app.errorPhone": "El número de teléfono solo debe contener dígitos.",
+  "app.errorEmail": "Por favor, ingresa un correo electrónico válido.",
+  "app.successMessage": "Cliente registrado con éxito"
   }

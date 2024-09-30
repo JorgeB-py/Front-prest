@@ -105,6 +105,18 @@
     "visualizarTransacciones.sinTransacciones": "No transactions found with the selected filters.",
     "visualizarTransacciones.volverMenu": "Return to Main Menu",
     "visualizarTransacciones.errorCargarCredito": "Error loading credit data.",
-    "visualizarTransacciones.errorCargarTransacciones": "Error loading transactions."
+    "visualizarTransacciones.errorCargarTransacciones": "Error loading transactions.",
+    "app.placeholderName": "Enter client's name",
+    "app.placeholderID": "Enter ID number",
+    "app.placeholderIncome": "Enter monthly income",
+    "app.placeholderOccupation": "Enter client's occupation",
+    "app.placeholderAddress": "Enter client's address",
+    "app.placeholderPhone": "Enter client's phone",
+    "app.placeholderEmail": "Enter client's email",
+    "app.errorFields": "Please fill in all required fields. Photo is optional.",
+    "app.errorID": "ID number must contain only digits.",
+    "app.errorPhone": "Phone number must contain only digits.",
+    "app.errorEmail": "Please enter a valid email address.",
+     "app.successMessage": "Client registered successfully"
 
     }

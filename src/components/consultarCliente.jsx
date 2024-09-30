@@ -56,7 +56,6 @@ export default function ConsultarCliente() {
             <Header
                 nav_links={[
                     { name: intl.formatMessage({ id: 'nav.deudores' }), url: "/deudores" },
-                    { name: intl.formatMessage({ id: 'nav.midinero' }), url: "/midinero" },
                     { name: intl.formatMessage({ id: 'nav.crearDeudor' }), url: "/crearcliente" },
                     { name: intl.formatMessage({ id: 'nav.consultarDeudor' }), url: "/consultarcliente" },
                 ]} logged={true} usuario={nombre_usuario}
