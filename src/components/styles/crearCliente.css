@@ -9,13 +9,13 @@
 .mensaje-error {
     margin-top: 1rem;
     font-size: 1.2rem;
-    color: #dc3545; /* Rojo para los mensajes de error */
+    color: #B02A37; /* Rojo más oscuro para mayor contraste */
 }
 
 .mensaje-exito {
     margin-top: 1rem;
     font-size: 1.2rem;
-    color: #28a745; /* Verde para los mensajes de éxito */
+    color: #1e7e34; /* Verde más oscuro para mayor contraste */
 }
 
 form label {
