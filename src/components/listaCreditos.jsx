@@ -3,17 +3,17 @@ import { Container, Row, Col, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Header } from "./header";
 import { Footer } from "./footer";
+import { FormattedMessage, useIntl } from 'react-intl'; // Importar react-intl
 import "./styles/listaCreditos.css";
 
-// Simulación de usuario autenticado
-const user = { id: 1, email: "user@example.com" }; // ID del usuario autenticado
+const user = { id: 1, email: "user@example.com" };
 
 export default function ListaCreditos() {
+    const intl = useIntl();
     const [creditosUsuario, setCreditosUsuario] = useState([]);
-    const [error, setError] = useState(null); // Para manejar errores
-    const [loading, setLoading] = useState(true); // Para mostrar un estado de carga
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    // Fetch de créditos del API
     useEffect(() => {
         const fetchCreditos = async () => {
             try {
@@ -22,14 +22,12 @@ export default function ListaCreditos() {
                     throw new Error("Error al obtener los datos del API");
                 }
                 const data = await response.json();
-
-                // Filtrar los créditos para mostrar solo los del usuario autenticado
                 const creditosFiltrados = data.filter((credito) => credito.usuarioId === user.id);
                 setCreditosUsuario(creditosFiltrados);
             } catch (error) {
                 setError(error.message);
             } finally {
-                setLoading(false); // Terminar el estado de carga
+                setLoading(false);
             }
         };
 
@@ -38,21 +36,25 @@ export default function ListaCreditos() {
 
     return (
         <>
-            <Header nav_links={[{ name: "Inicio", url: "/" }, { name: "Dashboard", url: "/dashboard" }]} />
+            <Header
+                nav_links={[
+                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
+                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
+                ]}
+            />
             <Container className="lista-creditos-container">
                 <Row className="justify-content-md-center">
                     <Col md={8}>
-                        <h1>Mis Créditos</h1>
+                        <h1><FormattedMessage id="misCreditos" defaultMessage="Mis Créditos" /></h1>
                         {loading ? (
-                            <p>Cargando créditos...</p>
+                            <p><FormattedMessage id="cargandoCreditos" defaultMessage="Cargando créditos..." /></p>
                         ) : error ? (
-                            <p>Error: {error}</p>
+                            <p><FormattedMessage id="errorCargarDatos" defaultMessage="Error: {error}" values={{ error }} /></p>
                         ) : (
                             <ListGroup>
                                 {creditosUsuario.length > 0 ? (
                                     creditosUsuario.map((credito) => (
                                         <ListGroup.Item key={credito.id}>
-                                            {/* Pasar los detalles del crédito como state al componente de Visualizar Transacciones */}
                                             <Link 
                                                 to={{
                                                     pathname: `/visualizar-transacciones/${credito.id}`,
@@ -67,13 +69,25 @@ export default function ListaCreditos() {
                                                 <div>
                                                     <strong>{credito.nombre}</strong> - ${credito.monto}
                                                 </div>
-                                                <div>Fecha de Pago: {credito.fechaPago}</div>
-                                                <div>Estado: {credito.estado}</div>
+                                                <div>
+                                                    <FormattedMessage 
+                                                        id="fechaPago" 
+                                                        defaultMessage="Fecha de Pago: {fechaPago}" 
+                                                        values={{ fechaPago: credito.fechaPago }} 
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <FormattedMessage 
+                                                        id="estado" 
+                                                        defaultMessage="Estado: {estado}" 
+                                                        values={{ estado: credito.estado }} 
+                                                    />
+                                                </div>
                                             </Link>
                                         </ListGroup.Item>
                                     ))
                                 ) : (
-                                    <p>No tienes créditos registrados.</p>
+                                    <p><FormattedMessage id="sinCreditos" defaultMessage="No tienes créditos registrados." /></p>
                                 )}
                             </ListGroup>
                         )}
