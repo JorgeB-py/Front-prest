@@ -3,9 +3,11 @@ import { Col, Container, Row, Table, Form, Alert, Button } from "react-bootstrap
 import { useParams, Link } from "react-router-dom"; // Importar useParams para obtener el ID de la URL
 import { Header } from "./header";
 import { Footer } from "./footer";
+import { FormattedMessage, useIntl } from 'react-intl'; // Importar react-intl
 import "./styles/visualizarTransacciones.css";
 
 export default function VisualizarTransacciones() {
+    const intl = useIntl(); // Usar hook de react-intl para obtener el objeto de internacionalización
     const { id } = useParams(); // Capturar el ID del crédito desde la URL
     const [credito, setCredito] = useState(null); // Para almacenar los detalles del crédito
     const [transacciones, setTransacciones] = useState([]); // Para las transacciones del crédito
@@ -30,12 +32,12 @@ export default function VisualizarTransacciones() {
                 setCredito(creditoSeleccionado);
             } catch (error) {
                 console.error(error);
-                setMensajeError("Error al cargar los datos del crédito.");
+                setMensajeError(intl.formatMessage({ id: 'visualizarTransacciones.errorCargarCredito', defaultMessage: 'Error al cargar los datos del crédito.' }));
             }
         };
 
         fetchCredito();
-    }, [id]);
+    }, [id, intl]);
 
     // Fetch de las transacciones del crédito
     useEffect(() => {
@@ -53,12 +55,12 @@ export default function VisualizarTransacciones() {
                 setLoading(false);
             } catch (error) {
                 console.error(error);
-                setMensajeError("Error al cargar las transacciones.");
+                setMensajeError(intl.formatMessage({ id: 'visualizarTransacciones.errorCargarTransacciones', defaultMessage: 'Error al cargar las transacciones.' }));
             }
         };
 
         fetchTransacciones();
-    }, [id]);
+    }, [id, intl]);
 
     // Ordenar las transacciones por fecha (más recientes primero)
     const transaccionesOrdenadas = transacciones.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
@@ -79,7 +81,7 @@ export default function VisualizarTransacciones() {
 
         if (transacciones.length === 0) {
             setMostrarTodas(false); // Ocultar la tabla si no hay transacciones filtradas
-            setMensajeError("No se encontraron transacciones con los filtros seleccionados.");
+            setMensajeError(intl.formatMessage({ id: 'visualizarTransacciones.sinTransacciones', defaultMessage: 'No se encontraron transacciones con los filtros seleccionados.' }));
         } else {
             setTransaccionesFiltradas(transacciones);
             setMostrarTodas(false); // Mostrar solo las transacciones filtradas
@@ -95,22 +97,27 @@ export default function VisualizarTransacciones() {
     };
 
     if (loading) {
-        return <p>Cargando transacciones...</p>;
+        return <p><FormattedMessage id="visualizarTransacciones.cargandoTransacciones" defaultMessage="Cargando transacciones..." /></p>;
     }
 
     return (
         <>
-            <Header nav_links={[{ name: "Inicio", url: "/" }, { name: "Dashboard", url: "/dashboard" }]} />
+            <Header
+                nav_links={[
+                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
+                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
+                ]}
+            />
             <Container className="visualizar-transacciones-container">
                 <Row className="justify-content-md-center">
                     <Col md={10}>
                         {/* Mostrar toda la información del crédito seleccionado */}
                         {credito && (
                             <div>
-                                <h1>Transacciones de {credito.nombre}</h1>
-                                <p>Monto: ${credito.monto}</p>
-                                <p>Fecha de Pago: {credito.fechaPago}</p>
-                                <p>Estado: {credito.estado}</p>
+                                <h1><FormattedMessage id="visualizarTransacciones.titulo" defaultMessage="Transacciones de {nombre}" values={{ nombre: credito.nombre }} /></h1>
+                                <p><FormattedMessage id="visualizarTransacciones.monto" defaultMessage="Monto: ${monto}" values={{ monto: credito.monto }} /></p>
+                                <p><FormattedMessage id="visualizarTransacciones.fechaPago" defaultMessage="Fecha de Pago: {fechaPago}" values={{ fechaPago: credito.fechaPago }} /></p>
+                                <p><FormattedMessage id="visualizarTransacciones.estado" defaultMessage="Estado: {estado}" values={{ estado: credito.estado }} /></p>
                             </div>
                         )}
 
@@ -118,7 +125,7 @@ export default function VisualizarTransacciones() {
                             <Row>
                                 <Col md={4}>
                                     <Form.Group controlId="filtroFecha">
-                                        <Form.Label>Filtrar por Fecha</Form.Label>
+                                        <Form.Label><FormattedMessage id="visualizarTransacciones.filtrarFecha" defaultMessage="Filtrar por Fecha" /></Form.Label>
                                         <Form.Control
                                             type="date"
                                             value={filtro.fecha}
@@ -128,10 +135,10 @@ export default function VisualizarTransacciones() {
                                 </Col>
                                 <Col md={4}>
                                     <Form.Group controlId="filtroTotal">
-                                        <Form.Label>Filtrar por Monto Total</Form.Label>
+                                        <Form.Label><FormattedMessage id="visualizarTransacciones.filtrarMonto" defaultMessage="Filtrar por Monto Total" /></Form.Label>
                                         <Form.Control
                                             type="number"
-                                            placeholder="Monto Total"
+                                            placeholder={intl.formatMessage({ id: 'placeholder.montoTotal', defaultMessage: 'Monto Total' })}
                                             value={filtro.total}
                                             onChange={(e) => setFiltro({ ...filtro, total: e.target.value })}
                                         />
@@ -139,10 +146,10 @@ export default function VisualizarTransacciones() {
                                 </Col>
                                 <Col md={4}>
                                     <Form.Group controlId="filtroBalance">
-                                        <Form.Label>Filtrar por Balance</Form.Label>
+                                        <Form.Label><FormattedMessage id="visualizarTransacciones.filtrarBalance" defaultMessage="Filtrar por Balance" /></Form.Label>
                                         <Form.Control
                                             type="number"
-                                            placeholder="Balance"
+                                            placeholder={intl.formatMessage({ id: 'placeholder.balance', defaultMessage: 'Balance' })}
                                             value={filtro.balance}
                                             onChange={(e) => setFiltro({ ...filtro, balance: e.target.value })}
                                         />
@@ -151,10 +158,10 @@ export default function VisualizarTransacciones() {
                             </Row>
                             <div className="mt-3">
                                 <Button className="me-2 boton-filtrar" onClick={filtrarTransacciones}>
-                                    Filtrar
+                                    <FormattedMessage id="visualizarTransacciones.filtrar" defaultMessage="Filtrar" />
                                 </Button>
                                 <Button variant="secondary" onClick={eliminarFiltros}>
-                                    Eliminar Filtros
+                                    <FormattedMessage id="visualizarTransacciones.eliminarFiltros" defaultMessage="Eliminar Filtros" />
                                 </Button>
                             </div>
                         </Form>
@@ -167,11 +174,11 @@ export default function VisualizarTransacciones() {
                             <Table striped bordered hover className="mt-4">
                                 <thead>
                                     <tr>
-                                        <th>Fecha</th>
-                                        <th>Capital</th>
-                                        <th>Interés</th>
-                                        <th>Total</th>
-                                        <th>Balance</th>
+                                        <th><FormattedMessage id="visualizarTransacciones.fecha" defaultMessage="Fecha" /></th>
+                                        <th><FormattedMessage id="visualizarTransacciones.capital" defaultMessage="Capital" /></th>
+                                        <th><FormattedMessage id="visualizarTransacciones.interes" defaultMessage="Interés" /></th>
+                                        <th><FormattedMessage id="visualizarTransacciones.total" defaultMessage="Total" /></th>
+                                        <th><FormattedMessage id="visualizarTransacciones.balance" defaultMessage="Balance" /></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -191,11 +198,11 @@ export default function VisualizarTransacciones() {
                                 <Table striped bordered hover className="mt-4">
                                     <thead>
                                         <tr>
-                                            <th>Fecha</th>
-                                            <th>Capital</th>
-                                            <th>Interés</th>
-                                            <th>Total</th>
-                                            <th>Balance</th>
+                                            <th><FormattedMessage id="visualizarTransacciones.fecha" defaultMessage="Fecha" /></th>
+                                            <th><FormattedMessage id="visualizarTransacciones.capital" defaultMessage="Capital" /></th>
+                                            <th><FormattedMessage id="visualizarTransacciones.interes" defaultMessage="Interés" /></th>
+                                            <th><FormattedMessage id="visualizarTransacciones.total" defaultMessage="Total" /></th>
+                                            <th><FormattedMessage id="visualizarTransacciones.balance" defaultMessage="Balance" /></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -216,7 +223,7 @@ export default function VisualizarTransacciones() {
                         {/* Botón para regresar al menú principal */}
                         <div className="mt-3 text-end buttom-regresar-container">
                             <Link to="/" className="buttom-regresar">
-                                Volver al Menú Principal
+                                <FormattedMessage id="visualizarTransacciones.volverMenu" defaultMessage="Volver al Menú Principal" />
                             </Link>
                         </div>
                     </Col>

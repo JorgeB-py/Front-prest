@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Col, Container, Row, Form, Button, Alert, Table } from "react-bootstrap";
 import { Header } from "./header";
 import { Footer } from "./footer";
 import { Link } from "react-router-dom";
+import { useIntl, FormattedMessage } from 'react-intl';
 import "./styles/consultarCliente.css";
 
 export default function ConsultarCliente() {
+    const intl = useIntl();
     const [criterio, setCriterio] = useState("");
     const [cliente, setCliente] = useState(null);
     const [todosClientes, setTodosClientes] = useState([]);
@@ -16,18 +18,21 @@ export default function ConsultarCliente() {
         try {
             const response = await fetch("https://my.api.mockaroo.com/consultarcliente_mock.json?key=2a692260");
             const data = await response.json();
-            const clienteEncontrado = data.find(c => c.nombre === criterio || c.identification.toString() === criterio);
+            const clienteEncontrado = data.find(
+                c => c.nombre === criterio || c.identification.toString() === criterio
+            );
 
             if (clienteEncontrado) {
                 setCliente(clienteEncontrado);
                 setMensajeError("");
+                setTodosClientes([]); // Limpia la tabla de todos los clientes cuando se encuentra uno
             } else {
                 setCliente(null);
-                setMensajeError("Cliente no encontrado. Por favor, verifica los datos ingresados.");
+                setMensajeError(intl.formatMessage({ id: 'consultarCliente.mensajeError' }));
             }
         } catch (error) {
             console.error("Error fetching data: ", error);
-            setMensajeError("Ocurrió un error al obtener los datos. Intenta nuevamente más tarde.");
+            setMensajeError(intl.formatMessage({ id: 'consultarCliente.errorDatos' }));
         }
     };
 
@@ -41,36 +46,47 @@ export default function ConsultarCliente() {
             setMensajeError("");
         } catch (error) {
             console.error("Error fetching data: ", error);
-            setMensajeError("Ocurrió un error al obtener los datos. Intenta nuevamente más tarde.");
+            setMensajeError(intl.formatMessage({ id: 'consultarCliente.errorDatos' }));
         }
     };
 
     return (
         <>
-            <Header nav_links={[{ name: "Inicio", url: "/" }, { name: "Dashboard", url: "/dashboard" }]} />
+            <Header
+                nav_links={[
+                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
+                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
+                ]}
+            />
             <Container className="consultar-cliente-container">
                 <Row className="justify-content-md-center">
                     <Col md={8}>
-                        <h1>Consultar Cliente</h1>
+                        <h1><FormattedMessage id="consultarCliente.titulo" /></h1>
                         <Form>
                             <Form.Group controlId="criterio">
-                                <Form.Label>Buscar por Nombre o Identificación</Form.Label>
+                                <Form.Label>
+                                    <FormattedMessage id="consultarCliente.buscarPor" />
+                                </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Ingresa nombre o número de identificación"
+                                    placeholder={intl.formatMessage({ id: 'consultarCliente.placeholder' })}
                                     value={criterio}
                                     onChange={(e) => setCriterio(e.target.value)}
                                 />
                             </Form.Group>
                             <Button className="btn buttom-general mt-3" onClick={buscarCliente}>
-                                Buscar Cliente
+                                <FormattedMessage id="consultarCliente.botonBuscar" />
                             </Button>
                             <Button className="btn btn-secondary mt-3 ms-3" onClick={consultarTodos}>
-                                Consultar Todos
+                                <FormattedMessage id="consultarCliente.botonConsultarTodos" />
                             </Button>
                         </Form>
 
-                        {mensajeError && <Alert variant="danger" className="mt-3">{mensajeError}</Alert>}
+                        {mensajeError && (
+                            <Alert variant="danger" className="mt-3">
+                                {mensajeError}
+                            </Alert>
+                        )}
 
                         {/* Mostrar información de un solo cliente si se encuentra */}
                         {cliente && (
@@ -79,41 +95,41 @@ export default function ConsultarCliente() {
                                     <img src={cliente.foto} alt={cliente.nombre} className="img-cliente" />
                                 </div>
 
-                                <div className="table-responsive">
+                                <div className="table-responsive" tabIndex="0" aria-label={intl.formatMessage({ id: 'consultarCliente.tablaCliente' })}>
                                     <Table striped bordered hover className="mt-4">
                                         <thead>
                                             <tr>
-                                                <th>Campo</th>
-                                                <th>Información</th>
+                                                <th><FormattedMessage id="consultarCliente.campo" /></th>
+                                                <th><FormattedMessage id="consultarCliente.informacion" /></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>Nombre</td>
+                                                <td><FormattedMessage id="consultarCliente.nombre" /></td>
                                                 <td>{cliente.nombre}</td>
                                             </tr>
                                             <tr>
-                                                <td>Identificación</td>
+                                                <td><FormattedMessage id="consultarCliente.identificacion" /></td>
                                                 <td>{cliente.identification}</td>
                                             </tr>
                                             <tr>
-                                                <td>Dirección</td>
+                                                <td><FormattedMessage id="consultarCliente.direccion" /></td>
                                                 <td>{cliente.direccion}</td>
                                             </tr>
                                             <tr>
-                                                <td>Teléfono</td>
+                                                <td><FormattedMessage id="consultarCliente.telefono" /></td>
                                                 <td>{cliente.telefono}</td>
                                             </tr>
                                             <tr>
-                                                <td>Correo</td>
+                                                <td><FormattedMessage id="consultarCliente.correo" /></td>
                                                 <td>{cliente.correo}</td>
                                             </tr>
                                             <tr>
-                                                <td>Ocupación</td>
+                                                <td><FormattedMessage id="consultarCliente.ocupacion" /></td>
                                                 <td>{cliente.ocupacion}</td>
                                             </tr>
                                             <tr>
-                                                <td>Historial de Préstamos</td>
+                                                <td><FormattedMessage id="consultarCliente.historialPrestamos" /></td>
                                                 <td>
                                                     {cliente.historial.map((prestamo, index) => (
                                                         <div key={index}>
@@ -128,17 +144,17 @@ export default function ConsultarCliente() {
                             </>
                         )}
 
-                        {/* Mostrar todos los clientes si se ha consultado a todos */}
-                        {todosClientes.length > 0 && (
-                            <div className="table-responsive">
+                        {/* Mostrar todos los clientes si se ha consultado a todos y no se está mostrando un cliente específico */}
+                        {!cliente && todosClientes.length > 0 && (
+                            <div className="table-responsive" tabIndex="0" aria-label={intl.formatMessage({ id: 'consultarCliente.tablaClientes' })}>
                                 <Table striped bordered hover className="mt-4">
                                     <thead>
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Identificación</th>
-                                            <th>Teléfono</th>
-                                            <th>Correo</th>
-                                            <th>Ocupación</th>
+                                            <th><FormattedMessage id="consultarCliente.nombre" /></th>
+                                            <th><FormattedMessage id="consultarCliente.identificacion" /></th>
+                                            <th><FormattedMessage id="consultarCliente.telefono" /></th>
+                                            <th><FormattedMessage id="consultarCliente.correo" /></th>
+                                            <th><FormattedMessage id="consultarCliente.ocupacion" /></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -159,7 +175,7 @@ export default function ConsultarCliente() {
                         {/* Botón para regresar al menú principal */}
                         <div className="mt-3 text-end buttom-regresar-container">
                             <Link to="/" className="btn buttom-regresar">
-                                Volver al Menú Principal
+                                <FormattedMessage id="consultarCliente.volverMenu" />
                             </Link>
                         </div>
                     </Col>
@@ -169,4 +185,3 @@ export default function ConsultarCliente() {
         </>
     );
 }
-

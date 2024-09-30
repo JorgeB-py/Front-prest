@@ -4,6 +4,7 @@ import { Header } from "./header";
 import { Footer } from "./footer";
 import { v4 as uuidv4 } from 'uuid'; // Para generar identificadores únicos
 import { Link } from "react-router-dom"; // Importar Link para la navegación
+import { FormattedMessage, useIntl} from 'react-intl'; // Importar react-intl
 import "./styles/crearCliente.css";
 
 export default function CrearCliente() {
@@ -18,6 +19,7 @@ export default function CrearCliente() {
         foto: null
     });
 
+    const intl = useIntl();
     const [mensaje, setMensaje] = useState("");
     const [error, setError] = useState(false); // Estado para manejar si es un error
 
@@ -36,32 +38,27 @@ export default function CrearCliente() {
         }
     };
 
-    // Validación para asegurarse de que los campos requeridos estén completos
     const validarDatos = () => {
         const { nombre, identificacion, ingresos, ocupacion, direccion, telefono, correo } = cliente;
         
-        // Verificar que todos los campos requeridos estén llenos
         if (!nombre || !identificacion || !ingresos || !ocupacion || !direccion || !telefono || !correo) {
             setMensaje("Por favor, completa todos los campos obligatorios. La foto es opcional.");
             setError(true);
             return false;
         }
 
-        // Validar que la identificación solo contenga números
         if (!/^\d+$/.test(identificacion)) {
             setMensaje("El número de identificación solo debe contener dígitos.");
             setError(true);
             return false;
         }
 
-        // Validar que el teléfono contenga solo números
         if (!/^\d+$/.test(telefono)) {
             setMensaje("El número de teléfono solo debe contener dígitos.");
             setError(true);
             return false;
         }
 
-        // Validar formato de correo electrónico
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(correo)) {
             setMensaje("Por favor, ingresa un correo electrónico válido.");
@@ -85,16 +82,22 @@ export default function CrearCliente() {
 
     return (
         <>
-            <Header nav_links={[{ name: "Inicio", url: "/" }, { name: "Dashboard", url: "/dashboard" }]} />
+            <Header
+                nav_links={[
+                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
+                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
+                ]}
+            />
+
             <Container className="crear-cliente-container">
                 <Row className="justify-content-md-center">
                     <Col md={10}>
-                        <h1>Registrar Nuevo Cliente</h1>
+                        <h1><FormattedMessage id="app.registerNewClient" /></h1> {/* Título traducido */}
                         <Form onSubmit={handleSubmit}>
                             <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="nombre">
-                                        <Form.Label>Nombre Completo</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.fullName" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="text"
                                             name="nombre"
@@ -106,7 +109,7 @@ export default function CrearCliente() {
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group controlId="identificacion">
-                                        <Form.Label>Número de Identificación</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.idNumber" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="text"
                                             name="identificacion"
@@ -120,7 +123,7 @@ export default function CrearCliente() {
                             <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="ingresos">
-                                        <Form.Label>Ingresos Mensuales</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.monthlyIncome" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="number"
                                             name="ingresos"
@@ -132,7 +135,7 @@ export default function CrearCliente() {
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group controlId="ocupacion">
-                                        <Form.Label>Ocupación</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.occupation" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="text"
                                             name="ocupacion"
@@ -146,7 +149,7 @@ export default function CrearCliente() {
                             <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="direccion">
-                                        <Form.Label>Dirección</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.address" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="text"
                                             name="direccion"
@@ -158,7 +161,7 @@ export default function CrearCliente() {
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group controlId="telefono">
-                                        <Form.Label>Teléfono</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.phone" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="text"
                                             name="telefono"
@@ -172,7 +175,7 @@ export default function CrearCliente() {
                             <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="correo">
-                                        <Form.Label>Correo Electrónico</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.email" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="email"
                                             name="correo"
@@ -184,7 +187,7 @@ export default function CrearCliente() {
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group controlId="foto">
-                                        <Form.Label>Foto del Cliente (opcional)</Form.Label>
+                                        <Form.Label><FormattedMessage id="app.clientPhoto" /></Form.Label> {/* Etiqueta traducida */}
                                         <Form.Control
                                             type="file"
                                             name="foto"
@@ -197,13 +200,12 @@ export default function CrearCliente() {
                             <Row className="mt-3">
                                 <Col>
                                     <Button className="btn buttom-general" type="submit">
-                                        Registrar Cliente
+                                        <FormattedMessage id="app.registerClient" /> {/* Texto del botón traducido */}
                                     </Button>
                                 </Col>
-                                {/* Botón adicional para regresar al menú principal */}
                                 <Col>
                                     <Link to="/" className="btn buttom-regresar float-end">
-                                        Regresar al Menú Principal
+                                        <FormattedMessage id="app.goBackMenu" /> {/* Texto del botón traducido */}
                                     </Link>
                                 </Col>
                             </Row>
