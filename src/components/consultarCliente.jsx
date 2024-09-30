@@ -12,6 +12,7 @@ export default function ConsultarCliente() {
     const [cliente, setCliente] = useState(null);
     const [todosClientes, setTodosClientes] = useState([]);
     const [mensajeError, setMensajeError] = useState("");
+    const nombre_usuario = "Jorge";
 
     // Función para obtener un cliente específico desde el API
     const buscarCliente = async () => {
@@ -54,9 +55,11 @@ export default function ConsultarCliente() {
         <>
             <Header
                 nav_links={[
-                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
-                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
-                ]}
+                    { name: intl.formatMessage({ id: 'nav.deudores' }), url: "/deudores" },
+                    { name: intl.formatMessage({ id: 'nav.midinero' }), url: "/midinero" },
+                    { name: intl.formatMessage({ id: 'nav.crearDeudor' }), url: "/crearcliente" },
+                    { name: intl.formatMessage({ id: 'nav.consultarDeudor' }), url: "/consultarcliente" },
+                ]} logged={true} usuario={nombre_usuario}
             />
             <Container className="consultar-cliente-container">
                 <Row className="justify-content-md-center">
@@ -174,7 +177,7 @@ export default function ConsultarCliente() {
 
                         {/* Botón para regresar al menú principal */}
                         <div className="mt-3 text-end buttom-regresar-container">
-                            <Link to="/" className="btn buttom-regresar">
+                            <Link to="/deudores" className="btn buttom-regresar">
                                 <FormattedMessage id="consultarCliente.volverMenu" />
                             </Link>
                         </div>

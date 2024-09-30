@@ -13,6 +13,7 @@ export default function ListaCreditos() {
     const [creditosUsuario, setCreditosUsuario] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const nombre_usuario = "Jorge";
 
     useEffect(() => {
         const fetchCreditos = async () => {
@@ -38,9 +39,9 @@ export default function ListaCreditos() {
         <>
             <Header
                 nav_links={[
-                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
-                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
-                ]}
+                    { name: intl.formatMessage({ id: 'nav.creditos' }), url: "/creditos" },
+                    { name: intl.formatMessage({ id: 'nav.midinero' }), url: "/midinero" },
+                ]} logged={true} usuario={nombre_usuario}
             />
             <Container className="lista-creditos-container">
                 <Row className="justify-content-md-center">
