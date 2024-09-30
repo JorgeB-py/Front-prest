@@ -16,6 +16,7 @@ export default function VisualizarTransacciones() {
     const [mostrarTodas, setMostrarTodas] = useState(true); // Estado para controlar si se muestran todas las transacciones
     const [mensajeError, setMensajeError] = useState("");
     const [loading, setLoading] = useState(true); // Estado de carga
+    const nombre_usuario = "Jorge";
 
     // Fetch de los detalles del crédito
     useEffect(() => {
@@ -104,9 +105,9 @@ export default function VisualizarTransacciones() {
         <>
             <Header
                 nav_links={[
-                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
-                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
-                ]}
+                    { name: intl.formatMessage({ id: 'nav.creditos' }), url: "/creditos" },
+                    { name: intl.formatMessage({ id: 'nav.midinero' }), url: "/midinero" },
+                ]} logged={true} usuario={nombre_usuario}
             />
             <Container className="visualizar-transacciones-container">
                 <Row className="justify-content-md-center">
@@ -222,7 +223,7 @@ export default function VisualizarTransacciones() {
 
                         {/* Botón para regresar al menú principal */}
                         <div className="mt-3 text-end buttom-regresar-container">
-                            <Link to="/" className="buttom-regresar">
+                            <Link to="/creditos" className="buttom-regresar">
                                 <FormattedMessage id="visualizarTransacciones.volverMenu" defaultMessage="Volver al Menú Principal" />
                             </Link>
                         </div>

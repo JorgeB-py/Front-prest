@@ -18,9 +18,10 @@ export default function Index() {
             });
     }, []);
     const nav_links = [
-        { name: "Dashboard", url: "/dashboard" },
         { name: "Deudores", url: "/deudores" },
         { name: "Mi dinero", url: "/midinero" },
+        { name: "Crear Deudor", url: "/crearcliente" },
+        { name: "Consultar Deudor", url: "/consultarcliente" },
     ];
     const nombre_usuario = "Jorge";
 

@@ -22,6 +22,7 @@ export default function CrearCliente() {
     const intl = useIntl();
     const [mensaje, setMensaje] = useState("");
     const [error, setError] = useState(false); // Estado para manejar si es un error
+    const nombre_usuario = "Jorge";
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -84,9 +85,11 @@ export default function CrearCliente() {
         <>
             <Header
                 nav_links={[
-                    { name: intl.formatMessage({ id: 'nav.inicio' }), url: "/" },
-                    { name: intl.formatMessage({ id: 'nav.dashboard' }), url: "/dashboard" }
-                ]}
+                    { name: intl.formatMessage({ id: 'nav.deudores' }), url: "/deudores" },
+                    { name: intl.formatMessage({ id: 'nav.midinero' }), url: "/midinero" },
+                    { name: intl.formatMessage({ id: 'nav.crearDeudor' }), url: "/crearcliente" },
+                    { name: intl.formatMessage({ id: 'nav.consultarDeudor' }), url: "/consultarcliente" },
+                ]} logged={true} usuario={nombre_usuario}
             />
 
             <Container className="crear-cliente-container">
@@ -204,7 +207,7 @@ export default function CrearCliente() {
                                     </Button>
                                 </Col>
                                 <Col>
-                                    <Link to="/" className="btn buttom-regresar float-end">
+                                    <Link to="/deudores" className="btn buttom-regresar float-end">
                                         <FormattedMessage id="app.goBackMenu" /> {/* Texto del botón traducido */}
                                     </Link>
                                 </Col>
