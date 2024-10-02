@@ -39,7 +39,7 @@ export default function Index() {
                         <p className="card-text">
                             <FormattedMessage id="app.Modified" defaultMessage="Modified" />: {fecha}
                         </p>
-                        <a href="/deudorApp" className="btn btn-primary">
+                        <a href="/infodeudor" className="btn btn-primary">
                             <FormattedMessage id="app.information" defaultMessage="Information" />
                         </a>
                     </div>

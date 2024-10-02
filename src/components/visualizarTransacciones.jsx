@@ -5,6 +5,7 @@ import { Header } from "./header";
 import { Footer } from "./footer";
 import { FormattedMessage, useIntl } from 'react-intl'; // Importar react-intl
 import "./styles/visualizarTransacciones.css";
+import { useNavigate } from "react-router-dom";
 
 export default function VisualizarTransacciones() {
     const intl = useIntl(); // Usar hook de react-intl para obtener el objeto de internacionalización
@@ -17,6 +18,7 @@ export default function VisualizarTransacciones() {
     const [mensajeError, setMensajeError] = useState("");
     const [loading, setLoading] = useState(true); // Estado de carga
     const nombre_usuario = "Jorge";
+    const navigate = useNavigate();
 
     // Fetch de los detalles del crédito
     useEffect(() => {
@@ -162,6 +164,9 @@ export default function VisualizarTransacciones() {
                                 </Button>
                                 <Button variant="secondary" onClick={eliminarFiltros}>
                                     <FormattedMessage id="visualizarTransacciones.eliminarFiltros" defaultMessage="Eliminar Filtros" />
+                                </Button>
+                                <Button variant="secondary" onClick={() =>  navigate('/pasarela')}>
+                                    <FormattedMessage id="visualizarTransacciones.MakePayment" defaultMessage="Make payment" />
                                 </Button>
                             </div>
                         </Form>

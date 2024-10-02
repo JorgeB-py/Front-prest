@@ -4,8 +4,11 @@ import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
 import './styles/DeudorDetalle.css';
 import { Header } from './header';
 import { Footer } from './footer';
+import { useNavigate } from "react-router-dom";
 
 export default function DeudorDetalle() {
+
+    const navigate = useNavigate();
 
     // Links de navegación
     const nav_links = [
@@ -107,7 +110,7 @@ export default function DeudorDetalle() {
             </Col>
             <Col lg={1}>
                 
-            <button className="eye-button">
+            <button className="eye-button" onClick={() => navigate('/deudorApp')}>
                 <i className="bi bi-eye"></i>
             </button>
             </Col> 
