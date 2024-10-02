@@ -13,16 +13,42 @@ export default function DeudorDetalle() {
         situacionLaboral: 'Empleado', //Puede ser: Empleado, Independiente, Desempleado, Pensionado.
       });
 
-    return (<Container>
+
+    const [deudas, setDeudas] = useState([{
+        id:1,
+        nombreDeuda:"Estudios",
+        deudaTotal:800000,
+        deudaRestante:200000
+    },{
+        id:2,
+        nombreDeuda:"Carro",
+        deudaTotal:800000,
+        deudaRestante:100000
+    },{
+        id:3,
+        nombreDeuda:"Casa",
+        deudaTotal:800000,
+        deudaRestante:150000
+    },{
+        id:4,
+        nombreDeuda:"Moto",
+        deudaTotal:800000,
+        deudaRestante:300000
+    }]);
+
+
+    return (
+    <div>
+    <Container className="custom-container">
         <Row className="align-items-center">
             <Col>
                 <Image src='./2148859448.jpg' roundedCircle width={200} height={200} className="mb-3" alt='imgperfil' />
             </Col>
             <Col >
-                <div>{deudor.nombre}</div>
-                <div>{deudor.tipoDocumento+' '+deudor.numeroDocumento}</div>
+                <h4>{deudor.nombre}</h4>
+                <div className='documento'>{deudor.tipoDocumento+' '+deudor.numeroDocumento}</div>
             </Col>
-            <Col>
+            <Col className='info-rapida px-0'>
                 <Row>
                     <Col md={1}><i class="bi bi-currency-dollar"></i></Col>
                     <Col><div>Deuda total: {deudor.deudaTotal} </div></Col>   
@@ -33,21 +59,53 @@ export default function DeudorDetalle() {
                 </Row>
                 <Row>
                     <Col md={1}><i class="bi bi-briefcase"></i></Col>
-                    <Col> <span>Situación Laboral: </span> <span className='situacionLaboral'>{deudor.situacionLaboral} </span></Col>   
+                    <Col> <span className="Big font">Situación Laboral: </span> <span className='situacionLaboral'>{deudor.situacionLaboral} </span></Col>   
                 </Row>
                 
             </Col>
-            <Col className="d-flex flex-column align-items-center">
-                <Button class="rounded-pill" className = "btn-upload">
-                    <i class="bi bi-upload"></i>
+                <Col className="d-flex flex-column align-items-center align-self-center">
+                <Button className="rounded-pill btn">
+                    <i className="bi bi-upload" style={{ fontSize: '1.5rem' }}></i>
                 </Button>
-                <p>Ver archivos del deudor</p>
+                <p className='underline-link'>Ver archivos del deudor</p> {/* This creates extra height */}
             </Col>
-            <Col>
-                <Button class="rounded-pill">
-                    <i class="bi bi-pencil-square"></i>
+            <Col className="d-flex flex-column align-items-center align-self-center">
+                <Button className="rounded-pill">
+                    <i className="bi bi-pencil-square" style={{ fontSize: '1.5rem' }}></i>
                 </Button>
+                <p>&nbsp;</p> {/* Placeholder to maintain the same height */}
             </Col>
         </Row>
-    </Container>);
+    </Container>
+    
+
+    <Container className="custom-container-2">
+        <span className="creditos">Créditos</span>
+        {deudas.map((deuda) => 
+        {return <Container key={deuda.id} className="progress-container">
+        <Row>
+            <Col lg={11}>
+            <div className="progress-details">
+                <span className='info-deuda'>{deuda.nombreDeuda}</span>
+                <span className='info-deuda'>{deuda.deudaRestante}</span>
+            </div>
+            <progress 
+                className="custom-progress"
+                value={(deuda.deudaTotal - deuda.deudaRestante) / deuda.deudaTotal} 
+                max="1"
+            ></progress>
+            </Col>
+            <Col lg={1}>
+                
+            <button className="eye-button">
+                <i className="bi bi-eye"></i>
+            </button>
+            </Col> 
+        </Row>
+        </Container>
+        })
+        }
+    </Container>
+    </div>
+    );
 };
