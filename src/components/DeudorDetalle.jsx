@@ -2,8 +2,17 @@ import { setSeconds } from 'date-fns';
 import  { React, useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
 import './styles/DeudorDetalle.css';
+import { Header } from './header';
+import { Footer } from './footer';
 
 export default function DeudorDetalle() {
+
+    // Links de navegación
+    const nav_links = [
+        { name: "Deudores", url: "/deudores" },
+        { name: "Mi dinero", url: "/midinero" },
+    ];
+
     const [deudor, setDeudor] = useState({
         nombre: 'Armando Casas',
         tipoDocumento: 'C.C.',
@@ -39,6 +48,7 @@ export default function DeudorDetalle() {
 
     return (
     <div>
+    <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
     <Container className="custom-container">
         <Row className="align-items-center">
             <Col>
@@ -106,6 +116,9 @@ export default function DeudorDetalle() {
         })
         }
     </Container>
+    <Footer />
     </div>
     );
+
+    
 };

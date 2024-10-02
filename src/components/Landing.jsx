@@ -33,7 +33,7 @@ export default function Landing() {
                             <Col lg={6} className="text-center text-lg-start mb-4 mb-lg-0">
                                 <h2 className="display-5 fw-bold mb-3">Manejador de préstamos</h2>
                                 <p className="lead mb-4">Toma el control de tus finanzas, y administra sin esfuerzo toda la información de tus deudores</p>
-                                <Button as={Link} to="/signup" variant="light" size="lg" className="button-media-landing">Ir a dashboard</Button>
+                                <Button as={Link} to="/signup" variant="light" size="lg" className="button-media-landing">Ingresa</Button>
                             </Col>
                             <Col lg={6} className="text-center">
                                 <img src="/Imagen3.png" alt="Imagen media" className="img-fluid" />
@@ -51,7 +51,7 @@ export default function Landing() {
                                     <Card.Body className="d-flex flex-column">
                                         <h3 className="card-title fw-bold mb-3">Con <span className="fw-bolder">prest</span> tienes el control de tus finanzas</h3>
                                         <p className="card-text mb-4">Dile adiós a las hojas de cálculo sin orden, ahora tendrás control sobre lo que prestas</p>
-                                        <Button as={Link} to="/signup" variant="light" className="button-media-landing mt-auto align-self-center">Ir a dashboard</Button>
+                                        <Button as={Link} to="/signup" variant="light" className="button-media-landing mt-auto align-self-center">Ingresa</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -60,7 +60,7 @@ export default function Landing() {
                                     <Card.Body className="d-flex flex-column">
                                         <h3 className="card-title fw-bold mb-3">Todo en un solo <span className="fw-bolder">lugar</span> y sin esfuerzo</h3>
                                         <p className="card-text mb-4">Dile adiós a las hojas de cálculo sin orden, ahora tendrás control sobre lo que prestas</p>
-                                        <Button as={Link} to="/signup" variant="light" className="button-media-landing mt-auto align-self-center">Ir a dashboard</Button>
+                                        <Button as={Link} to="/signup" variant="light" className="button-media-landing mt-auto align-self-center">Ingresa</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>

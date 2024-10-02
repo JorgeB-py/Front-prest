@@ -3,7 +3,7 @@ import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import './styles/header.css';
 
-export function Header({ nav_links = [{ name: "Soluciones", url: "soluciones" }, { name: "Nosotros", url: "nosotros" }, { name: "Recursos", url: "recursos" }], logged, usuario }) {
+export function Header({ nav_links = [{ name: "Prestamista", url: "/login" }, { name: "Cliente", url: "/login" }], logged, usuario }) {
     const Greetings = () => {
         if (logged) {
             return (
@@ -19,7 +19,7 @@ export function Header({ nav_links = [{ name: "Soluciones", url: "soluciones" },
                     <Nav.Item className="custom-links">
                         <Link className="nav-link" to="login">Entra</Link>
                     </Nav.Item>
-                    <Nav.Item>
+                    <Nav.Item style={{padding:"20px"}}>
                         <Button as={Link} to="/signup" variant="primary" className="button-empieza-landing" size="lg">Empieza ahora</Button>
                     </Nav.Item>
                 </Nav>

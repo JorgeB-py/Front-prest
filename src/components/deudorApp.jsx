@@ -79,7 +79,6 @@ export default function DeudorApp() {
 
   // Links de navegación
   const nav_links = [
-    { name: "Dashboard", url: "/dashboard" },
     { name: "Deudores", url: "/deudores" },
     { name: "Mi dinero", url: "/midinero" },
   ];
