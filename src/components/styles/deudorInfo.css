@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 .card {
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -27,8 +28,15 @@
     padding: 20px;
   }
   
-  h5 {
-    font-weight: bold;
+  h4 {
     margin-bottom: 10px;
+    font-family: "TWK Lausanne";
+    text-align: start;
   }
   
+  .value-data {
+    font-family: "Inter";
+    font-size: 24px;
+    font-weight: 300;
+    text-align: start;
+  }

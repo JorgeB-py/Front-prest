@@ -1,3 +1,16 @@
+@font-face {
+  font-family: "TWK Lausanne";
+  src: url('/src/components/fonts/550.ttf') format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.TWK-titulo-modal{
+  font-family: "TWK Lausanne", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 .container {
     margin-top: 20px;
   }
@@ -45,4 +58,10 @@
 .btn-agregar:hover {
     background-color: #0056b3;
     color: white;
+}
+
+.btn-add {
+  background-color: #004AAC;
+  border-radius: 20px;
+  padding: 4px 18px;
 }

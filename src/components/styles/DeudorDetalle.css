@@ -1,0 +1,20 @@
+.situacionLaboral {
+    border-radius: 25px;
+    background: #000000;
+}
+
+.uploadbutton{
+  width: 40px;
+  height: 35px;
+}
+
+.btn-upload {
+  background-color: #004AAC;
+  border-radius: 20px;
+  padding: 4px 18px;
+}
+
+.center-vertically {
+  display: flex;
+  justify-content: center;
+}

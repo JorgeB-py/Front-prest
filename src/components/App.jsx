@@ -5,6 +5,7 @@ import Recursos from "./Recursos";
 import Signup from "./Signup"
 import Login from "./Login"
 import Landing from "./Landing";
+import DeudorDetalle from "./DeudorDetalle";
 import { Routes, Route } from "react-router-dom";
 import Deudores from "./Deudores";
 import DeudorApp from "./deudorApp";
@@ -21,6 +22,7 @@ export default function App() {
         { url: "signup", component: Signup },
         { url: "login", component: Login},
         { url: "/", component: Landing },
+        { url: "/infodeudor", component: DeudorDetalle },
         { url:"deudores", component: Deudores},
         { url:"deudorApp", component: DeudorApp}, 
         { url:"crearcliente", component: CrearCliente},
