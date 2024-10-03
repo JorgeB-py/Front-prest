@@ -36,15 +36,22 @@ export default function DeudorApp() {
   // Estado para modificar el interés del deudor
 
   useEffect(() => {
+
+    fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
+    .then((response) => response.json())
+    .then((data) => {
+      setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
+      setHistorialPagos([
+        { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:data.prestado }
+      ]);
+    })
     // fetch("https://my.api.mockaroo.com/userdata.json?key=b93c22a0")
     //   .then((response) => response.json())
     //   .then((data) => {
     //     setDeudorData(data[0]);
 
     //     // Inicializar el historial de pagos después de recibir los datos del deudor
-    //     setHistorialPagos([
-    //       { fecha: '2024-08-15', cantidad: 0, interes: 0, porcentaje_interes: data[0].interes ,balance: data[0].prestado }
-    //     ]);
+        
 
     //     setNuevoInteres(data[0].interes);  // Inicializar el interés
     //   });
