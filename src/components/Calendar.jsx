@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import './styles/calendar.css'
+import './styles/calendar.css';
+import { FormattedMessage } from 'react-intl'; 
 
 export default function Calendar({defaultValue,onChange}) {
+
+    const language = navigator.language.split(/[-_]/)[0]; 
 
     function createDays() {
         const dateObj = new Date(2024, month, 0);
@@ -69,13 +72,32 @@ export default function Calendar({defaultValue,onChange}) {
         const newDate = new Date(year,month-1,day)
         setDate(newDate);
         onChange(newDate);
-        setTextDate(`${day} de ${MONTHS[month-1]}, ${year}`);
+        setTextDate(newDate.toLocaleDateString(language,{day: 'numeric',month: 'long',year: 'numeric'}));
         
         el.target.classList.add('day-selected-calendar')
     }
 
-    const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    const DAYS_NAMES = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
+    const MONTHS = [<FormattedMessage id="app.January"/>, 
+    <FormattedMessage id="app.February" defaultValue="February"/>, 
+    <FormattedMessage id="app.March" defaultValue="February"/>, 
+    <FormattedMessage id="app.April" defaultValue="February"/>, 
+    <FormattedMessage id="app.May" defaultValue="February"/>, 
+    <FormattedMessage id="app.June" defaultValue="February"/>, 
+    <FormattedMessage id="app.July" defaultValue="February"/>, 
+    <FormattedMessage id="app.August" defaultValue="February"/>, 
+    <FormattedMessage id="app.September" defaultValue="February"/>, 
+    <FormattedMessage id="app.October" defaultValue="February"/>, 
+    <FormattedMessage id="app.November" defaultValue="February"/>, 
+    <FormattedMessage id="app.December" defaultValue="February"/>
+    ]
+    const DAYS_NAMES = [<FormattedMessage id="app.Mo"/>,
+    <FormattedMessage id="app.Tu"/>,
+    <FormattedMessage id="app.We"/>,
+    <FormattedMessage id="app.Th"/>,
+    <FormattedMessage id="app.Fr"/>,
+    <FormattedMessage id="app.Sa"/>,
+    <FormattedMessage id="app.Su"/>
+    ];
 
     const [daysArray, setDaysArray] = useState("")
     const [month, setMonth] = useState("")
@@ -89,7 +111,7 @@ export default function Calendar({defaultValue,onChange}) {
     useEffect(()=>{
         if (defaultValue){
             setDate(defaultValue);
-            setTextDate(`${defaultValue.getDate()} de ${MONTHS[defaultValue.getMonth()]}, ${defaultValue.getFullYear()}`);
+            setTextDate(defaultValue.toLocaleDateString(language,{day: 'numeric',month: 'long',year: 'numeric'}));
             setMonth(defaultValue.getMonth() + 1);
             setYear(defaultValue.getFullYear());
         }else {

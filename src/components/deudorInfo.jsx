@@ -4,6 +4,21 @@ import { Row, Col, Image, Button} from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';  // Importar FormattedMessage de react-intl
 
 const DeudorInfo = ({ deudor, setShowModal }) => {
+  let frecuenciaPago = <FormattedMessage id="app.Semanal" defaultMessage="Semanalx" />;
+  let estado = "OK";
+
+
+  if (deudor.state==="Mora") {
+    estado = <FormattedMessage id="app.Mora" defaultMessage="Mora" />;
+  }
+
+  if(deudor.frecuenciaPago==="Quincenal"){
+    frecuenciaPago=<FormattedMessage id="app.Quincenal" defaultMessage="Quincenalx" />;
+  } else if(deudor.frecuenciaPago==="Mensual"){
+    frecuenciaPago=<FormattedMessage id="app.Mensual" defaultMessage="Mensualx" />;
+  }
+
+  const language = navigator.language.split(/[-_]/)[0]; 
   return (
     <>
       <Row className="align-items-start">
@@ -18,14 +33,14 @@ const DeudorInfo = ({ deudor, setShowModal }) => {
           <Row className="my-3">
             <h4 className="mt-2 mb-0"><FormattedMessage id="app.startDate" defaultMessage="Start date" /></h4>
             <p className="mb-0 value-data">
-              {deudor.fechaInicio.toLocaleDateString('es', {day: 'numeric',month: 'long',year: 'numeric'})}  {/*//TODO traducir*/}
+              {deudor.fechaInicio.toLocaleDateString(language, {day: 'numeric',month: 'long',year: 'numeric'})}  {/*//TODO traducir*/}
             </p>
           </Row>
           
           <Row className="my-3">
             <h4 className="mt-2 mb-0"><FormattedMessage id="app.dueDate" defaultMessage="Due date" /></h4>
             <p className="mb-0 value-data">
-              {deudor.fechaVencimiento.toLocaleDateString('es', {day: 'numeric',month: 'long',year: 'numeric'})}  {/*//TODO traducir*/}
+              {deudor.fechaVencimiento.toLocaleDateString(language, {day: 'numeric',month: 'long',year: 'numeric'})}  {/*//TODO traducir*/}
             </p>
           </Row>
         </Col>
@@ -50,11 +65,11 @@ const DeudorInfo = ({ deudor, setShowModal }) => {
         <Col xs={12} md={3}>
           <Row className="my-3">
             <h4 className="mb-0"><FormattedMessage id="app.paymentFrequency" defaultMessage="Frecuencia de Pago" /></h4>
-            <p className="text-primary mb-0 value-data">{deudor.frecuenciaPago}</p> {/*//TODO traducir*/}
+            <p className="text-primary mb-0 value-data">{frecuenciaPago}</p> {/*//TODO traducir*/}
           </Row>
           <Row className="my-3">
             <h4 className="mb-0"><FormattedMessage id="app.debtState" defaultMessage="Estado de la Deuda" /></h4>
-            <p className="text-primary mb-0 value-data">{deudor.state}</p> {/*//TODO traducir*/}
+            <p className="text-primary mb-0 value-data">{estado}</p> {/*//TODO traducir*/}
           </Row>
         </Col>
         <Col xs={12} md={"auto"}>

@@ -37,24 +37,14 @@ export default function DeudorApp() {
 
   useEffect(() => {
 
-    fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
-    .then((response) => response.json())
-    .then((data) => {
-      setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
-      setHistorialPagos([
-        { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:data.prestado }
-      ]);
-    })
-    // fetch("https://my.api.mockaroo.com/userdata.json?key=b93c22a0")
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setDeudorData(data[0]);
-
-    //     // Inicializar el historial de pagos después de recibir los datos del deudor
-        
-
-    //     setNuevoInteres(data[0].interes);  // Inicializar el interés
-    //   });
+    // fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
+    // .then((response) => response.json())
+    // .then((data) => {
+    //   setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
+    //   setHistorialPagos([
+    //     { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:0}
+    //   ]);
+    // })
   }, []);
 
   useEffect(() => {
@@ -145,11 +135,11 @@ export default function DeudorApp() {
               <Form.Group> {/*// TODO Traducir */}
                 <Row className='mt-0'>
                   <Col md={6}>
-                    <Form.Label><FormattedMessage id="app.newStartDate" defaultMessage="Start Date" /></Form.Label>
+                    <Form.Label><FormattedMessage id="app.startDate" defaultMessage="Start Date" /></Form.Label>
                     <Calendar defaultValue={deudorData.fechaInicio} onChange={(value) => { setNewDeudorData({ ...newDeudorData, fechaInicio: value }) }} />
                   </Col>
                   <Col md={6}>
-                    <Form.Label><FormattedMessage id="app.newDueDate" defaultMessage="Due Date" /></Form.Label>
+                    <Form.Label><FormattedMessage id="app.dueDate" defaultMessage="Due Date" /></Form.Label>
                     <Calendar defaultValue={deudorData.fechaVencimiento} onChange={(value) => { setNewDeudorData({ ...newDeudorData, fechaVencimiento: value }) }} />
                   </Col>
                 </Row>
@@ -169,10 +159,9 @@ export default function DeudorApp() {
                     />
                     <Form.Label><FormattedMessage id="app.paymentFrequency" defaultMessage="Payment Frequency" /></Form.Label>
                     <select className="form-select" aria-label="Default select example" defaultValue={deudorData.frecuenciaPago} onChange={(e) => { setNewDeudorData({ ...newDeudorData, frecuenciaPago: e.target.value }) }}> {/*//TODO Traducir */}
-                      <option disabled>Selecciona una opcion</option>
-                      <option value="Semanal">Semanal</option>
-                      <option value="Quincenal">Quincenal</option>
-                      <option value="Mensual">Mensual</option>
+                      <option value="Semanal"><FormattedMessage id="app.Semanal" defaultMessage="Semanal" /></option>
+                      <option value="Quincenal"><FormattedMessage id="app.Quincenal" defaultMessage="Quincenal" /></option>
+                      <option value="Mensual"><FormattedMessage id="app.Mensual" defaultMessage="Mensual" /></option>
                     </select>
                   </Col>
                 </Row>
