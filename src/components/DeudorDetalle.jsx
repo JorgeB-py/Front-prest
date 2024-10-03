@@ -53,13 +53,13 @@ export default function DeudorDetalle() {
 
       useEffect(()=>{
 
-        fetch("https://my.api.mockaroo.com/detalledeudor.json?key=eecfef40")
-        .then((response) => response.json())
-        .then((data) => {setDeudor(data)});
+        // fetch("https://my.api.mockaroo.com/detalledeudor.json?key=eecfef40")
+        // .then((response) => response.json())
+        // .then((data) => {setDeudor(data)});
 
-        fetch("https://my.api.mockaroo.com/deudas.json?key=eecfef40")
-        .then((response1) => response1.json())
-        .then((data1) => {setDeudas(data1)});
+        // fetch("https://my.api.mockaroo.com/deudas.json?key=eecfef40")
+        // .then((response1) => response1.json())
+        // .then((data1) => {setDeudas(data1)});
         }
 
       ,[]);
@@ -110,9 +110,9 @@ export default function DeudorDetalle() {
                 
             </Col>
             <Col className="d-flex flex-column align-items-center align-self-center">
-                <Button className="rounded-pill">
-                    <i className="bi bi-pencil-square" style={{ fontSize: '1.5rem' }}></i>
-                </Button>
+                <span className="rounded-pill">
+                    <i className="bi bi-pencil-square edit-button" style={{ fontSize: '1.5rem' }}></i>
+                </span>
                 <p>&nbsp;</p> {/* Placeholder to maintain the same height */}
             </Col>
         </Row>
@@ -137,9 +137,9 @@ export default function DeudorDetalle() {
             </Col>
             <Col lg={1}>
                 
-            <button className="eye-button" onClick={() => navigate('/deudorApp')}>
+            <span className="eye-button" onClick={() => navigate('/deudorApp')}>
                 <i className="bi bi-eye"></i>
-            </button>
+            </span>
             </Col> 
         </Row>
         </Container>

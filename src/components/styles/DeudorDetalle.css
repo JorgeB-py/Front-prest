@@ -125,12 +125,16 @@ h4 {
   background-color: #004AAC;
   border-radius: 20px;
   border-color: #004AAC;
-  padding: 4px 18px;
+  width: 50px;
+  height: 35px;
   cursor: pointer;
   color:white;
+  text-align: center;
 }
-
-.eye-button i {
-  font-size: 18px; /* Adjust the size of the icon */
+.edit-button {
+  background-color: #004AAC;
+  border-radius: 20px;
+  color:white;
+  padding: 5px 10px;
 }
 

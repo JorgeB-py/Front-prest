@@ -14,6 +14,8 @@ export default function Pasarela() {
     const [showModalPSE, setShowModalPSE] = useState(false);
     const [nombreDeudor, setNombreDeudor] = useState("Pedro");
     const [nombreDeuda, setNombreDeuda] = useState("Carro");
+    const [paymentData,setPaymentData] = useState(0)
+    const [messageErrorModal,setMessageErrorModal] =useState("")
 
 
     const mesesNumeros = [1,2,3,4,5,6,7,8,9,10,11,12];
@@ -35,7 +37,46 @@ export default function Pasarela() {
         // })
     },[]);
     
-    
+    function validateForm(type){
+        if (paymentData.principal+paymentData.interest===0){
+            setMessageErrorModal([<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="Todos los campos no están completos" /><br/></Form.Text>])
+            return false;
+        }
+        for (let i in paymentData){
+            if (i==="interest" || i==="principal")continue;
+            if (paymentData[i]==="" || paymentData[i]===0){
+                setMessageErrorModal([<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="Todos los campos no están completos" /><br/></Form.Text>])
+                return false;
+            }
+        }
+        const errorsArray = []
+        if (type==="card"){
+            if (paymentData.ccv.length!==3){
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El ccv debe tener 3 digitos" /><br/></Form.Text>)
+            }
+            if (paymentData.cardNumber.length<15 || paymentData.cardNumber.length>16 ){
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="La tarjeta de credito debe tener entre 15 o 16 digitos" /><br/></Form.Text>)
+            }
+        }else if (type==="nequi"){
+            if(paymentData.phoneNumber.length!==10){
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El numero telefónico debe tener 10 digitos" /><br/></Form.Text>)
+            }
+        }else if (type==="pse"){
+            if(paymentData.phoneNumber.length!==10){
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El numero telefónico debe tener 10 digitos" /><br/></Form.Text>)
+            }
+            if (paymentData.id<6 || paymentData.id>9){
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El ID debe tener entre 6-9 digitos" /><br/></Form.Text>)
+            }
+        }
+        setMessageErrorModal(errorsArray);
+        if (errorsArray.length===0){
+            return true;
+        }
+        return false;
+        
+
+    }
     return(<div>
         <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
         <Container>
@@ -66,7 +107,10 @@ export default function Pasarela() {
                         <img src="/visa.png" alt="visa" width="50" height="50" className="img-fluid" />
                         <img src="/mastercard.png" alt="mastercard" width="50" height="50" className="img-fluid" />
                     </Col>
-                    <Col md = {1} className="arrow-right-col" onClick={() => setShowModalCard(true)}>
+                    <Col md = {1} className="arrow-right-col" onClick={() => {
+                        setShowModalCard(true);
+                        setPaymentData({interest:0,principal:0,cardNumber:0,dueMonth:"",dueYear:"",ccv:0});
+                        }}>
                         <i style = {{"font-size":"30px", "cursor": "pointer"}} class="bi bi-arrow-right"></i>
                     </Col>
                 </Row>
@@ -81,7 +125,10 @@ export default function Pasarela() {
                         <span className='tipo-pago'>Nequi</span>
                         <img src="/nequi.jpg" alt="nequi" width="50" height="50" className="img-fluid" />
                     </Col>
-                    <Col md={1} className="arrow-right-col" onClick={() => setShowModalNequi(true)}>
+                    <Col md={1} className="arrow-right-col" onClick={() => {
+                        setShowModalNequi(true)
+                        setPaymentData({interest:0,principal:0,phoneNumber:0});
+                        }}>
                         <i style = {{"font-size":"30px", "cursor": "pointer"}} class="bi bi-arrow-right"></i>
                     </Col>
                 </Row>
@@ -96,7 +143,10 @@ export default function Pasarela() {
                         <span className='tipo-pago'>PSE</span>
                         <img src="/pse.png" alt="pse" width="45" height="45" className="img-fluid" style={{"margin-left":"10px"}}/>
                     </Col>
-                    <Col md={1} className="arrow-right-col" onClick={() => setShowModalPSE(true)}>
+                    <Col md={1} className="arrow-right-col" onClick={() => {
+                        setShowModalPSE(true);
+                        setPaymentData({interest:0,principal:0,fullName:"",phoneNumber:0,id:0,});
+                        }}>
                         <i style = {{"font-size":"30px", "cursor": "pointer"}} class="bi bi-arrow-right"></i>
                     </Col>
                 </Row>
@@ -110,7 +160,7 @@ export default function Pasarela() {
 
 
         {/* TODO states*/}
-        <Modal show={showModalCard} onHide={() => setShowModalCard(false)}>
+        <Modal show={showModalCard} onHide={() => {setShowModalCard(false);setMessageErrorModal([])}}>
             <Modal.Header closeButton style={{ borderBottom: 'none' }}>
                 <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="pasarela.CardPayment" defaultMessage="Card Payment" /></Modal.Title> {/* TODO traducir */}
             </Modal.Header>
@@ -121,7 +171,13 @@ export default function Pasarela() {
                         <Col>
                             <Form.Label><FormattedMessage id="pasarela.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
-                            type="number" 
+                            type="number"
+                            value={paymentData.interest}
+                            onChange={(e)=>{
+                                let value = Number(e.target.value)
+                                if (isNaN(value))value=0;
+                                setPaymentData({...paymentData,interest:value})}
+                            }
                             /> 
                         </Col>
                         
@@ -130,7 +186,13 @@ export default function Pasarela() {
                         <Col>
                             <Form.Label>Principal</Form.Label> {/*TODO traducir*/}
                             <Form.Control
-                            type="number" 
+                            type="number"
+                            value={paymentData.principal}
+                            onChange={(e)=>{
+                                let value = Number(e.target.value)
+                                if (isNaN(value))value=0;
+                                setPaymentData({...paymentData,principal:value})}
+                            }
                             /> 
                         </Col>
                         
@@ -140,6 +202,8 @@ export default function Pasarela() {
                             <Form.Label><FormattedMessage id="pasarela.CardNumber" defaultMessage="Card number" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
+                            value={paymentData?.cardNumber}
+                            onChange={(e)=>setPaymentData({...paymentData,  cardNumber:e.target.value})}
                             /> 
                         </Col>
                         
@@ -147,8 +211,8 @@ export default function Pasarela() {
                         <Row>
                             <Form.Label><FormattedMessage id="pasarela.FechaVencimiento" defaultMessage="Due date" /></Form.Label> {/*TODO traducir*/}
                             <Col md = {6}>
-                                <Form.Select>
-                                    <option><FormattedMessage id="pasarela.SelectMonth" defaultMessage="Select month" /></option>
+                                <Form.Select value={paymentData?.dueMonth || "non-sel"} onChange={(e)=>setPaymentData({...paymentData,dueMonth:e.target.value})}>
+                                    <option><FormattedMessage id="pasarela.SelectMonth" defaultMessage="Select month" value="non-sel"/></option>
                                     {
                                         mesesNumeros.map((mes) => {
                                             return <option value={mes}>{mes}</option>
@@ -157,7 +221,7 @@ export default function Pasarela() {
                                 </Form.Select>
                             </Col>
                             <Col md = {6}>
-                                <Form.Select>
+                                <Form.Select value={paymentData?.dueYear || "non-sel"} onChange={(e)=>setPaymentData({...paymentData,dueYear:e.target.value})}>
                                     <option><FormattedMessage id="pasarela.SelectYear" defaultMessage="Select year" /></option>
                                     {
                                         aniosNumeros.map((anio) => {
@@ -170,9 +234,14 @@ export default function Pasarela() {
                                 <Col>
                                 <Form.Label>CVV</Form.Label> {/*TODO traducir*/}
                                 <Form.Control
-                                type="number" 
+                                type="number"
+                                value={paymentData.ccv}
+                                onChange={(e)=>setPaymentData({...paymentData,ccv:e.target.value})}
                                 /> 
                                 </Col>
+                            </Row>
+                            <Row>
+                                <Col>{messageErrorModal}</Col> {/*TODO traducir*/}
                             </Row>
                         </Row>
                     </Form>
@@ -182,14 +251,14 @@ export default function Pasarela() {
                 <Button variant="secondary" onClick={() => setShowModalCard(false)}>
                     <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
                 </Button>
-                <Button variant="primary" onClick={()=>{alert("Pago exitoso"); navigate('/visualizar-transacciones/1') }}> {/*TODO VALIDACIÓN */}
+                <Button variant="primary" onClick={ ()=>{if(validateForm("card"))navigate('/visualizar-transacciones/1')}}> {/*TODO VALIDACIÓN */}
                     <FormattedMessage id="app.save" defaultMessage="Save" />
                 </Button>
             </Modal.Footer>
         </Modal>
 
 
-        <Modal show={showModalNequi} onHide={() => setShowModalNequi(false)}>
+        <Modal show={showModalNequi} onHide={() => {setShowModalNequi(false);setMessageErrorModal([])}}>
             <Modal.Header closeButton style={{ borderBottom: 'none' }}>
                 <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="pasarela.NequiPayment" defaultMessage="Nequi Payment" /></Modal.Title> {/* TODO traducir */}
             </Modal.Header>
@@ -200,7 +269,13 @@ export default function Pasarela() {
                         <Col>
                             <Form.Label><FormattedMessage id="pasarela.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
-                            type="number" 
+                            type="number"
+                            value={paymentData.interest}
+                            onChange={(e)=>{
+                                let value = Number(e.target.value)
+                                if (isNaN(value))value=0;
+                                setPaymentData({...paymentData,interest:value})}
+                            }
                             /> 
                         </Col>
                         
@@ -210,6 +285,12 @@ export default function Pasarela() {
                             <Form.Label><FormattedMessage id="pasarela.Principal" defaultMessage="Principal" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
+                            value={paymentData.principal}
+                            onChange={(e)=>{
+                                let value = Number(e.target.value)
+                                if (isNaN(value))value=0;
+                                setPaymentData({...paymentData,principal:value})}
+                            }
                             /> 
                         </Col>
                         
@@ -218,10 +299,14 @@ export default function Pasarela() {
                         <Col>
                             <Form.Label><FormattedMessage id="pasarela.PhoneNumber" defaultMessage="Phone number" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
-                            type="number" 
+                            type="text" 
+                            value={paymentData.phoneNumber}
+                            onChange={(e)=>setPaymentData({...paymentData,phoneNumber:e.target.value})}
                             /> 
                         </Col>
-                        
+                        </Row>
+                        <Row>
+                            <Col>{messageErrorModal}</Col> {/*TODO traducir*/}
                         </Row>
                     </Form>
                 </Container>
@@ -230,14 +315,14 @@ export default function Pasarela() {
                 <Button variant="secondary" onClick={() => setShowModalNequi(false)}>
                     <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
                 </Button>
-                <Button variant="primary" onClick={ ()=>{alert("Pago exitoso"); navigate('/visualizar-transacciones/1') }}> {/*TODO VALIDACIÓN */}
+                <Button variant="primary" onClick={ ()=>{if(validateForm("nequi"))navigate('/visualizar-transacciones/1')}}> {/*TODO VALIDACIÓN */}
                     <FormattedMessage id="app.save" defaultMessage="Save" />
                 </Button>
             </Modal.Footer>
         </Modal>
 
 
-        <Modal show={showModalPSE} onHide={() => setShowModalPSE(false)}>
+        <Modal show={showModalPSE} onHide={() => {setShowModalPSE(false);setMessageErrorModal([])}}>
             <Modal.Header closeButton style={{ borderBottom: 'none' }}>
                 <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="pasarela.PSEPayment" defaultMessage="PSE Payment" /></Modal.Title> {/* TODO traducir */}
             </Modal.Header>
@@ -249,6 +334,12 @@ export default function Pasarela() {
                             <Form.Label><FormattedMessage id="pasarela.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
+                            value={paymentData.interest}
+                            onChange={(e)=>{
+                                let value = Number(e.target.value)
+                                if (isNaN(value))value=0;
+                                setPaymentData({...paymentData,interest:value})}
+                            }
                             /> 
                         </Col>
                         
@@ -257,7 +348,13 @@ export default function Pasarela() {
                         <Col>
                             <Form.Label><FormattedMessage id="pasarela.Principal" defaultMessage="Principal" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
-                            type="number" 
+                            type="number"
+                            value={paymentData.principal}
+                            onChange={(e)=>{
+                                let value = Number(e.target.value)
+                                if (isNaN(value))value=0;
+                                setPaymentData({...paymentData,principal:value})}
+                            }
                             /> 
                         </Col>
                         
@@ -266,7 +363,9 @@ export default function Pasarela() {
                             <Col>
                                 <Form.Label><FormattedMessage id="pasarela.FullName" defaultMessage="Full Name" /></Form.Label> {/*TODO traducir*/}
                                 <Form.Control
-                                type="text" 
+                                type="text"
+                                value={paymentData.fullName}
+                                onChange={(e)=>setPaymentData({...paymentData,fullName:e.target.value})}
                                 /> 
                             </Col>
                         </Row>
@@ -274,16 +373,22 @@ export default function Pasarela() {
                             <Col>
                                 <Form.Label><FormattedMessage id="pasarela.PhoneNumber" defaultMessage="Phone number" /></Form.Label> {/*TODO traducir*/}
                                 <Form.Control
-                                type="number" 
+                                type="text" 
+                                value={paymentData.phoneNumber}
+                                onChange={(e)=>setPaymentData({...paymentData,phoneNumber:e.target.value})}
                                 /> 
                             </Col>
                             <Col>
                                 <Form.Label><FormattedMessage id="pasarela.ID" defaultMessage="ID" /></Form.Label> {/*TODO traducir*/}
                                 <Form.Control
-                                type="number" 
+                                type="number"
+                                value={paymentData.id}
+                                onChange={(e)=>setPaymentData({...paymentData,id:e.target.value})}
                                 /> 
                             </Col>
-                        
+                        <Row>
+                            <Col>{messageErrorModal}</Col> {/*TODO traducir*/}
+                        </Row>
                         </Row>
                     </Form>
                 </Container>
@@ -292,8 +397,8 @@ export default function Pasarela() {
                 <Button variant="secondary" onClick={() => setShowModalPSE(false)}>
                     <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
                 </Button>
-                <Button variant="primary" onClick={()=>{alert("Pago exitoso"); navigate('/visualizar-transacciones/1') }}> {/*TODO VALIDACIÓN */}
-                    <FormattedMessage id="app.save" defaultMessage="Save" />
+                <Button variant="primary" onClick={ ()=>{if(validateForm("pse"))navigate('/visualizar-transacciones/1')}}> {/*TODO VALIDACIÓN */}
+                    <FormattedMessage id="app.save" defaultMessage="Save"/>
                 </Button>
             </Modal.Footer>
         </Modal>
