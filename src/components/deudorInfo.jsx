@@ -1,9 +1,33 @@
 import React from 'react';
 import './styles/deudorInfo.css';  // Agrega un archivo CSS para estilos personalizados
-import { Row, Col, Image, Button} from 'react-bootstrap';
+import { Row, Col, Image} from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';  // Importar FormattedMessage de react-intl
+import { useState } from 'react';
+import { Modal, Button} from 'react-bootstrap';
 
 const DeudorInfo = ({ deudor, setShowModal }) => {
+
+    //Renderizado condicional del botón de paz y salvo.
+    const renderBalance = ({ deudor }) => {
+      return (
+        <Button className="btn buttom-general" disabled={deudor.prestado !== 0} onClick={() => setShowConfirmationModal(true)}>
+          <FormattedMessage id="pazSalvo.tituloBotonCierre" />
+        </Button>
+      );
+    };
+  
+    //Configuración del Modal
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const handleCloseConfirmationModal = () => setShowConfirmationModal(false);
+  
+    //Boton de generación
+  
+    const handleGenerate = () => {
+      console.log('Paz y salvo generado correctamente');
+      console.log('Enviando correo de confirmación al deudor...')
+      setShowConfirmationModal(false);
+    };
+  
   let frecuenciaPago = <FormattedMessage id="app.Semanal" defaultMessage="Semanalx" />;
   let estado = "OK";
 
@@ -42,6 +66,7 @@ const DeudorInfo = ({ deudor, setShowModal }) => {
             <p className="mb-0 value-data">
               {deudor.fechaVencimiento.toLocaleDateString(language, {day: 'numeric',month: 'long',year: 'numeric'})}  {/*//TODO traducir*/}
             </p>
+            {renderBalance({deudor})}
           </Row>
         </Col>
         <Col xs={12} md={2}>
@@ -80,6 +105,18 @@ const DeudorInfo = ({ deudor, setShowModal }) => {
             </Button>
         </Col>
       </Row>
+    {/* Modal para generación de paz y salvo*/}
+    <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal} centered>
+      <Modal.Header closeButton >
+        <Modal.Title><FormattedMessage id="pazSalvo.titulo" /></Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Button className="btn buttom-general" onClick={handleGenerate}>
+        <FormattedMessage id="pazSalvo.tituloBotonGenera" />
+        </Button>
+        <p><FormattedMessage id="pazSalvo.mensaje" /></p>
+      </Modal.Body>
+    </Modal>
     </>
   );
 };
