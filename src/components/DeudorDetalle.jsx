@@ -5,6 +5,7 @@ import './styles/DeudorDetalle.css';
 import { Header } from './header';
 import { Footer } from './footer';
 import { useNavigate } from "react-router-dom";
+import { FormattedMessage } from 'react-intl';
 
 export default function DeudorDetalle() {
 
@@ -22,9 +23,11 @@ export default function DeudorDetalle() {
         numeroDocumento: '1110450340',
         deudaTotal: 99000, //TODO debería ser un dato calculado cuando hagamos backend
         puntuacion: 8.5,
-        situacionLaboral: 'Empleado', //Puede ser: Empleado, Independiente, Desempleado, Pensionado.
+        situacionLaboral: 'Empleado', //Puede ser: Empleado o Desempleado
+        edad:24,
+        email:"hola@gmail.com",
+        telefono:"3143807270"
       });
-
 
     const [deudas, setDeudas] = useState([{
         id:1,
@@ -48,6 +51,21 @@ export default function DeudorDetalle() {
         deudaRestante:300000
     }]);
 
+      useEffect(()=>{
+
+        fetch("https://my.api.mockaroo.com/detalledeudor.json?key=eecfef40")
+        .then((response) => response.json())
+        .then((data) => {setDeudor(data)});
+
+        fetch("https://my.api.mockaroo.com/deudas.json?key=eecfef40")
+        .then((response1) => response1.json())
+        .then((data1) => {setDeudas(data1)});
+        }
+
+      ,[]);
+
+    
+
 
     return (
     <div>
@@ -64,23 +82,32 @@ export default function DeudorDetalle() {
             <Col className='info-rapida px-0'>
                 <Row>
                     <Col md={1}><i class="bi bi-currency-dollar"></i></Col>
-                    <Col><div>Deuda total: {deudor.deudaTotal} </div></Col>   
+                    <Col><div><FormattedMessage id="app.TotalLoan" defaultMessage="Total Loan" />: {deudor.deudaTotal} </div></Col>   
                 </Row>
                 <Row>
                     <Col md={1}><i class="bi bi-star"></i></Col>
-                    <Col><div>Puntuación: {deudor.puntuacion} </div></Col>   
+                    <Col><div><FormattedMessage id="app.Score" defaultMessage="Score" />: {deudor.puntuacion} </div></Col>   
                 </Row>
                 <Row>
                     <Col md={1}><i class="bi bi-briefcase"></i></Col>
-                    <Col> <span className="Big font">Situación Laboral: </span> <span className='situacionLaboral'>{deudor.situacionLaboral} </span></Col>   
+                    <Col> <span className="Big font"><FormattedMessage id="app.WorkStatus" defaultMessage="Work Status" />: </span> <span className='situacionLaboral'>{deudor.situacionLaboral==="Empleado" ? <FormattedMessage id="app.Empleado" defaultMessage="Empleado" /> :<FormattedMessage id="app.Desempleado" defaultMessage="Desempleado" />} </span></Col>   
                 </Row>
                 
             </Col>
-                <Col className="d-flex flex-column align-items-center align-self-center">
-                <Button className="rounded-pill btn">
-                    <i className="bi bi-upload" style={{ fontSize: '1.5rem' }}></i>
-                </Button>
-                <p className='underline-link'>Ver archivos del deudor</p> {/* This creates extra height */}
+            <Col className='info-rapida px-0'>
+                <Row>
+                    <Col md={1}><i class="bi bi-person"></i></Col>
+                    <Col><div><FormattedMessage id="app.Age" defaultMessage="Age" />: {deudor.edad} </div></Col>   
+                </Row>
+                <Row>
+                    <Col md={1}><i class="bi bi-telephone"></i></Col>
+                    <Col><div><FormattedMessage id="app.PhoneNumber" defaultMessage="Phone number" />: {deudor.telefono} </div></Col>   
+                </Row>
+                <Row>
+                    <Col md={1}><i class="bi bi-envelope"></i></Col>
+                    <Col><div><FormattedMessage id="app.Email" defaultMessage="Email" />: {deudor.email} </div></Col>   
+                </Row>
+                
             </Col>
             <Col className="d-flex flex-column align-items-center align-self-center">
                 <Button className="rounded-pill">
@@ -93,7 +120,7 @@ export default function DeudorDetalle() {
     
 
     <Container className="custom-container-2">
-        <span className="creditos">Créditos</span>
+        <span className="creditos"><FormattedMessage id="app.Credits" defaultMessage="Credits" /></span>
         {deudas.map((deuda) => 
         {return <Container key={deuda.id} className="progress-container">
         <Row>

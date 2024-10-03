@@ -67,6 +67,8 @@
     "app.Fr": "Fr",
     "app.Sa": "Sa",
     "app.Su": "Su",
+    "app.Empleado":"Employed",
+    "app.Desempleado":"Unemployed",
     "consultarCliente.titulo": "Consult Client",
     "consultarCliente.buscarPor": "Search by Name or Identification",
     "consultarCliente.placeholder": "Enter name or identification number",
@@ -156,5 +158,12 @@
     "pasarela.PhoneNumber":"Phone number",
     "pasarela.PSEPayment":"PSE Payment",
     "pasarela.FullName":"Full Name",
-    "pasarela.ID":"ID"
+    "pasarela.ID":"ID",
+    "app.TotalLoan": "Total loan",
+    "app.Score":"Score",
+    "app.WorkStatus":"Work Status",
+    "app.Age":"Age",
+    "app.PhoneNumber":"Phone number",
+    "app.Email":"Email",
+    "app.Credits":"Credits"
     }

@@ -37,14 +37,14 @@ export default function DeudorApp() {
 
   useEffect(() => {
 
-    // fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
-    //   setHistorialPagos([
-    //     { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:0}
-    //   ]);
-    // })
+    fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
+    .then((response) => response.json())
+    .then((data) => {
+      setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
+      setHistorialPagos([
+        { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:0}
+      ]);
+    })
   }, []);
 
   useEffect(() => {
