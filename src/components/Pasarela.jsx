@@ -28,12 +28,12 @@ export default function Pasarela() {
     ];
 
     useEffect(()=>{
-        // fetch("https://my.api.mockaroo.com/hhuu_payment.json?key=70f6caa0")
-        // .then((response) => response.json())
-        // .then((data) => {
-        //     setNombreDeudor(data.nombreDeudor);
-        //     setNombreDeuda(data.deudaNombre);
-        // })
+        fetch("https://my.api.mockaroo.com/hhuu_payment.json?key=70f6caa0")
+        .then((response) => response.json())
+        .then((data) => {
+            setNombreDeudor(data.nombreDeudor);
+            setNombreDeuda(data.deudaNombre);
+        })
     },[]);
     
     function validateForm(type){

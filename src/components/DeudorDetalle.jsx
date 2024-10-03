@@ -56,13 +56,13 @@ export default function DeudorDetalle() {
     const [showEditModal,setShowEditModal] = useState(false);
       useEffect(()=>{
 
-        // fetch("https://my.api.mockaroo.com/detalledeudor.json?key=eecfef40")
-        // .then((response) => response.json())
-        // .then((data) => {setDeudor(data)});
+        fetch("https://my.api.mockaroo.com/detalledeudor.json?key=eecfef40")
+        .then((response) => response.json())
+        .then((data) => {setDeudor(data)});
 
-        // fetch("https://my.api.mockaroo.com/deudas.json?key=eecfef40")
-        // .then((response1) => response1.json())
-        // .then((data1) => {setDeudas(data1)});
+        fetch("https://my.api.mockaroo.com/deudas.json?key=eecfef40")
+        .then((response1) => response1.json())
+        .then((data1) => {setDeudas(data1)});
         }
 
       ,[]);
