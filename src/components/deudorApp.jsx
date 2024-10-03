@@ -27,6 +27,15 @@ export default function DeudorApp() {
     }
   });
 
+    // Datos de prueba para la  HU11
+    const debtorDataTest = {
+      nombre: "Armando",
+      fechaVencimiento: "3/21/2024",
+      prestado: 0,
+      interes: 5,
+      fechaPago: "2024/03/22"
+  };
+
   const [newDeudorData, setNewDeudorData] = useState(0);
   const [newPayment, setNewPayment] = useState(0);      // Estado para la nuevo pago
 
@@ -41,6 +50,7 @@ export default function DeudorApp() {
     .then((response) => response.json())
     .then((data) => {
       setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
+      //Cambiar a setDeudorData(debtorDataTest) para probar el modal de la HU11.
       setHistorialPagos([
         { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:0}
       ]);

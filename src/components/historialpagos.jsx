@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState} from 'react';
+import { Modal, Button} from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 
 const HistorialPagos = ({ pagos }) => {
+  // Configuración del modal
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const handleCloseConfirmationModal = () => setShowConfirmationModal(false);
+
+  //Configuración del botón
+  const handleGenerate = () => {
+    console.log('Historial de pagos descargado correctamente');
+    setShowConfirmationModal(false);
+  }
   return (
     <div className="table-responsive">
       <table className="table table-striped table-bordered">
@@ -26,6 +36,20 @@ const HistorialPagos = ({ pagos }) => {
           ))}
         </tbody>
       </table>
+      <Button variant="btn buttom-general" onClick={() => setShowConfirmationModal(true)}>
+        <FormattedMessage id="historial.tituloBotonGenera" />
+      </Button>
+      {/* Modal de confirmación de creación */}
+      <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal} dialogClassName="modal-prest" centered>
+        <Modal.Header>
+          <Modal.Title dialogClassName='text-center'><FormattedMessage id="historial.titulo" /></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Button className="btn buttom-general" onClick={handleGenerate}>   
+            <FormattedMessage id="historial.cerrar" />
+          </Button>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
