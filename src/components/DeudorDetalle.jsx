@@ -1,6 +1,6 @@
 import { setSeconds } from 'date-fns';
 import  { React, useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
+import { Container, Row, Col, Image, Modal, Form, Button } from 'react-bootstrap';
 import './styles/DeudorDetalle.css';
 import { Header } from './header';
 import { Footer } from './footer';
@@ -13,8 +13,8 @@ export default function DeudorDetalle() {
 
     // Links de navegación
     const nav_links = [
-        { name: "Deudores", url: "/deudores" },
-        { name: "Mi dinero", url: "/midinero" },
+        { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: "/deudores" },
+        { name: <FormattedMessage id="app.MiDinero" defaultMessage="My Money" />, url: "/midinero" },
     ];
 
     const [deudor, setDeudor] = useState({
@@ -28,6 +28,8 @@ export default function DeudorDetalle() {
         email:"hola@gmail.com",
         telefono:"3143807270"
       });
+
+    const [deudorEdited,setDeudorEdited] = useState(0);
 
     const [deudas, setDeudas] = useState([{
         id:1,
@@ -51,6 +53,7 @@ export default function DeudorDetalle() {
         deudaRestante:300000
     }]);
 
+    const [showEditModal,setShowEditModal] = useState(false);
       useEffect(()=>{
 
         // fetch("https://my.api.mockaroo.com/detalledeudor.json?key=eecfef40")
@@ -97,7 +100,7 @@ export default function DeudorDetalle() {
             <Col className='info-rapida px-0'>
                 <Row>
                     <Col md={1}><i class="bi bi-person"></i></Col>
-                    <Col><div><FormattedMessage id="app.Age" defaultMessage="Age" />: {deudor.edad} </div></Col>   
+                    <Col><div><FormattedMessage id="app.Age" defaultMessage="" />: {deudor.edad} </div></Col>   
                 </Row>
                 <Row>
                     <Col md={1}><i class="bi bi-telephone"></i></Col>
@@ -111,7 +114,7 @@ export default function DeudorDetalle() {
             </Col>
             <Col className="d-flex flex-column align-items-center align-self-center">
                 <span className="rounded-pill">
-                    <i className="bi bi-pencil-square edit-button" style={{ fontSize: '1.5rem' }}></i>
+                    <i className="bi bi-pencil-square edit-button" style={{ fontSize: '1.5rem',cursor:'pointer' }} onClick={()=>{setDeudorEdited({...deudor});setShowEditModal(true)}}></i>
                 </span>
                 <p>&nbsp;</p> {/* Placeholder to maintain the same height */}
             </Col>
@@ -147,8 +150,67 @@ export default function DeudorDetalle() {
         }
     </Container>
     <Footer />
+    <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title><FormattedMessage id="app.editInfo" defaultMessage="Edit Information" /></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label><FormattedMessage id="app.name" defaultMessage="" /></Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={deudor.nombre}
+                onChange={(e)=>setDeudorEdited({...deudorEdited,nombre:e.target.value})}
+              />
+              <Form.Label><FormattedMessage id="app.idNumber" defaultMessage="" /></Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={deudor.numeroDocumento}
+                onChange={(e)=>setDeudorEdited({...deudorEdited,numeroDocumento:e.target.value})}
+              />
+              <Form.Label><FormattedMessage id="app.WorkStatus" defaultMessage="" /></Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={deudor.situacionLaboral}
+                onChange={(e)=>setDeudorEdited({...deudorEdited,situacionLaboral:e.target.value})}
+              />
+              <Form.Label><FormattedMessage id="app.Age" defaultMessage="" /></Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={deudor.edad}
+                onChange={(e)=>setDeudorEdited({...deudorEdited,edad:e.target.value})}
+              />
+              <Form.Label><FormattedMessage id="pasarela.PhoneNumber" defaultMessage="" /></Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={deudor.telefono}
+                onChange={(e)=>setDeudorEdited({...deudorEdited,telefono:e.target.value})}
+              />
+              <Form.Label><FormattedMessage id="app.email" defaultMessage="" /></Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={deudor.email}
+                onChange={(e)=>setDeudorEdited({...deudorEdited,email:e.target.value})}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() =>setShowEditModal(false)}>
+            <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
+          </Button>
+          <Button variant="primary" onClick={() =>{
+            setDeudor({...deudorEdited})
+            setShowEditModal(false)
+          }}>
+            <FormattedMessage id="app.save" defaultMessage="Save" />
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
-    );
+    
+);
 
     
 };

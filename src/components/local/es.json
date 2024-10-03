@@ -197,7 +197,13 @@
     "resumen.nombre": "Nombre",
     "resumen.apellido": "Apellido",
     "resumen.identificacion": "Identificación",
-    "resumen.deudaActual": "Deuda Actual"
-
-
+    "resumen.deudaActual": "Deuda Actual",
+    "app.MyCredits":"Mis créditos",
+    "app.TodosLosCampos":"Todos los campos no están completos",
+    "app.ELCVV":"El ccv debe tener 3 digitos",
+    "app.LaTarjeta":"La tarjeta de credito debe tener entre 15 o 16 digitos",
+    "app.ELnumero":"El numero telefónico debe tener 10 digitos" ,
+    "app.ELID":"El ID debe tener entre 6-9 digitos",
+    "app.Deudores":"Deudores",
+    "app.MiDinero":"Mi Dinero"
   }

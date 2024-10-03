@@ -24,8 +24,7 @@ export default function Pasarela() {
 
     // Links de navegación
     const nav_links = [
-        { name: "Deudores", url: "/deudores" },
-        { name: "Mi dinero", url: "/midinero" },
+        { name: <FormattedMessage id="app.MyCredits"/>, url: "/creditos" },
     ];
 
     useEffect(()=>{
@@ -39,34 +38,34 @@ export default function Pasarela() {
     
     function validateForm(type){
         if (paymentData.principal+paymentData.interest===0){
-            setMessageErrorModal([<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="Todos los campos no están completos" /><br/></Form.Text>])
+            setMessageErrorModal([<Form.Text className="text-danger"><FormattedMessage id="app.TodosLosCampos" defaultMessage="Todos los campos no están completos" /><br/></Form.Text>])
             return false;
         }
         for (let i in paymentData){
             if (i==="interest" || i==="principal")continue;
             if (paymentData[i]==="" || paymentData[i]===0){
-                setMessageErrorModal([<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="Todos los campos no están completos" /><br/></Form.Text>])
+                setMessageErrorModal([<Form.Text className="text-danger"><FormattedMessage id="app.TodosLosCampos" defaultMessage="Todos los campos no están completos" /><br/></Form.Text>])
                 return false;
             }
         }
         const errorsArray = []
         if (type==="card"){
             if (paymentData.ccv.length!==3){
-                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El ccv debe tener 3 digitos" /><br/></Form.Text>)
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.ELCVV" defaultMessage="El ccv debe tener 3 digitos" /><br/></Form.Text>)
             }
             if (paymentData.cardNumber.length<15 || paymentData.cardNumber.length>16 ){
-                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="La tarjeta de credito debe tener entre 15 o 16 digitos" /><br/></Form.Text>)
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.LaTarjeta" defaultMessage="La tarjeta de credito debe tener entre 15 o 16 digitos" /><br/></Form.Text>)
             }
         }else if (type==="nequi"){
             if(paymentData.phoneNumber.length!==10){
-                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El numero telefónico debe tener 10 digitos" /><br/></Form.Text>)
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.ELnumero" defaultMessage="El numero telefónico debe tener 10 digitos" /><br/></Form.Text>)
             }
         }else if (type==="pse"){
             if(paymentData.phoneNumber.length!==10){
-                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El numero telefónico debe tener 10 digitos" /><br/></Form.Text>)
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.ELnumero" defaultMessage="El numero telefónico debe tener 10 digitos" /><br/></Form.Text>)
             }
             if (paymentData.id<6 || paymentData.id>9){
-                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.h" defaultMessage="El ID debe tener entre 6-9 digitos" /><br/></Form.Text>)
+                errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.ELID" defaultMessage="El ID debe tener entre 6-9 digitos" /><br/></Form.Text>)
             }
         }
         setMessageErrorModal(errorsArray);

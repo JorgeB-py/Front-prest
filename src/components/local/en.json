@@ -195,5 +195,13 @@
     "resumen.nombre": "Name",
     "resumen.apellido": "Last Name",
     "resumen.identificacion": "Identification",
-    "resumen.deudaActual": "Current Debt"
+    "resumen.deudaActual": "Current Debt",    
+    "app.MyCredits":"My Credits",
+    "app.TodosLosCampos":"All fields are not complete",
+    "app.ELCVV":"The CCV must have 3 digits",
+    "app.LaTarjeta":"The credit card must have between 15 or 16 digits",
+    "app.ELnumero":"The phone number must have 10 digits" ,
+    "app.ELID":"The ID must be between 6-9 digits",
+    "app.Deudores":"Debtors",
+    "app.MiDinero":"My money"
     }

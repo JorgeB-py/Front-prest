@@ -86,8 +86,8 @@ export default function DeudorApp() {
 
   // Links de navegación
   const nav_links = [
-    { name: "Deudores", url: "/deudores" },
-    { name: "Mi dinero", url: "/midinero" },
+    { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: "/deudores" },
+    { name: <FormattedMessage id="app.MiDinero" defaultMessage="My Money" />, url: "/midinero" },
   ];
 
   // Función para agregar un nuevo pago
