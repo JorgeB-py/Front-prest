@@ -12,6 +12,8 @@ export default function Pasarela() {
     const [showModalCard, setShowModalCard] = useState(false);
     const [showModalNequi, setShowModalNequi] = useState(false);
     const [showModalPSE, setShowModalPSE] = useState(false);
+    const [nombreDeudor, setNombreDeudor] = useState("Pedro");
+    const [nombreDeuda, setNombreDeuda] = useState("Carro");
 
 
     const mesesNumeros = [1,2,3,4,5,6,7,8,9,10,11,12];
@@ -24,6 +26,15 @@ export default function Pasarela() {
         { name: "Mi dinero", url: "/midinero" },
     ];
 
+    useEffect(()=>{
+        // fetch("https://my.api.mockaroo.com/hhuu_payment.json?key=70f6caa0")
+        // .then((response) => response.json())
+        // .then((data) => {
+        //     setNombreDeudor(data.nombreDeudor);
+        //     setNombreDeuda(data.deudaNombre);
+        // })
+    },[]);
+    
     
     return(<div>
         <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
@@ -36,12 +47,14 @@ export default function Pasarela() {
                 </Col>
         <Row style={{'margin-bottom':"30px"}}>
             <Col>
-            <span className='como-pagar'>Elige cómo pagar</span>
+            <span className='como-pagar'>
+                <FormattedMessage id="paserela.elige" values={{ nombreDeudor: nombreDeudor, nombreDeuda: nombreDeuda}} />
+            </span>
             </Col>
         </Row>
         <Row style={{'margin-bottom':"30px"}}>
             <Col>
-            <span className='pago-seguro'>Tu pago está seguro y puedes cambiar cómo pagas en cualquier momento</span>
+            <span className='pago-seguro'><FormattedMessage id="pasarela.secure"/></span>
             </Col>
         </Row>
         <Row>
@@ -49,7 +62,7 @@ export default function Pasarela() {
             <Container className='custom-container'>
                 <Row className="align-items-center">
                     <Col>
-                        <span className='tipo-pago'>Tarjeta de débito o crédito</span>
+                        <span className='tipo-pago'><FormattedMessage id="pasarela.card"/></span>
                         <img src="/visa.png" alt="visa" width="50" height="50" className="img-fluid" />
                         <img src="/mastercard.png" alt="mastercard" width="50" height="50" className="img-fluid" />
                     </Col>
@@ -99,14 +112,14 @@ export default function Pasarela() {
         {/* TODO states*/}
         <Modal show={showModalCard} onHide={() => setShowModalCard(false)}>
             <Modal.Header closeButton style={{ borderBottom: 'none' }}>
-                <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="app.CardPayment" defaultMessage="Card Payment" /></Modal.Title> {/* TODO traducir */}
+                <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="pasarela.CardPayment" defaultMessage="Card Payment" /></Modal.Title> {/* TODO traducir */}
             </Modal.Header>
             <Modal.Body>
                 <Container className='mt-0'>
                     <Form>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -115,7 +128,7 @@ export default function Pasarela() {
                         </Row>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.Principal" defaultMessage="Principal" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label>Principal</Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -124,7 +137,7 @@ export default function Pasarela() {
                         </Row>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.CardNumber" defaultMessage="Card number" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.CardNumber" defaultMessage="Card number" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -132,10 +145,10 @@ export default function Pasarela() {
                         
                         </Row>
                         <Row>
-                            <Form.Label><FormattedMessage id="app.FechaVencimiento" defaultMessage="Due date" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.FechaVencimiento" defaultMessage="Due date" /></Form.Label> {/*TODO traducir*/}
                             <Col md = {6}>
                                 <Form.Select>
-                                    <option><FormattedMessage id="app.SelectMonth" defaultMessage="Select month" /></option>
+                                    <option><FormattedMessage id="pasarela.SelectMonth" defaultMessage="Select month" /></option>
                                     {
                                         mesesNumeros.map((mes) => {
                                             return <option value={mes}>{mes}</option>
@@ -145,7 +158,7 @@ export default function Pasarela() {
                             </Col>
                             <Col md = {6}>
                                 <Form.Select>
-                                    <option><FormattedMessage id="app.SelectYear" defaultMessage="Select year" /></option>
+                                    <option><FormattedMessage id="pasarela.SelectYear" defaultMessage="Select year" /></option>
                                     {
                                         aniosNumeros.map((anio) => {
                                             return <option value={anio}>{anio}</option>
@@ -155,7 +168,7 @@ export default function Pasarela() {
                             </Col>
                             <Row>
                                 <Col>
-                                <Form.Label><FormattedMessage id="app.CVV" defaultMessage="CVV" /></Form.Label> {/*TODO traducir*/}
+                                <Form.Label>CVV</Form.Label> {/*TODO traducir*/}
                                 <Form.Control
                                 type="number" 
                                 /> 
@@ -178,14 +191,14 @@ export default function Pasarela() {
 
         <Modal show={showModalNequi} onHide={() => setShowModalNequi(false)}>
             <Modal.Header closeButton style={{ borderBottom: 'none' }}>
-                <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="app.NequiPayment" defaultMessage="Nequi Payment" /></Modal.Title> {/* TODO traducir */}
+                <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="pasarela.NequiPayment" defaultMessage="Nequi Payment" /></Modal.Title> {/* TODO traducir */}
             </Modal.Header>
             <Modal.Body>
                 <Container className='mt-0'>
                     <Form>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -194,7 +207,7 @@ export default function Pasarela() {
                         </Row>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.Principal" defaultMessage="Principal" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.Principal" defaultMessage="Principal" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -203,7 +216,7 @@ export default function Pasarela() {
                         </Row>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.PhoneNumber" defaultMessage="Phone number" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.PhoneNumber" defaultMessage="Phone number" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -226,14 +239,14 @@ export default function Pasarela() {
 
         <Modal show={showModalPSE} onHide={() => setShowModalPSE(false)}>
             <Modal.Header closeButton style={{ borderBottom: 'none' }}>
-                <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="app.Payment" defaultMessage="PSE Payment" /></Modal.Title> {/* TODO traducir */}
+                <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="pasarela.PSEPayment" defaultMessage="PSE Payment" /></Modal.Title> {/* TODO traducir */}
             </Modal.Header>
             <Modal.Body>
                 <Container className='mt-0'>
                     <Form>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.Interest" defaultMessage="Interest" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -242,7 +255,7 @@ export default function Pasarela() {
                         </Row>
                         <Row className='mt-0'>
                         <Col>
-                            <Form.Label><FormattedMessage id="app.Principal" defaultMessage="Principal" /></Form.Label> {/*TODO traducir*/}
+                            <Form.Label><FormattedMessage id="pasarela.Principal" defaultMessage="Principal" /></Form.Label> {/*TODO traducir*/}
                             <Form.Control
                             type="number" 
                             /> 
@@ -251,7 +264,7 @@ export default function Pasarela() {
                         </Row>
                         <Row className='mt-0'>
                             <Col>
-                                <Form.Label><FormattedMessage id="app.FullName" defaultMessage="Full Name" /></Form.Label> {/*TODO traducir*/}
+                                <Form.Label><FormattedMessage id="pasarela.FullName" defaultMessage="Full Name" /></Form.Label> {/*TODO traducir*/}
                                 <Form.Control
                                 type="text" 
                                 /> 
@@ -259,13 +272,13 @@ export default function Pasarela() {
                         </Row>
                         <Row className='mt-0'>
                             <Col>
-                                <Form.Label><FormattedMessage id="app.PhoneNumber" defaultMessage="Phone number" /></Form.Label> {/*TODO traducir*/}
+                                <Form.Label><FormattedMessage id="pasarela.PhoneNumber" defaultMessage="Phone number" /></Form.Label> {/*TODO traducir*/}
                                 <Form.Control
                                 type="number" 
                                 /> 
                             </Col>
                             <Col>
-                                <Form.Label><FormattedMessage id="app.ID" defaultMessage="ID" /></Form.Label> {/*TODO traducir*/}
+                                <Form.Label><FormattedMessage id="pasarela.ID" defaultMessage="ID" /></Form.Label> {/*TODO traducir*/}
                                 <Form.Control
                                 type="number" 
                                 /> 

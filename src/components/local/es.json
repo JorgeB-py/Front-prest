@@ -117,5 +117,19 @@
   "app.errorID": "El número de identificación solo debe contener dígitos.",
   "app.errorPhone": "El número de teléfono solo debe contener dígitos.",
   "app.errorEmail": "Por favor, ingresa un correo electrónico válido.",
-  "app.successMessage": "Cliente registrado con éxito"
+  "app.successMessage": "Cliente registrado con éxito",
+  "paserela.elige":"Hola, {nombreDeudor}. Elige cómo pagar la deuda \"{nombreDeuda}\"",
+  "pasarela.secure":"Tu pago está seguro y puedes cambiar cómo pagar en cualquier momento",
+  "pasarela.card":"Tarjeta de débito o crédito",
+  "pasarela.CardPayment":" Pago por tarjeta",
+    "pasarela.Interest":"Interés",
+    "pasarela.CardNumber":"Número de tarjeta",
+    "pasarela.FechaVencimiento":"Fecha de vencimiento",
+    "pasarela.SelectMonth":"Seleccione mes",
+    "pasarela.SelectYear":"Seleccione año",
+    "pasarela.NequiPayment": "Pago Nequi",
+    "pasarela.PhoneNumber":"Número de teléfono",
+    "pasarela.PSEPayment":"Pago PSE",
+    "pasarela.FullName":"Nombre completo",
+    "pasarela.ID":"CC"
   }

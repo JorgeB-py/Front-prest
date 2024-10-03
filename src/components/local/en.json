@@ -117,6 +117,19 @@
     "app.errorID": "ID number must contain only digits.",
     "app.errorPhone": "Phone number must contain only digits.",
     "app.errorEmail": "Please enter a valid email address.",
-     "app.successMessage": "Client registered successfully"
-
+    "app.successMessage": "Client registered successfully",
+    "paserela.elige":"Hi, {nombreDeudor}. Choose how to pay the \"{nombreDeuda}\" debt",
+    "pasarela.secure":"Your payment is secure and you can change how you pay at any time.",
+    "pasarela.card":"Debit or credit card",
+    "pasarela.CardPayment":"Card Payment",
+    "pasarela.Interest":"Interest",
+    "pasarela.CardNumber":"Card number",
+    "pasarela.FechaVencimiento":"Due date",
+    "pasarela.SelectMonth":"Select month",
+    "pasarela.SelectYear":"Select year",
+    "pasarela.NequiPayment": "Nequi Payment",
+    "pasarela.PhoneNumber":"Phone number",
+    "pasarela.PSEPayment":"PSE Payment",
+    "pasarela.FullName":"Full Name",
+    "pasarela.ID":"ID"
     }
