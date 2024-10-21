@@ -142,28 +142,20 @@ export default function CrearPrestamo(){
                                 </Form.Group>
                                 </Col>
                             </Row>
-                            <Container className="botones">
-                            <Row>
-                                <Col></Col>
-                                <Col>
+                            <div className="text-center">
+                                    <row>
                                     <Button className="btn buttom-general" type="submit">
-                                    <FormattedMessage id="crearPrestamo.titulo" />
+                                        <FormattedMessage id="crearPrestamo.titulo" />
                                     </Button>
-                                </Col>
-                                <Col></Col>
-                            </Row>
-                            </Container>
-                            <Container className="botones">
-                            <Row>
-                                <Col></Col>
-                                <Col>
-                                    <Link to="/deudores" className="btn buttom-regresar">
+                                    </row>
+                            </div>
+                            <div className="text-center">
+                                    <row>
+                                    <Link to="/infodeudor" className="btn buttom-regresar">
                                         <FormattedMessage id="crearPrestamo.volver" />
                                     </Link>
-                                </Col>
-                                <Col></Col>
-                            </Row>
-                            </Container>
+                                    </row>
+                            </div>
                         </Form>
                     </Col>
                 </Row>

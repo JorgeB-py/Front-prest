@@ -10,7 +10,7 @@ const DeudorInfo = ({ deudor, setShowModal }) => {
     //Renderizado condicional del botón de paz y salvo.
     const renderBalance = ({ deudor }) => {
       return (
-        <Button className="btn buttom-general" disabled={deudor.prestado !== 0} onClick={() => setShowConfirmationModal(true)}>
+        <Button className="btn buttom-general" disabled={deudor.getBalance() !== 0} onClick={() => setShowConfirmationModal(true)}>
           <FormattedMessage id="pazSalvo.tituloBotonCierre" />
         </Button>
       );

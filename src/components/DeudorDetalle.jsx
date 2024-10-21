@@ -149,6 +149,11 @@ export default function DeudorDetalle() {
         })
         }
     </Container>
+    <div className="text-center">
+      <Button className="btn buttom-general" onClick={() => navigate('/crearPrestamo')}>
+        <FormattedMessage id="app.crearPrestamoBoton" />
+      </Button>
+    </div>
     <Footer />
     <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>

@@ -203,5 +203,6 @@
     "app.ELnumero":"The phone number must have 10 digits" ,
     "app.ELID":"The ID must be between 6-9 digits",
     "app.Deudores":"Debtors",
-    "app.MiDinero":"My money"
+    "app.MiDinero":"My money",
+    "app.crearPrestamoBoton": "Create Loan"
     }

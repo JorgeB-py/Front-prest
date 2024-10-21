@@ -205,5 +205,6 @@
     "app.ELnumero":"El numero telefónico debe tener 10 digitos" ,
     "app.ELID":"El ID debe tener entre 6-9 digitos",
     "app.Deudores":"Deudores",
-    "app.MiDinero":"Mi Dinero"
+    "app.MiDinero":"Mi Dinero",
+    "app.crearPrestamoBoton": "Crear Préstamo"
   }
