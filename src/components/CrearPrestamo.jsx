@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Container, Col, Row } from 'react-bootstrap'; 
 import { Header } from './header';
@@ -20,7 +20,6 @@ export default function CrearPrestamo(){
         { name: intl.formatMessage({ id: 'nav.consultarDeudor' }), url: "/consultarcliente" },
     ];
 
-
     // Configuración del modal
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const handleCloseConfirmationModal = () => setShowConfirmationModal(false);
@@ -40,25 +39,31 @@ export default function CrearPrestamo(){
         cuotas: "",
         interes: "",
         valor_cuota: ""
-
     });
 
+    const [isFormValid, setIsFormValid] = useState(false);
+
+    // Manejar el cambio en los campos del formulario
     const handleChange = (e) => {
-        const { name, value} = e.target;
-        console.log(value);
+        const { name, value } = e.target;
         setPrestamo({
             ...prestamo,
             [name]: value
         });
-    }
+    };
+
+    // Revisar si el formulario está completamente llenado
+    useEffect(() => {
+        const isValid = Object.values(prestamo).every(field => field.trim() !== "");
+        setIsFormValid(isValid);
+    }, [prestamo]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(prestamo);
-        setShowConfirmationModal(true);
-    }
-
-
+        if (isFormValid) {
+            setShowConfirmationModal(true);
+        }
+    };
 
     return (
         <>
@@ -143,18 +148,17 @@ export default function CrearPrestamo(){
                                 </Col>
                             </Row>
                             <div className="text-center">
-                                    <row>
-                                    <Button className="btn buttom-general" type="submit">
-                                        <FormattedMessage id="crearPrestamo.titulo" />
-                                    </Button>
-                                    </row>
+                                <Button 
+                                    className="btn buttom-general" 
+                                    type="submit" 
+                                    disabled={!isFormValid}>
+                                    <FormattedMessage id="crearPrestamo.titulo" />
+                                </Button>
                             </div>
                             <div className="text-center">
-                                    <row>
-                                    <Link to="/infodeudor" className="btn buttom-regresar">
-                                        <FormattedMessage id="crearPrestamo.volver" />
-                                    </Link>
-                                    </row>
+                                <Link to="/infodeudor" className="btn buttom-regresar">
+                                    <FormattedMessage id="crearPrestamo.volver" />
+                                </Link>
                             </div>
                         </Form>
                     </Col>
@@ -164,24 +168,26 @@ export default function CrearPrestamo(){
         {/* Modal de confirmación de creación */}
         <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal} dialogClassName="modal-prest" centered>
             <Modal.Header>
-            <Modal.Title dialogClassName='text-center'><FormattedMessage id="crearPrestamo.tituloConfirmacion" /></Modal.Title>
+                <Modal.Title dialogClassName='text-center'>
+                    <FormattedMessage id="crearPrestamo.tituloConfirmacion" />
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body className='modal-body'>
-            <p><FormattedMessage id="crearPrestamo.confirmacion" /></p>
-            <ul>
-                <li><FormattedMessage id="crearPrestamo.nombre" />: {prestamo.nombre_prestamo}</li>
-                <li><FormattedMessage id="crearPrestamo.monto" />:{prestamo.monto}</li>
-                <li><FormattedMessage id="crearPrestamo.fechaPago" />: {prestamo.dia_pago}</li>
-                <li><FormattedMessage id="crearPrestamo.cuotas" />: {prestamo.cuotas}</li>
-                <li><FormattedMessage id="crearPrestamo.interes" />: {prestamo.interes}</li>
-                <li><FormattedMessage id="crearPrestamo.valorCuota" />: {prestamo.valor_cuota}</li>
-            </ul>
+                <p><FormattedMessage id="crearPrestamo.confirmacion" /></p>
+                <ul>
+                    <li><FormattedMessage id="crearPrestamo.nombre" />: {prestamo.nombre_prestamo}</li>
+                    <li><FormattedMessage id="crearPrestamo.monto" />: {prestamo.monto}</li>
+                    <li><FormattedMessage id="crearPrestamo.fechaPago" />: {prestamo.dia_pago}</li>
+                    <li><FormattedMessage id="crearPrestamo.cuotas" />: {prestamo.cuotas}</li>
+                    <li><FormattedMessage id="crearPrestamo.interes" />: {prestamo.interes}</li>
+                    <li><FormattedMessage id="crearPrestamo.valorCuota" />: {prestamo.valor_cuota}</li>
+                </ul>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="btn buttom-regresar" onClick={handleCloseConfirmationModal}>
                     <FormattedMessage id="crearPrestamo.aceptarConfirmacion" />
                 </Button>
-                <Button className="btn buttom-general" onClick={handleCloseConfirmationModal}>   
+                <Button className="btn buttom-general" onClick={handleCloseConfirmationModal}>
                     <FormattedMessage id="crearPrestamo.cancelarConfirmacion" />
                 </Button>
             </Modal.Footer>
@@ -189,5 +195,4 @@ export default function CrearPrestamo(){
         <Footer />
         </>
     );
-
 }
