@@ -22,7 +22,12 @@ export default function CrearPrestamo(){
 
     // Configuración del modal
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-    const handleCloseConfirmationModal = () => setShowConfirmationModal(false);
+    const handleCloseConfirmationFalseModal = () => setShowConfirmationModal(false);
+
+    const handleCloseConfirmationTrueModal = () => {
+        console.log(prestamo);
+        setShowConfirmationModal(false);
+    };
 
     // Datos de prueba
     const debtorData = {
@@ -76,7 +81,7 @@ export default function CrearPrestamo(){
                 <h2><FormattedMessage id="crearPrestamo.titulo" /></h2>
                 <Row className="justify-content-md-center">
                     <Col md={10}>
-                        <Form onSubmit={handleSubmit}>
+                        <Form onSubmit={handleSubmit} data-testid="create-loan-form">
                             <Row>
                                 <Col>
                                 <Form.Group controlId="nombre-prestamo">
@@ -166,7 +171,7 @@ export default function CrearPrestamo(){
             </div>
         </Container>
         {/* Modal de confirmación de creación */}
-        <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal} dialogClassName="modal-prest" centered>
+        <Modal show={showConfirmationModal} onHide={handleCloseConfirmationFalseModal} dialogClassName="modal-prest" data-testid="create-confirmation-modal" centered>
             <Modal.Header>
                 <Modal.Title dialogClassName='text-center'>
                     <FormattedMessage id="crearPrestamo.tituloConfirmacion" />
@@ -184,10 +189,10 @@ export default function CrearPrestamo(){
                 </ul>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="btn buttom-regresar" onClick={handleCloseConfirmationModal}>
+                <Button variant="btn buttom-regresar" onClick={handleCloseConfirmationTrueModal}>
                     <FormattedMessage id="crearPrestamo.aceptarConfirmacion" />
                 </Button>
-                <Button className="btn buttom-general" onClick={handleCloseConfirmationModal}>
+                <Button className="btn buttom-general" onClick={handleCloseConfirmationFalseModal}>
                     <FormattedMessage id="crearPrestamo.cancelarConfirmacion" />
                 </Button>
             </Modal.Footer>
