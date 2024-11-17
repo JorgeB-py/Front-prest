@@ -163,6 +163,7 @@ export default function DeudorApp() {
                     />
                     <Form.Label><FormattedMessage id="app.newInterest" defaultMessage="Interest" /></Form.Label>
                     <Form.Control
+                      aria-label='Interest'
                       type="number"
                       defaultValue={deudorData.interes}
                       onChange={(e) => setNewDeudorData({ ...newDeudorData, interes: parseFloat(e.target.value) })}
@@ -193,7 +194,7 @@ export default function DeudorApp() {
       {/* Modal para agregar pagos */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title><FormattedMessage id="app.addPayment" defaultMessage="Add payment" /></Modal.Title>
+          <Modal.Title><FormattedMessage id="app.addPayment" defaultMessage="Add pay" /></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -201,6 +202,7 @@ export default function DeudorApp() {
               <Form.Label><FormattedMessage id="app.capital" defaultMessage="Capital" /></Form.Label>
               <Form.Control
                 type="number"
+                aria-label='Capital'
                 defaultValue={newPayment.capital}
                 onChange={(e) => {
                   let value = parseFloat(e.target.value);
@@ -212,6 +214,7 @@ export default function DeudorApp() {
               <Form.Control
                 type="number"
                 defaultValue={newPayment.interest}
+                aria-label='Interest'
                 onChange={(e) => {
                   let value = parseFloat(e.target.value);
                   if (isNaN(value))value = 0;
@@ -220,6 +223,7 @@ export default function DeudorApp() {
               />
               <Form.Label><FormattedMessage id="app.totalPayment" defaultMessage="Total Payment" /></Form.Label>
               <Form.Control
+                aria-label='Total Payment'
                 type="number"
                 value={newPayment.totalPayment}
                 disabled
@@ -232,7 +236,7 @@ export default function DeudorApp() {
             <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
           </Button>
           <Button variant="primary" onClick={agregarPago}>
-            <FormattedMessage id="app.addPayment" defaultMessage="Add payment" />
+            <FormattedMessage id="app.addPayment" defaultMessage="Add" />
           </Button>
         </Modal.Footer>
       </Modal>

@@ -99,7 +99,7 @@ const DeudorInfo = ({ deudor, setShowModal }) => {
         </Col>
         <Col xs={12} md={"auto"}>
           {/* Botón para modificar el interés */}
-          <Button className="mt-3 btn-add" style={{display:'flex'}} onClick={() => setShowModal(true)}>
+          <Button id='button.editInfo' className="mt-3 btn-add" style={{display:'flex'}} onClick={() => setShowModal(true)}>
               <i className="bi bi-pencil-square"></i>&nbsp;
               <FormattedMessage id="app.editInfo" defaultMessage="Edit" /> {}
             </Button>

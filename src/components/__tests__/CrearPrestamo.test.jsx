@@ -3,7 +3,7 @@ import { fireEvent, waitFor } from "@testing-library/react";
 import { IntlProvider } from "react-intl";
 import { MemoryRouter } from 'react-router-dom';  
 import messages_es from '../local/es.json';
-import CrearPrestamo from "../crearPrestamo";
+import CrearPrestamo from "../CrearPrestamo";
 
 
 const messages = {
