@@ -75,7 +75,7 @@ export default function Landing() {
                             <Col md={6}>
                                 <Card className="h-100 shadow-lg rounded-4">
                                     <Card.Body className="text-center">
-                                        <img src="https://s3-alpha-sig.figma.com/img/9a56/46a5/2d74e667237a727f1854dd6b03572106?Expires=1728259200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fgTj2RLYlR6ASfbVYxgqk2Z9ZjYMvWo7LpVPfl6CdgfuMmXkmwVcQOfHVfOkiglCwC3uzAT2Rd3fYY6OObOnbB95PdFdP0kgPz5kRiGWgPtxYuoHI-A9sHH5Luted~1pCI617oih8kfyXHXiabkC~Jz3tJZoUY~T8T-GIs3Fkj59gJrlvcZEzFuIwdPDag43M208QI4eMdXzEU~ynOsObDJ2AIwYgilo80NNeET~Fglkf7PWnJLQcZpLY9nPUcy2vXt-qWWAuSrlDf3ev4ikB4v0qsRa3QUdfluK-3tMe7n9OgyscMIYvl68mAH~VhnpiN3IWgdxpiDdTjZ3woyN5w__" alt="Jeremías Valencia" className="img-fluid mb-4 rounded-circle" style={{width: '200px', height: '200px', objectFit: 'cover'}} />
+                                        <img src="https://plus.unsplash.com/premium_photo-1689977968861-9c91dbb16049?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm90byUyMGRlJTIwcGVyZmlsfGVufDB8fDB8fHww" alt="Jeremías Valencia" className="img-fluid mb-4 rounded-circle" style={{width: '200px', height: '200px', objectFit: 'cover'}} />
                                         <h4 className="mt-3 text-dark">Jeremías Valencia, 36 años, Fresno Tolima</h4>
                                         <p className="text-dark">Dile adiós a las hojas de cálculo sin orden, ahora tendrás control sobre lo que prestas</p>
                                     </Card.Body>
@@ -84,7 +84,7 @@ export default function Landing() {
                             <Col md={6}>
                                 <Card className="h-100 shadow-lg rounded-4">
                                     <Card.Body className="text-center">
-                                        <img src="https://s3-alpha-sig.figma.com/img/b515/0540/f46956e8e99cf771df40c450a3a55cf9?Expires=1728259200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=k6MwjEByYivelFP-NKyR33shBFUlRbtk5Hb2rKsdrCMOQqxItJINeghna71EQPfVRL50-HmJ~7ydoTDp1rH3H0dYfhbz27gR~VkjIeoArS2Ex3UZYGjMQhcgdgg5gfJDIOKlZ4qeu9H-pRaO1RQ4Ly0L6DoWxGDYgi3MifhtPp-CxGw8TQ08vzjENK0cozzzIWVwUylscLnvlizEfV9yKyCJXKhCdmkQTy9YUTTQP7uryFkBZOX5P6o4LwvqsAVKryHfZRKPpusV6dz7KBRltk0bxl7yYO1m2DDReqNXYcBqV1hpOOOHDe7gyZAItljLhHMWJyRHmjbfqyczQT~-CA__" alt="Juan Martínez" className="img-fluid mb-4 rounded-circle" style={{width: '200px', height: '200px', objectFit: 'cover'}} />
+                                        <img src="https://plus.unsplash.com/premium_photo-1689539137236-b68e436248de?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Juan Martínez" className="img-fluid mb-4 rounded-circle" style={{width: '200px', height: '200px', objectFit: 'cover'}} />
                                         <h4 className="mt-3 text-dark">Juan Martínez, 38 años, Bogotá DC.</h4>
                                         <p className="text-dark">Juan Martínez se quedó sin trabajo, ahora es un "gota a gota" no usurero.</p>
                                     </Card.Body>

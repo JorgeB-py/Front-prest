@@ -27,7 +27,7 @@ export default function Index() {
     const RenderCards = ({ nombre, fecha }) => {
         return (
             <Col>
-                <div className="card card-style" style={{ width: "15rem", height: "25rem" }}>
+                <div className="card card-style" data-testid="deudor-card" style={{ width: "15rem", height: "25rem" }}>
                     <img
                         src="./2148859448.jpg"
                         className="card-img-top"

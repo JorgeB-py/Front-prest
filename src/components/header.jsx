@@ -20,7 +20,7 @@ export function Header({ nav_links = [{ name: "Prestamista", url: "/login" }, { 
                         <Link className="nav-link" to="login">Entra</Link>
                     </Nav.Item>
                     <Nav.Item style={{padding:"20px"}}>
-                        <Button as={Link} to="/signup" variant="primary" className="button-empieza-landing" size="lg">Empieza ahora</Button>
+                        <Button data-testid="cta-button" as={Link} to="/signup" variant="primary" className="button-empieza-landing" size="lg">Empieza ahora</Button>
                     </Nav.Item>
                 </Nav>
             );
