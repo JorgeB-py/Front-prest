@@ -102,4 +102,56 @@ describe('Deudores', () => {
       expect(infoButton).toHaveTextContent('Información');
     });
   });
+  test('Debe calcular y mostrar el total correctamente', async () => {
+    render(
+      <MemoryRouter>
+        <IntlProvider locale={language} messages={messages[language]}>
+          <Deudores />
+        </IntlProvider>
+      </MemoryRouter>
+    );
+  
+    // Esperar que el total sea calculado
+    await waitFor(() => {
+      expect(screen.getByText('$5500')).toBeInTheDocument(); // Suma de los 10 pagos en el mock
+    });
+  });
+  test('Debe mostrar correctamente los enlaces de navegación', () => {
+    render(
+      <MemoryRouter>
+        <IntlProvider locale={language} messages={messages[language]}>
+          <Deudores />
+        </IntlProvider>
+      </MemoryRouter>
+    );
+  
+    // Verificar que los enlaces de navegación existen
+    expect(screen.getByText('Deudores')).toBeInTheDocument();
+    expect(screen.getByText('Crear Deudor')).toBeInTheDocument();
+    expect(screen.getByText('Consultar Deudor')).toBeInTheDocument();
+  });
+  test('Cada tarjeta tiene un botón accesible para información', async () => {
+    render(
+      <MemoryRouter>
+        <IntlProvider locale={language} messages={messages[language]}>
+          <Deudores />
+        </IntlProvider>
+      </MemoryRouter>
+    );
+  
+    const buttons = await screen.findAllByRole('link', { name: /Información/i });
+    expect(buttons.length).toBe(10); // Un botón por tarjeta
+  });
+  test('Debe coincidir con el snapshot', () => {
+    const { asFragment } = render(
+      <MemoryRouter>
+        <IntlProvider locale={language} messages={messages[language]}>
+          <Deudores />
+        </IntlProvider>
+      </MemoryRouter>
+    );
+  
+    expect(asFragment()).toMatchSnapshot();
+  });
+        
 });

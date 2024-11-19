@@ -3,35 +3,18 @@ import { MemoryRouter } from 'react-router-dom';
 import DeudorApp from '../deudorApp';  // Importa tu componente
 import '@testing-library/jest-dom';  // Para las aserciones de jest-dom
 import { IntlProvider } from 'react-intl'; // Importar para la internacionalización
+import messages_en from '../local/en.json';
 
-// Definir un idioma de prueba (puedes añadir más si es necesario)
 const messages = {
-  "app.Deudores": "Deudores",
-  "app.MiDinero": "My Money",
-  "app.recents": "Recents",
-  "app.addPayment": "Add payment",
-  "app.capital": "Capital",
-  "app.interest": "Interest",
-  "app.totalPayment": "Total Payment",
-  "app.cancel": "Cancel",
-  "app.save": "Save",
-  "app.editInfo": "Edit Info",
-  "app.startDate": "Start Date",
-  "app.dueDate": "Due Date",
-  "app.newLoan": "Total Loan",
-  "app.newInterest": "Interest",
-  "app.paymentFrequency": "Payment Frequency",
-  "app.Semanal": "Weekly",
-  "app.Quincenal": "Biweekly",
-  "app.Mensual": "Monthly",
-  "app.November": "November"
+  es: messages_en,
 };
+const language = 'en';
 
 describe('DeudorApp', () => {
     beforeEach(() => {
         render(
             <MemoryRouter>
-                <IntlProvider locale="en" messages={messages.en}>
+                <IntlProvider locale={language} messages={messages[language]}>
                     <DeudorApp />
                 </IntlProvider>
             </MemoryRouter>
@@ -44,6 +27,30 @@ describe('DeudorApp', () => {
     expect(screen.getByText("Deudores")).toBeInTheDocument();
     expect(screen.getByText("Recents")).toBeInTheDocument();
   });
+  test('Debe cargar los datos iniciales del deudor correctamente', async () => {
+    expect(screen.getByText("Joseph")).toBeInTheDocument();
+    expect(screen.getByText("$ 100,000")).toBeInTheDocument();
+    expect(screen.getByText("5%")).toBeInTheDocument();
+  });
+  
+  test('Debe mostrar un historial de pagos vacío al inicio', () => {
+    expect(screen.getByText("Recents")).toBeInTheDocument();
+    expect(screen.queryByText("2024-11-19")).not.toBeInTheDocument();
+  });
+
+  test('Debe actualizar el balance después de agregar un pago', () => {
+    fireEvent.click(screen.getByText("Add payment"));
+  
+    fireEvent.change(screen.getByLabelText("Capital"), { target: { value: '1000' } });
+    fireEvent.change(screen.getByLabelText("Interest"), { target: { value: '50' } });
+    
+    fireEvent.click(screen.getByText("Add"));
+  
+    // Verificar que el balance haya cambiado
+    expect(screen.getByText("$1,000")).toBeInTheDocument();
+  });
+  
+  
 
   test('Abrir y cerrar el modal de pago', () => {
     
