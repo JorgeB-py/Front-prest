@@ -15,6 +15,8 @@ import ListaCreditos from "./listaCreditos";
 import VisualizarTransacciones from "./visualizarTransacciones";
 import Pasarela from "./Pasarela";
 import CrearPrestamo from "./CrearPrestamo";
+import PerfilPrestamista from "./PerfilPrestamista";
+import PerfilDeudor from "./PerfilDeudor";
 
 export default function App() {
     const nav_links = [
@@ -32,7 +34,9 @@ export default function App() {
         { url:"consultarcliente", component: ConsultarCliente},
         { url: "creditos", component: ListaCreditos }, 
         { url: "visualizar-transacciones/:id", component: VisualizarTransacciones },
-        { url: "crearPrestamo", component: CrearPrestamo}
+        { url: "crearPrestamo", component: CrearPrestamo},
+        { url: "perfilPrestamista", component: PerfilPrestamista },
+        { url: "perfilDeudor", component: PerfilDeudor },
 
     ];
     return (

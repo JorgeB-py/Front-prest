@@ -60,6 +60,7 @@
     "app.October": "October",
     "app.November": "November",
     "app.December": "December",
+    "app.ProfileInfo": "Profile Information",
     "app.Mo": "Mo",
     "app.Tu": "Tu",
     "app.We": "We",
@@ -195,6 +196,11 @@
     "resumen.nombre": "Name",
     "resumen.apellido": "Last Name",
     "resumen.identificacion": "Identification",
+    "resumen.direccion": "Address",
+    "resumen.telefono": "Phone number",
+    "resumen.email": "Email",
+    "resumen.ocupacion": "Occupation",
+    "resumen.puntuacion": "Score",
     "resumen.deudaActual": "Current Debt",    
     "app.MyCredits":"My Credits",
     "app.TodosLosCampos":"All fields are not complete",
@@ -204,8 +210,5 @@
     "app.ELID":"The ID must be between 6-9 digits",
     "app.Deudores":"Debtors",
     "app.MiDinero":"My money",
-    "app.crearPrestamoBoton": "Create Loan",
-    "app.november":"November",
-    "app.monthly":"Monthly",
-    "app.su":"Su"
+    "app.crearPrestamoBoton": "Create Loan"
     }

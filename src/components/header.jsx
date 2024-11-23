@@ -9,7 +9,7 @@ export function Header({ nav_links = [{ name: "Prestamista", url: "/login" }, { 
             return (
                 <Nav className="ms-auto">
                     <Nav.Item>
-                        <Button as={Link} to="/perfil" variant="primary" className="button-empieza-landing" size="lg">{usuario}</Button>
+                        <Button as={Link} to="/perfilPrestamista" variant="primary" className="button-empieza-landing" size="lg">{usuario}</Button>
                     </Nav.Item>
                 </Nav>
             );
