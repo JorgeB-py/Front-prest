@@ -90,7 +90,7 @@ const DeudorInfo = ({ deudor, setShowModal }) => {
         <Col xs={12} md={3}>
           <Row className="my-3">
             <h4 className="mb-0"><FormattedMessage id="app.paymentFrequency" defaultMessage="Frecuencia de Pago" /></h4>
-            <p className="text-primary mb-0 value-data">{frecuenciaPago}</p> {/*//TODO traducir*/}
+            <p className="text-primary mb-0 value-data"  data-testid="interest-value">{frecuenciaPago}</p> {/*//TODO traducir*/}
           </Row>
           <Row className="my-3">
             <h4 className="mb-0"><FormattedMessage id="app.debtState" defaultMessage="Estado de la Deuda" /></h4>

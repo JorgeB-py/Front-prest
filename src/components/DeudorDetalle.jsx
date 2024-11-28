@@ -93,7 +93,14 @@ export default function DeudorDetalle() {
                 </Row>
                 <Row>
                     <Col md={1}><i class="bi bi-briefcase"></i></Col>
-                    <Col> <span className="Big font"><FormattedMessage id="app.WorkStatus" defaultMessage="Work Status" />: </span> <span className='situacionLaboral'>{deudor.situacionLaboral==="Empleado" ? <FormattedMessage id="app.Empleado" defaultMessage="Empleado" /> :<FormattedMessage id="app.Desempleado" defaultMessage="Desempleado" />} </span></Col>   
+                    <Col> 
+                      <span className="Big font">
+                        <FormattedMessage id="app.WorkStatus" defaultMessage="Work Status" />: 
+                      </span>
+                      <span className='situacionLaboral'>
+                        {deudor.situacionLaboral==="Empleado" ? <FormattedMessage id="app.Empleado" defaultMessage="Empleado" /> :<FormattedMessage id="app.Desempleado" defaultMessage="Desempleado" />} 
+                      </span>
+                    </Col>   
                 </Row>
                 
             </Col>
@@ -113,9 +120,9 @@ export default function DeudorDetalle() {
                 
             </Col>
             <Col className="d-flex flex-column align-items-center align-self-center">
-                <span className="rounded-pill">
-                    <i className="bi bi-pencil-square edit-button" style={{ fontSize: '1.5rem',cursor:'pointer' }} onClick={()=>{setDeudorEdited({...deudor});setShowEditModal(true)}}></i>
-                </span>
+                <button className="rounded-pill" aria-label="Edit Info" onClick={()=>{setDeudorEdited({...deudor});setShowEditModal(true)}}>
+                    <i className="bi bi-pencil-square edit-button" style={{ fontSize: '1.5rem',cursor:'pointer' }}></i>
+                </button>
                 <p>&nbsp;</p> {/* Placeholder to maintain the same height */}
             </Col>
         </Row>
@@ -140,9 +147,9 @@ export default function DeudorDetalle() {
             </Col>
             <Col lg={1}>
                 
-            <span className="eye-button" onClick={() => navigate('/deudorApp')}>
+            <button aria-label="Show Details" className="eye-button" onClick={() => navigate('/deudorApp')}>
                 <i className="bi bi-eye"></i>
-            </span>
+            </button>
             </Col> 
         </Row>
         </Container>
@@ -161,39 +168,55 @@ export default function DeudorDetalle() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group>
+            <Form.Group controlId='name'>
               <Form.Label><FormattedMessage id="app.name" defaultMessage="" /></Form.Label>
               <Form.Control
                 type="text"
+                aria-label='name'
                 defaultValue={deudor.nombre}
                 onChange={(e)=>setDeudorEdited({...deudorEdited,nombre:e.target.value})}
               />
+            </Form.Group>
+            <Form.Group controlId='idNumber'>
               <Form.Label><FormattedMessage id="app.idNumber" defaultMessage="" /></Form.Label>
               <Form.Control
+                aria-label='idNumber'
                 type="text"
                 defaultValue={deudor.numeroDocumento}
                 onChange={(e)=>setDeudorEdited({...deudorEdited,numeroDocumento:e.target.value})}
               />
+            </Form.Group>
+            <Form.Group controlId='workStatus'>
               <Form.Label><FormattedMessage id="app.WorkStatus" defaultMessage="" /></Form.Label>
               <Form.Control
+                aria-label='workStatus'
                 type="text"
                 defaultValue={deudor.situacionLaboral}
                 onChange={(e)=>setDeudorEdited({...deudorEdited,situacionLaboral:e.target.value})}
               />
+            </Form.Group>
+            <Form.Group controlId='age'>
               <Form.Label><FormattedMessage id="app.Age" defaultMessage="" /></Form.Label>
               <Form.Control
+                aria-label='age'
                 type="text"
                 defaultValue={deudor.edad}
                 onChange={(e)=>setDeudorEdited({...deudorEdited,edad:e.target.value})}
               />
+            </Form.Group>
+            <Form.Group controlId='phoneNumber'>
               <Form.Label><FormattedMessage id="pasarela.PhoneNumber" defaultMessage="" /></Form.Label>
               <Form.Control
-                type="text"
+                aria-label='phoneNumber'
+                type="phoneNumber"
                 defaultValue={deudor.telefono}
                 onChange={(e)=>setDeudorEdited({...deudorEdited,telefono:e.target.value})}
               />
+              </Form.Group>
+              <Form.Group controlId='email'>
               <Form.Label><FormattedMessage id="app.email" defaultMessage="" /></Form.Label>
               <Form.Control
+                aria-label='email'
                 type="text"
                 defaultValue={deudor.email}
                 onChange={(e)=>setDeudorEdited({...deudorEdited,email:e.target.value})}
