@@ -19,21 +19,21 @@ export default function DeudorApp() {
     interes: 5,
     frecuenciaPago: 'Semanal',
     state: 'Mora',
-    totalInterest:function (){
-      return this.prestado*(this.interes/100);
+    totalInterest: function () {
+      return this.prestado * (this.interes / 100);
     },
-    getBalance:function (){
-      return this.prestado+this.totalInterest()
+    getBalance: function () {
+      return this.prestado + this.totalInterest()
     }
   });
 
-    // Datos de prueba para la  HU11
-    const debtorDataTest = {
-      nombre: "Armando",
-      fechaVencimiento: "3/21/2024",
-      prestado: 0,
-      interes: 5,
-      fechaPago: "2024/03/22"
+  // Datos de prueba para la  HU11
+  const debtorDataTest = {
+    nombre: "Armando",
+    fechaVencimiento: "3/21/2024",
+    prestado: 0,
+    interes: 5,
+    fechaPago: "2024/03/22"
   };
 
   const [newDeudorData, setNewDeudorData] = useState(0);
@@ -44,18 +44,18 @@ export default function DeudorApp() {
   const [showModalInteres, setShowModalInteres] = useState(false); // Estado para controlar el modal de modificar interés
   // Estado para modificar el interés del deudor
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
-    .then((response) => response.json())
-    .then((data) => {
-      setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
-      //Cambiar a setDeudorData(debtorDataTest) para probar el modal de la HU11.
-      setHistorialPagos([
-        { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:0}
-      ]);
-    })
-  }, []);
+  //   fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
+  //     //Cambiar a setDeudorData(debtorDataTest) para probar el modal de la HU11.
+  //     setHistorialPagos([
+  //       { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:0}
+  //     ]);
+  //   })
+  // }, []);
 
   useEffect(() => {
     if (!showModalInteres) {
@@ -69,20 +69,20 @@ export default function DeudorApp() {
     }
     if (!showModal) {
       setNewPayment({
-        capital:0,
-        interes:0,
-        totalPayment:0
+        capital: 0,
+        interes: 0,
+        totalPayment: 0
       })
     }
-    if (historialPagos.length>0){
+    if (historialPagos.length > 0) {
       setDeudorData({
         ...deudorData,
-        getBalance:function(){
-          return historialPagos[historialPagos.length-1].balance
+        getBalance: function () {
+          return historialPagos[historialPagos.length - 1].balance
         }
       })
     }
-  }, [showModalInteres,showModal,historialPagos])
+  }, [showModalInteres, showModal, historialPagos])
 
   // Links de navegación
   const nav_links = [
@@ -98,7 +98,7 @@ export default function DeudorApp() {
       fecha: new Date().toISOString().split('T')[0], // Fecha actual
       capital: newPayment.capital,
       interest: newPayment.interest,
-      totalPayment:newPayment.totalPayment,
+      totalPayment: newPayment.totalPayment,
       balance: nuevoBalance,
     };
     // Usar setHistorialPagos con una nueva copia del arreglo (sin mutarlo)
@@ -142,25 +142,32 @@ export default function DeudorApp() {
         <Modal.Body>
           <Container className='mt-0'>
             <Form>
-              <Form.Group> {/*// TODO Traducir */}
-                <Row className='mt-0'>
-                  <Col md={6}>
+              {/*// TODO Traducir */}
+              <Row className='mt-0'>
+                <Col md={6}>
+                  <Form.Group controlId="Start Date">
                     <Form.Label><FormattedMessage id="app.startDate" defaultMessage="Start Date" /></Form.Label>
                     <Calendar defaultValue={deudorData.fechaInicio} onChange={(value) => { setNewDeudorData({ ...newDeudorData, fechaInicio: value }) }} />
-                  </Col>
-                  <Col md={6}>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="Due Date">
                     <Form.Label><FormattedMessage id="app.dueDate" defaultMessage="Due Date" /></Form.Label>
-                    <Calendar defaultValue={deudorData.fechaVencimiento} onChange={(value) => { setNewDeudorData({ ...newDeudorData, fechaVencimiento: value }) }} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={12}>
+                    <Calendar id="Start Due" defaultValue={deudorData.fechaVencimiento} onChange={(value) => { setNewDeudorData({ ...newDeudorData, fechaVencimiento: value }) }} />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={12}>
+                  <Form.Group controlId="Total Loan">
                     <Form.Label><FormattedMessage id="app.newLoan" defaultMessage="Total Loan" /></Form.Label>
                     <Form.Control
                       type="number"
                       defaultValue={deudorData.prestado}
                       onChange={(e) => setNewDeudorData({ ...newDeudorData, prestado: parseFloat(e.target.value) })}
                     />
+                  </Form.Group>
+                  <Form.Group controlId="Interest">
                     <Form.Label><FormattedMessage id="app.newInterest" defaultMessage="Interest" /></Form.Label>
                     <Form.Control
                       aria-label='Interest'
@@ -168,31 +175,33 @@ export default function DeudorApp() {
                       defaultValue={deudorData.interes}
                       onChange={(e) => setNewDeudorData({ ...newDeudorData, interes: parseFloat(e.target.value) })}
                     />
+                  </Form.Group>
+                  <Form.Group controlId="Payment Frequency">
                     <Form.Label><FormattedMessage id="app.paymentFrequency" defaultMessage="Payment Frequency" /></Form.Label>
-                    <select className="form-select" aria-label="Default select example" defaultValue={deudorData.frecuenciaPago} onChange={(e) => { setNewDeudorData({ ...newDeudorData, frecuenciaPago: e.target.value }) }}> {/*//TODO Traducir */}
+                    <select className="form-select" aria-label="Payment Frequency" defaultValue={deudorData.frecuenciaPago} onChange={(e) => { setNewDeudorData({ ...newDeudorData, frecuenciaPago: e.target.value }) }}> {/*//TODO Traducir */}
                       <option value="Semanal"><FormattedMessage id="app.Semanal" defaultMessage="Semanal" /></option>
                       <option value="Quincenal"><FormattedMessage id="app.Quincenal" defaultMessage="Quincenal" /></option>
                       <option value="Mensual"><FormattedMessage id="app.Mensual" defaultMessage="Mensual" /></option>
                     </select>
-                  </Col>
-                </Row>
+                  </Form.Group>
+                </Col>
+              </Row>
+          </Form>
+        </Container>
+      </Modal.Body>
+      <Modal.Footer style={{ borderTop: 'none' }} >
+        <Button variant="secondary" onClick={() => setShowModalInteres(false)}>
+          <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
+        </Button>
+        <Button variant="primary" onClick={actualizarDeudorData}>
+          <FormattedMessage id="app.save" defaultMessage="Save" />
+        </Button>
+      </Modal.Footer>
+    </Modal >
 
-              </Form.Group>
-            </Form>
-          </Container>
-        </Modal.Body>
-        <Modal.Footer style={{ borderTop: 'none' }} >
-          <Button variant="secondary" onClick={() => setShowModalInteres(false)}>
-            <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
-          </Button>
-          <Button variant="primary" onClick={actualizarDeudorData}>
-            <FormattedMessage id="app.save" defaultMessage="Save" />
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Modal para agregar pagos */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      {/* Modal para agregar pagos */ }
+      < Modal show = { showModal } onHide = {() => setShowModal(false)
+}>
         <Modal.Header closeButton>
           <Modal.Title><FormattedMessage id="app.addPayment" defaultMessage="Add pay" /></Modal.Title>
         </Modal.Header>
@@ -239,7 +248,7 @@ export default function DeudorApp() {
             <FormattedMessage id="app.addPayment" defaultMessage="Add" />
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal >
     </>
   );
 }

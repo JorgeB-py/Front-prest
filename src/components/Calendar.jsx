@@ -68,7 +68,7 @@ export default function Calendar({defaultValue,onChange}) {
         try{
             el.target.parentElement.querySelector('.day-selected-calendar').classList.remove('day-selected-calendar')
         }catch{}
-        const day = Number(el.target.innerText)
+        const day = Number(el.target.textContent)
         const newDate = new Date(year,month-1,day)
         setDate(newDate);
         onChange(newDate);
@@ -128,7 +128,6 @@ export default function Calendar({defaultValue,onChange}) {
         }
         return ()=>{
             try{
-                console.log(contentDaysDiv)
                 contentDaysDiv.current.querySelector('.day-selected-calendar').classList.remove('day-selected-calendar')
             }catch{}
         }
@@ -136,12 +135,12 @@ export default function Calendar({defaultValue,onChange}) {
 
     return (
         <div className="calendar-picker">
-            <button type="Button" className={"button-root-calendar"+(textDate?" selected-calendar":"")} onClick={showHideCalendar}><i className="bi bi-calendar"></i>{textDate?textDate:"Selecciona una fecha"}</button>
-            <div className="calendar-root" hidden={isHidden}>
+            <button type="Button" aria-label="Select a date" className={"button-root-calendar"+(textDate?" selected-calendar":"")} onClick={showHideCalendar}><i className="bi bi-calendar"></i>{textDate?textDate:"Selecciona una fecha"}</button>
+            <div className="calendar-root" hidden={isHidden} data-testid="calendar-dropdown">
                 <div className="calendar-header">
-                    <button type="Button" className="button-calendar" onClick={beforeMonth}><i className="bi bi-chevron-left"></i></button>
+                    <button type="Button" aria-label="Before" className="button-calendar" onClick={beforeMonth}><i className="bi bi-chevron-left"></i></button>
                     <span className="title-calendar">{MONTHS[month - 1]} {year}</span>
-                    <button type="Button" className="button-calendar" onClick={nextMonth}><i className="bi bi-chevron-right"></i></button>
+                    <button type="Button" aria-label="Next" className="button-calendar" onClick={nextMonth}><i className="bi bi-chevron-right"></i></button>
                 </div>
                 <div className="content-calendar" ref={contentDaysDiv}>{DAYS_NAMES.map((el) => { return <span className="title-day">{el}</span> })}{daysArray}</div>
             </div>

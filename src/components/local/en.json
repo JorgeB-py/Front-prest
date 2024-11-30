@@ -210,5 +210,8 @@
     "app.ELID":"The ID must be between 6-9 digits",
     "app.Deudores":"Debtors",
     "app.MiDinero":"My money",
-    "app.crearPrestamoBoton": "Create Loan"
+    "app.crearPrestamoBoton": "Create Loan",
+    "app.november":"November",
+    "app.monthly":"Monthly",
+    "app.su":"Su"
     }
