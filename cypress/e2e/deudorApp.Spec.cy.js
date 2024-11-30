@@ -1,13 +1,18 @@
 describe('Exploration of the crearPrestamo component', () => {
     beforeEach(()=>{
-      cy.visit('http://localhost:3000')
-      cy.get('a.nav-link').contains('Entra').click()
-      cy.get('input#form3Example3').type('testuser@gmail.com')
-      cy.get('input#form3Example4').type('12345678')
-      cy.get('button.btn.btn-primary.btn-lg.me-2').click()
-      cy.get('a[href*="/infodeudor"]').contains('Información').first().click()
-      cy.get('span.eye-button').first().click()
-      cy.wait(500)
+      cy.visit('http://localhost:3000/deudorApp')
+    })
+
+    it('Añadir pago y confirmar cambio intereses y capital', () => {
+      cy.get('button').contains('Añadir pago').click()
+      cy.get('div.modal-content').should('be.visible')
+      cy.get('input[aria-label="Capital"]').type(3000)
+      cy.get('input[aria-label="Interest"]').type(1000)
+      cy.get('input[aria-label="Total Payment"]').should('have.value', 4000)
+      cy.get('div.modal-content')
+        .contains('button', 'Añadir pago')
+        .click();
+      cy.get('div.modal-content').should('not.exist')
     })
 
     it('Cerrar prestamo button is enabled if balance equals 0', () => {
