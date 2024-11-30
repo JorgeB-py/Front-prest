@@ -1,22 +1,58 @@
 import React from 'react';
 import { Header } from './header';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import './styles/Index.css';
 import { Footer } from './footer';
 import { FormattedMessage } from 'react-intl';
+import { useEffect } from 'react';
 
 export default function Index() {
     const [total, setTotal] = React.useState(0);
     const [deudores, setDeudores] = React.useState([]);
+    const [filteredDeudores, setFilteredDeudores] = React.useState([]);
+    const [searchTerm, setSearchTerm] = React.useState("");
 
-    React.useEffect(() => {
-        fetch("https://my.api.mockaroo.com/pago_intereses.json?key=b93c22a0")
-            .then((response) => response.json())
-            .then((data) => {
-                setDeudores(data);
-                setTotal(data.reduce((acc, deudor) => acc + deudor.pago_intereses, 0));
-            });
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            fetch("http://localhost:3000/deudor", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setDeudores(data);
+                    setFilteredDeudores(data);
+                    setTotal(data.reduce((acc, deudor) => acc + deudor.pago_intereses, 0));
+                })
+                .catch((error) => {
+                    console.error('Error al obtener los deudores:', error);
+                });
+        } else {
+            console.error('No hay token disponible');
+        }
     }, []);
+
+    // Función para manejar el cambio en el input de búsqueda
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+
+        // Filtrar deudores por nombre
+        if (value) {
+            const filtered = deudores.filter(deudor =>
+                deudor.nombrecompleto.toLowerCase().includes(value.toLowerCase())
+            );
+            setFilteredDeudores(filtered);
+        } else {
+            setFilteredDeudores(deudores);
+        }
+    };
+
     const nav_links = [
         { name: "Deudores", url: "/deudores" },
         { name: "Crear Deudor", url: "/crearcliente" },
@@ -36,18 +72,14 @@ export default function Index() {
                     />
                     <div className="card-body" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                         <h5 className="card-title">{nombre}</h5>
-                        <p className="card-text">
-                            <FormattedMessage id="app.Modified" defaultMessage="Modified" />: {fecha}
-                        </p>
                         <a href="/infodeudor" className="btn btn-primary">
                             <FormattedMessage id="app.information" defaultMessage="Information" />
                         </a>
                     </div>
                 </div>
             </Col>
-
-        )
-    }
+        );
+    };
 
     return (
         <>
@@ -56,28 +88,21 @@ export default function Index() {
                 <h1 style={{ textAlign: 'left' }}><FormattedMessage id="app.welcome" defaultMessage="Welcome" />, Jorge</h1>
                 <h3><FormattedMessage id="app.thismonth" defaultMessage="This month you have earned" /></h3>
                 <h2 style={{ color: "#004AAC" }}>${total}</h2>
-                <Col className='filtros'>
-                    <Row>
-                        <Col className='col'>
-                            <a> &gt;1 <FormattedMessage id="app.year" defaultMessage="year" /></a>
-                        </Col>
-                        <Col className='col'>
-                            <a>6 <FormattedMessage id="app.months" defaultMessage="months" /></a>
-                        </Col>
-                        <Col className='col'>
-                            <a>3 <FormattedMessage id="app.months" defaultMessage="months" /></a>
-                        </Col>
-                        <Col className='col'>
-                            <a>1 <FormattedMessage id="app.month" defaultMessage="month" /></a>
-                        </Col>
-                    </Row>
-                </Col>
+                
+                {/* Filtro por nombre */}
+                <Form.Control
+                    type="text"
+                    placeholder="Buscar por nombre"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    style={{ marginTop: '20px' }}
+                />
             </Container>
             <Container>
                 <Row style={{ padding: "50px" }}>
                     {
-                        deudores.map((deudor, index) => (
-                            <RenderCards key={index} nombre={deudor.nombre} fecha={deudor.fecha}></RenderCards>
+                        filteredDeudores.map((deudor, index) => (
+                            <RenderCards key={index} nombre={deudor.nombrecompleto}></RenderCards>
                         ))
                     }
                 </Row>
