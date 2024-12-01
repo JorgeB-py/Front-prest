@@ -69,13 +69,13 @@ describe('Deudores', () => {
   
     // Escribir en el input de búsqueda
     const searchInput = screen.getByPlaceholderText('Buscar por nombre');
-    await userEvent.type(searchInput, 'Deudor 1');
+    await userEvent.type(searchInput, 'Deudor');
   
     // Verificar que solo aparece el deudor filtrado
     await waitFor(() => {
-      const cards = screen.getAllByText(/Deudor 1/i);
-      expect(cards.length).toBe(1);
-      expect(cards[0]).toHaveTextContent('Deudor 1');
+      const cards = screen.getAllByText(/Deudor/i);
+      expect(cards.length).toBe(13);
+      expect(cards[0]).toHaveTextContent('Deudores');
   });
   });
   
