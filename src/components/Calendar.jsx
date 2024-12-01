@@ -120,6 +120,9 @@ export default function Calendar({defaultValue,onChange}) {
             setMonth(newDate.getMonth() + 1);
             setYear(newDate.getFullYear());
         }
+        return ()=>{
+            setDaysArray([]);
+        }
     },[])
 
     useEffect(() => {
@@ -132,18 +135,17 @@ export default function Calendar({defaultValue,onChange}) {
             }catch{}
         }
     }, [month])
-
     return (
         <div className="calendar-picker">
             <button type="Button" aria-label="Select a date" className={"button-root-calendar"+(textDate?" selected-calendar":"")} onClick={showHideCalendar}><i className="bi bi-calendar"></i>{textDate?textDate:"Selecciona una fecha"}</button>
-            <div className="calendar-root" hidden={isHidden} data-testid="calendar-dropdown">
+            {isHidden?undefined:<div className="calendar-root" data-testid="calendar-dropdown">
                 <div className="calendar-header">
                     <button type="Button" aria-label="Before" className="button-calendar" onClick={beforeMonth}><i className="bi bi-chevron-left"></i></button>
                     <span className="title-calendar">{MONTHS[month - 1]} {year}</span>
                     <button type="Button" aria-label="Next" className="button-calendar" onClick={nextMonth}><i className="bi bi-chevron-right"></i></button>
                 </div>
                 <div className="content-calendar" ref={contentDaysDiv}>{DAYS_NAMES.map((el) => { return <span className="title-day">{el}</span> })}{daysArray}</div>
-            </div>
+            </div>}
         </div>
     )
 }

@@ -21,8 +21,6 @@ describe('DeudorApp', () => {
         );
     });
   test('Debe renderizar correctamente el componente', () => {
-    
-    
     // Verificar que los textos clave se rendericen
     expect(screen.getByText("Deudores")).toBeInTheDocument();
     expect(screen.getByText("Recents")).toBeInTheDocument();
