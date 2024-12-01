@@ -44,18 +44,35 @@ export default function DeudorApp() {
   const [showModalInteres, setShowModalInteres] = useState(false); // Estado para controlar el modal de modificar interés
   // Estado para modificar el interés del deudor
 
-  // useEffect(() => {
-
-  //   fetch("https://my.api.mockaroo.com/deudor_app.json?key=70f6caa0")
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     setDeudorData({...deudorData,...data,fechaInicio:new Date(data.fechaInicio),fechaVencimiento:new Date(data.fechaVencimiento)});
-  //     //Cambiar a setDeudorData(debtorDataTest) para probar el modal de la HU11.
-  //     setHistorialPagos([
-  //       { fecha: '2024-08-15', capital: 0, interest: 0, totalPayment:0,balance:0}
-  //     ]);
-  //   })
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const deudorId = localStorage.getItem('deudorId');
+    if (!deudorId) {
+      console.error('No hay deudorId disponible');
+    } else {
+      if (token) {
+        fetch(`http://localhost:3000/deudor/${deudorId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setDeudorData(data);
+            console.log(deudorData)
+            setHistorialPagos(data.prestamos.historialpagos);
+          })
+          .catch((error) => {
+            console.error('Error al obtener los deudores:', error);
+          });
+      } else {
+        console.error('No hay token disponible');
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!showModalInteres) {

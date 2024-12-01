@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Deudores Debe coincidir con el snapshot 1`] = `
+exports[`Deudores Component Debe coincidir con el snapshot 1`] = `
 <DocumentFragment>
   <nav
     class="custom-navbar navbar navbar-expand-lg navbar-light"

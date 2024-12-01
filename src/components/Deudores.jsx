@@ -16,19 +16,21 @@ export default function Index() {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
+        const prestamistaId = 1;
+
         if (token) {
-            fetch("http://localhost:3000/deudor", {
+            fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Enviar el token en el encabezado
+                    'Authorization': `Bearer ${token}`,
                 },
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    setDeudores(data);
-                    setFilteredDeudores(data);
-                    setTotal(data.reduce((acc, deudor) => acc + deudor.pago_intereses, 0));
+                    setDeudores(data.deudores);
+                    setFilteredDeudores(data.deudores);
+                    setTotal(data.interesesGanados);
                 })
                 .catch((error) => {
                     console.error('Error al obtener los deudores:', error);
@@ -61,7 +63,11 @@ export default function Index() {
     ];
     const nombre_usuario = "Jorge";
 
-    const RenderCards = ({ nombre, fecha }) => {
+    const handleSendId = (e, id) => {
+        localStorage.setItem('deudorId', id);
+    }
+
+    const RenderCards = ({ deudor }) => {
         return (
             <Col>
                 <div className="card card-style" data-testid="deudor-card" style={{ width: "15rem", height: "25rem" }}>
@@ -72,9 +78,9 @@ export default function Index() {
                         style={{ height: "200px", objectFit: "cover" }} // Ajusta el tamaño de la imagen
                     />
                     <div className="card-body" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                        <h5 className="card-title">{nombre}</h5>
-                        <p className="card-text">{fecha}</p>
-                        <a href="/infodeudor" className="btn btn-primary">
+                        <h5 className="card-title">{deudor.nombrecompleto}</h5>
+                        <p className="card-text">{deudor.fecha}</p>
+                        <a href="/infodeudor" className="btn btn-primary" onClick={(e) => handleSendId(e, deudor.id)}>
                             <FormattedMessage id="app.information" defaultMessage="Information" />
                         </a>
                     </div>
@@ -104,7 +110,7 @@ export default function Index() {
                 <Row style={{ padding: "50px" }}>
                     {
                         filteredDeudores.map((deudor, index) => (
-                            <RenderCards key={index} nombre={deudor.nombrecompleto} fecha={deudor.fecha}></RenderCards>
+                            <RenderCards key={index} deudor={deudor}></RenderCards>
                         ))
                     }
                 </Row>

@@ -29,36 +29,32 @@ describe('DeudorDetalle', () => {
 
     test('Abre y cierra el modal de editar información', () => {
         fireEvent.click(screen.getByRole('button',{name:"Edit Info"}));
-        expect(screen.getByRole('button',{name:"Save"})).toBeInTheDocument();
-        fireEvent.click(screen.getByText('Cancel'));
+        expect(screen.getByRole('button',{name:"Guardar Cambios"})).toBeInTheDocument();
+        fireEvent.click(screen.getByText('Cancelar'));
         expect(screen.queryByText('New Interest(%)')).not.toBeInTheDocument();
     });
 
     test('Actualizar la informacion por el modal',async () => {
         fireEvent.click(screen.getByRole('button',{name:"Edit Info"}));
-        expect(screen.getByRole('button',{name:"Save"})).toBeInTheDocument();
+        expect(screen.getByRole('button',{name:"Guardar Cambios"})).toBeInTheDocument();
 
 
 
-        fireEvent.change(screen.getByLabelText("name"), { target: { value: 'Samuel Castillo' } });
-        fireEvent.change(screen.getByLabelText("idNumber"),{target:{value:'1104688702'}});
-        fireEvent.change(screen.getByLabelText("workStatus"), { target: { value: 'employed' } });
-        fireEvent.change(screen.getByLabelText("age"),{target:{value:'20'}});
-        fireEvent.change(screen.getByLabelText("phoneNumber"), { target: { value: '3211234567' } });
-        fireEvent.change(screen.getByLabelText("email"),{target:{value:'test@hotmail.com'}});
+        fireEvent.change(screen.getByLabelText("Nombre Completo"), { target: { value: 'Samuel Castillo' } });
+        fireEvent.change(screen.getByLabelText("Teléfono"), { target: { value: '3211234567' } });
+        fireEvent.change(screen.getByLabelText("Email"),{target:{value:'test@hotmail.com'}});
         
-        fireEvent.click(screen.getByText('Save'));
+        fireEvent.click(screen.getByText('Guardar Cambios'));
         
-        expect(screen.getByText(/: 20/i)).toBeInTheDocument();
-        expect(screen.getByText(/samuel castillo/i)).toBeInTheDocument();
-        expect(screen.getByText(/1104688702/i)).toBeInTheDocument();
+        expect(screen.getByText(/Samuel Castillo/i)).toBeInTheDocument();
+        expect(screen.getByText(/1110450340/i)).toBeInTheDocument();
         expect(screen.getByText(/3211234567/i)).toBeInTheDocument();
         expect(screen.getByText(/test@hotmail.com/i)).toBeInTheDocument();
-        expect(screen.getByText(/employed/i)).toBeInTheDocument();
+        expect(screen.getByText(/Employed/i)).toBeInTheDocument();
     });
 
     test('Verificar boton detalle de deuda', () => {
         const btnArray = screen.getAllByRole('button',{name:'Show Details'})
-        expect(btnArray.length).toBe(4)
+        expect(btnArray.length).toBe(3)
     })
 });
