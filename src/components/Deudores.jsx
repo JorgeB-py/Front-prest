@@ -6,6 +6,7 @@ import { Footer } from './footer';
 import { FormattedMessage } from 'react-intl';
 import { useEffect } from 'react';
 
+
 export default function Index() {
     const [total, setTotal] = React.useState(0);
     const [deudores, setDeudores] = React.useState([]);
@@ -72,6 +73,7 @@ export default function Index() {
                     />
                     <div className="card-body" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                         <h5 className="card-title">{nombre}</h5>
+                        <p className="card-text">{fecha}</p>
                         <a href="/infodeudor" className="btn btn-primary">
                             <FormattedMessage id="app.information" defaultMessage="Information" />
                         </a>
@@ -102,7 +104,7 @@ export default function Index() {
                 <Row style={{ padding: "50px" }}>
                     {
                         filteredDeudores.map((deudor, index) => (
-                            <RenderCards key={index} nombre={deudor.nombrecompleto}></RenderCards>
+                            <RenderCards key={index} nombre={deudor.nombrecompleto} fecha={deudor.fecha}></RenderCards>
                         ))
                     }
                 </Row>

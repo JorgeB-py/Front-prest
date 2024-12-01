@@ -76,7 +76,7 @@ exports[`Deudores Debe coincidir con el snapshot 1`] = `
           >
             <a
               class="button-empieza-landing btn btn-primary btn-lg"
-              href="/perfil"
+              href="/perfilPrestamista"
               role="button"
               tabindex="0"
             >
@@ -104,42 +104,13 @@ exports[`Deudores Debe coincidir con el snapshot 1`] = `
     >
       $0
     </h2>
-    <div
-      class="filtros col"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="col col"
-        >
-          <a>
-             &gt;1 año
-          </a>
-        </div>
-        <div
-          class="col col"
-        >
-          <a>
-            6 meses
-          </a>
-        </div>
-        <div
-          class="col col"
-        >
-          <a>
-            3 meses
-          </a>
-        </div>
-        <div
-          class="col col"
-        >
-          <a>
-            1 mes
-          </a>
-        </div>
-      </div>
-    </div>
+    <input
+      class="form-control"
+      placeholder="Buscar por nombre"
+      style="margin-top: 20px;"
+      type="text"
+      value=""
+    />
   </div>
   <div
     class="container"
