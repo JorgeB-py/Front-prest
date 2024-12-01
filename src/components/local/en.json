@@ -215,5 +215,11 @@
     "app.monthly":"Monthly",
     "app.su":"Su",
     "app.DatesError":"Start and Due Dates must be consistent.",
-    "app.InterestError":"Interest must be between 0 and 100."
+    "app.InterestError":"Interest must be between 0 and 100.",
+    "app.employee":"Employed",
+    "app.unemployed":"Unemployed",
+    "app.workStatus":"Work Status",
+    "app.placeholderId":"Enter ID",
+    "app.placeholderPhotoUrl":"Enter photo URL"
+
     }

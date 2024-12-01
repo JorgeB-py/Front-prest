@@ -5,43 +5,72 @@ import { Footer } from "./footer";
 import { Link } from "react-router-dom";
 import { FormattedMessage, useIntl } from 'react-intl';
 import "./styles/crearCliente.css";
-import axios from 'axios';
 
 export default function CrearCliente() {
     const [cliente, setCliente] = useState({
         nombrecompleto: "",
+        cedula: "",
+        situacionLaboral: "",
         direccion: "",
         telefono: "",
-        email: "", 
+        email: "",
         ocupacion: "",
         foto: "",
-        fecha: ""  // Fecha en formato 'YYYY-MM-DD'
+        fecha: "",  // Fecha en formato 'YYYY-MM-DD'
     });
+
+    const [prestamo, setPrestamo] = useState({
+        monto: 0,
+        fechainicio: "",
+        fechafin: "",
+        interes: 0,
+        nombre: "",
+        pagado: false,
+    });
+
     const intl = useIntl();
     const [mensaje, setMensaje] = useState("");
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        // Establecer la fecha actual en formato string 'yyyy-mm-dd'
         setCliente(prevState => ({
             ...prevState,
             fecha: new Date().toISOString().split('T')[0]  // Solo la parte de la fecha
         }));
-    }, []);  // Solo se ejecuta al montar el componente
+    }, []);
 
-    const handleChange = (e) => {
+    const handleChangeDeudor = (e) => {
         const { name, value } = e.target;
-        setCliente({
-            ...cliente,
-            [name]: value // Aseguramos que todos los campos sean strings
-        });
+        setCliente({ ...cliente, [name]: value });
     };
 
-    const validarDatos = () => {
-        const { nombrecompleto, direccion, telefono, email, ocupacion, foto, fecha } = cliente;
+    const handleChangePrestamo = (e) => {
+        const { name, type, checked, value } = e.target;
 
-        if (!nombrecompleto || !direccion || !telefono || !email || !ocupacion || !foto || !fecha) {
+        if (type === "checkbox") {
+            // Si el campo es un checkbox, se actualiza el estado con el valor de 'checked' (true o false)
+            setPrestamo({ ...prestamo, [name]: checked });
+        } else {
+            // Si no es un checkbox, simplemente actualiza el valor como antes
+            setPrestamo({ ...prestamo, [name]: value });
+        }
+    };
+
+
+    const validarDatos = () => {
+        const { nombrecompleto, cedula, situacionLaboral, direccion, telefono, email, ocupacion, foto, fecha } = cliente;
+        const { monto, interes, nombre, pagado, fechainicio, fechafin,  } = prestamo;
+
+        // Validación de campos de cliente
+        if (!nombrecompleto || !direccion || !telefono || !email || !ocupacion || !foto || !fecha || !cedula || !situacionLaboral) {
             setMensaje(intl.formatMessage({ id: 'app.errorFields' }));
+            setError(true);
+            return false;
+        }
+
+        // Validación de campos de préstamo
+        if (!monto || !fechainicio || !fechafin || !interes || !nombre) {
+            setMensaje(intl.formatMessage({ id: 'app.errorLoanFields' }));
             setError(true);
             return false;
         }
@@ -53,7 +82,6 @@ export default function CrearCliente() {
             return false;
         }
 
-        // Validación de telefono solo para ser numérico
         if (!/^\d+$/.test(telefono)) {
             setMensaje(intl.formatMessage({ id: 'app.errorPhone' }));
             setError(true);
@@ -68,38 +96,101 @@ export default function CrearCliente() {
         e.preventDefault();
 
         if (validarDatos()) {
-            // Aseguramos que todos los datos sean enviados como strings
-            const clienteConId = { 
+            const clienteConId = {
                 ...cliente,
                 nombrecompleto: cliente.nombrecompleto.toString(),
+                cedula: cliente.cedula.toString(),
+                situacionLaboral: cliente.situacionLaboral.toString(),
                 direccion: cliente.direccion.toString(),
                 telefono: cliente.telefono.toString(),
                 email: cliente.email.toString(),
                 ocupacion: cliente.ocupacion.toString(),
                 foto: cliente.foto.toString(),
-                fecha: cliente.fecha.toString()  // Fecha como string (yyyy-mm-dd)
+                fecha: cliente.fecha.toString(),
+            };
+
+            const prestamoConId = {
+                ...prestamo,
+                nombre: prestamo.nombre.toString(),
+                monto: parseInt(prestamo.monto),
+                interes: parseInt(prestamo.interes),
+                fechainicio: prestamo.fechainicio.toString(),
+                fechafin: prestamo.fechafin.toString(),
+                pagado: prestamo.pagado
             };
 
             try {
-                // Realizar la solicitud POST
                 const token = localStorage.getItem('token');
-                const response = await axios.post('http://localhost:3000/deudor', clienteConId, {
+                const responseCliente = await fetch('http://localhost:3000/deudor', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`, // Si necesitas un token JWT
-                    }
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(clienteConId),
                 });
 
-                // Manejar la respuesta de éxito
+                if (!responseCliente.ok) {
+                    throw new Error('Error al crear el cliente');
+                }
+
+                const dataCliente = await responseCliente.json();
+                console.log('Cliente creado con éxito:', dataCliente);
+
+                // Ahora enviamos el préstamo asociado al cliente recién creado
+                console.log('Enviando préstamo:', prestamoConId);
+                const responsePrestamo = await fetch('http://localhost:3000/prestamo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(prestamoConId),
+                });
+
+                if (!responsePrestamo.ok) {
+                    throw new Error('Error al crear el préstamo');
+                }
+
+                const dataPrestamo = await responsePrestamo.json();
                 setMensaje(intl.formatMessage({ id: 'app.successMessage' }));
                 setError(false);
-                console.log('Cliente creado con éxito:', response.data);
+                console.log('Préstamo creado con éxito:', dataPrestamo);
+                const responsePrestamoDeudor = await fetch(`http://localhost:3000/deudor/${dataCliente.id}/prestamos/${dataPrestamo.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        ...prestamoConId,
+                        clienteId: dataCliente.id,
+                    }),
+                });
+
+                const dataPrestamoDeudor = await responsePrestamoDeudor.json();
+                console.log('Préstamo asociado al cliente con éxito:', dataPrestamoDeudor);
+
+                const responsePrestamistaPrestamo = await fetch(`http://localhost:3000/prestamistas/1/prestamos/${dataPrestamo.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        ...prestamoConId,
+                        clienteId: dataCliente.id,
+                    }),
+                });
+
+                const dataPrestamistaPrestamo = await responsePrestamistaPrestamo.json();
+                console.log('Préstamo asociado al prestamista con éxito:', dataPrestamistaPrestamo);
+
 
             } catch (err) {
-                // Manejar errores de la API
                 setMensaje(intl.formatMessage({ id: 'app.errorMessage' }));
                 setError(true);
-                console.error('Error al crear el cliente:', err);
+                console.error('Error:', err);
             }
         }
     };
@@ -107,7 +198,7 @@ export default function CrearCliente() {
     return (
         <>
             <Header
-                nav_links={[ 
+                nav_links={[
                     { name: intl.formatMessage({ id: 'nav.deudores' }), url: "/deudores" },
                     { name: intl.formatMessage({ id: 'nav.crearDeudor' }), url: "/crearcliente" },
                     { name: intl.formatMessage({ id: 'nav.consultarDeudor' }), url: "/consultarcliente" },
@@ -120,6 +211,7 @@ export default function CrearCliente() {
                     <Col md={10}>
                         <h1><FormattedMessage id="app.registerNewClient" /></h1>
                         <Form onSubmit={handleSubmit}>
+                            {/* Formulario del Cliente */}
                             <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="nombrecompleto">
@@ -128,9 +220,36 @@ export default function CrearCliente() {
                                             type="text"
                                             name="nombrecompleto"
                                             value={cliente.nombrecompleto}
-                                            onChange={handleChange}
+                                            onChange={handleChangeDeudor}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderName' })}
                                         />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Group controlId="cedula">
+                                        <Form.Label><FormattedMessage id="app.idNumber" /></Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="cedula"
+                                            value={cliente.cedula}
+                                            onChange={handleChangeDeudor}
+                                            placeholder={intl.formatMessage({ id: 'app.placeholderId' })}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Group controlId="situacionLaboral">
+                                        <Form.Label><FormattedMessage id="app.workStatus" /></Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            name="situacionLaboral"
+                                            value={cliente.situacionLaboral}
+                                            onChange={handleChangeDeudor}
+                                        >
+                                            <option value="">--</option>
+                                            <option value="Empleado"><FormattedMessage id="app.employee" /></option>
+                                            <option value="Desempleado"><FormattedMessage id="app.unemployed" /></option>
+                                        </Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
@@ -140,13 +259,11 @@ export default function CrearCliente() {
                                             type="text"
                                             name="direccion"
                                             value={cliente.direccion}
-                                            onChange={handleChange}
+                                            onChange={handleChangeDeudor}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderAddress' })}
                                         />
                                     </Form.Group>
                                 </Col>
-                            </Row>
-                            <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="telefono">
                                         <Form.Label><FormattedMessage id="app.phone" /></Form.Label>
@@ -154,7 +271,7 @@ export default function CrearCliente() {
                                             type="text"
                                             name="telefono"
                                             value={cliente.telefono}
-                                            onChange={handleChange}
+                                            onChange={handleChangeDeudor}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderPhone' })}
                                         />
                                     </Form.Group>
@@ -166,13 +283,11 @@ export default function CrearCliente() {
                                             type="email"
                                             name="email"
                                             value={cliente.email}
-                                            onChange={handleChange}
+                                            onChange={handleChangeDeudor}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderEmail' })}
                                         />
                                     </Form.Group>
                                 </Col>
-                            </Row>
-                            <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="ocupacion">
                                         <Form.Label><FormattedMessage id="app.occupation" /></Form.Label>
@@ -180,51 +295,100 @@ export default function CrearCliente() {
                                             type="text"
                                             name="ocupacion"
                                             value={cliente.ocupacion}
-                                            onChange={handleChange}
+                                            onChange={handleChangeDeudor}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderOccupation' })}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group controlId="foto">
-                                        <Form.Label><FormattedMessage id="app.clientPhoto" /></Form.Label>
+                                        <Form.Label><FormattedMessage id="app.photo" /></Form.Label>
                                         <Form.Control
-                                            type="url"  // Foto debe ser una URL
+                                            type="text"
                                             name="foto"
                                             value={cliente.foto}
-                                            onChange={handleChange}
-                                            placeholder={intl.formatMessage({ id: 'app.placeholderPhotoUrl' })}
+                                            onChange={handleChangeDeudor}
+                                            placeholder={intl.formatMessage({ id: 'app.placeholderPhoto' })}
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
+
+                            {/* Formulario del Prestamo */}
+                            <h3><FormattedMessage id="app.loanDetails" /></h3>
                             <Row>
-                                <Col md={6}>
-                                    <Form.Group controlId="fecha">
-                                        <Form.Label><FormattedMessage id="app.date" /></Form.Label>
-                                        <Form.Control
-                                            type="date"
-                                            name="fecha"
-                                            value={cliente.fecha}
-                                            onChange={handleChange}
-                                        />
-                                    </Form.Group>
-                                </Col>
+                                <Form.Group controlId="fechainicio">
+                                    <Form.Label><FormattedMessage id="app.loanDateInit" /></Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        name="fechainicio"  // Cambié el name para que coincida con el estado
+                                        value={prestamo.fechainicio}
+                                        onChange={handleChangePrestamo}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="fechafin">
+                                    <Form.Label><FormattedMessage id="app.loanDateEnd" /></Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        name="fechafin"  // Cambié el name para que coincida con el estado
+                                        value={prestamo.fechafin}
+                                        onChange={handleChangePrestamo}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group controlId="nombrePrestamo">
+                                    <Form.Label><FormattedMessage id="app.loanName" /></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="nombre"
+                                        value={prestamo.nombre}
+                                        onChange={handleChangePrestamo}
+                                        placeholder={intl.formatMessage({ id: 'app.placeholderLoan' })}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="interes">
+                                    <Form.Label><FormattedMessage id="app.loanInterest" /></Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="interes"
+                                        value={prestamo.interes}
+                                        onChange={handleChangePrestamo}
+                                        placeholder={intl.formatMessage({ id: 'app.placeholderAmount' })}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="monto">
+                                    <Form.Label><FormattedMessage id="app.loanAmount" /></Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="monto"
+                                        value={prestamo.monto}
+                                        onChange={handleChangePrestamo}
+                                        placeholder={intl.formatMessage({ id: 'app.placeholderAmount' })}
+                                    />
+                                </Form.Group>
+                                
+                                <Form.Group controlId="pagadoPrestamo">
+                                    <Form.Label><FormattedMessage id="app.loanEnd" /></Form.Label>
+                                    <Form.Check
+                                        type="checkbox"
+                                        name="pagado"  // Cambié el name para que coincida con el estado
+                                        checked={prestamo.pagado || false}
+                                        onChange={handleChangePrestamo}
+                                        label={intl.formatMessage({ id: 'app.loanEnd' })}
+                                    />
+                                </Form.Group>
+
+
                             </Row>
-                            <Row className="mt-3">
-                                <Col>
-                                    <Button className="btn buttom-general" type="submit">
-                                        <FormattedMessage id="app.registerClient" />
-                                    </Button>
-                                </Col>
-                                <Col>
-                                    <Link to="/deudores" className="btn buttom-regresar float-end">
-                                        <FormattedMessage id="app.goBackMenu" />
-                                    </Link>
-                                </Col>
-                            </Row>
+
+                            {/* Mensaje de error o éxito */}
+                            {mensaje && <div className={`alert alert-${error ? "danger" : "success"}`} role="alert">{mensaje}</div>}
+
+                            <Button variant="primary" type="submit">
+                                <FormattedMessage id="app.save" />
+                            </Button>
                         </Form>
-                        {mensaje && <p className={error ? "mensaje-error" : "mensaje-exito"}>{mensaje}</p>}
                     </Col>
                 </Row>
             </Container>

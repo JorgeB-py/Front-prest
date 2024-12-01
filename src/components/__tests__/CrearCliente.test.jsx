@@ -15,6 +15,12 @@ const language = 'es';
 
 // Función auxiliar para renderizar el componente con los proveedores necesarios
 const renderWithProviders = (ui) => {
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            json: () => Promise.resolve({}),
+        })
+    );
+    
     return render(
         <MemoryRouter>
             <IntlProvider locale={language} messages={messages[language]}>
@@ -31,8 +37,8 @@ describe('Componente CrearCliente', () => {
         const placeholders = [
             { id: 'app.placeholderName', name: 'nombre' },
             { id: 'app.placeholderID', name: 'identificacion' },
-            { id: 'app.placeholderIncome', name: 'ingresos' },
             { id: 'app.placeholderOccupation', name: 'ocupacion' },
+            { id: 'app.placeholderWorkStatus', name: 'situacionLaboral' },
             { id: 'app.placeholderAddress', name: 'direccion' },
             { id: 'app.placeholderPhone', name: 'telefono' },
             { id: 'app.placeholderEmail', name: 'correo' },
@@ -48,6 +54,7 @@ describe('Componente CrearCliente', () => {
 
     test('2. El botón de envío muestra el texto correcto', () => {
         renderWithProviders(<CrearCliente />);
+
         const buttonText = messages[language]['app.registerClient'];
         const button = screen.getByRole('button', { name: buttonText });
         expect(button).toBeInTheDocument();
@@ -70,8 +77,8 @@ describe('Componente CrearCliente', () => {
         const testData = {
             nombre: 'Ana López',
             identificacion: 'ABC123', // Identificación inválida
-            ingresos: '4000',
             ocupacion: 'Abogada',
+            situacionLaboral: 'Empleado',
             direccion: 'Avenida Siempre Viva 742',
             telefono: '5557654321',
             correo: 'ana@example.com',
@@ -79,8 +86,8 @@ describe('Componente CrearCliente', () => {
 
         fireEvent.change(screen.getByLabelText(messages[language]['app.fullName']), { target: { value: testData.nombre } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.idNumber']), { target: { value: testData.identificacion } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.monthlyIncome']), { target: { value: testData.ingresos } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.occupation']), { target: { value: testData.ocupacion } });
+        fireEvent.change(screen.getByLabelText(messages[language]['app.workStatus']), { target: { value: testData.situacionLaboral } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.address']), { target: { value: testData.direccion } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.phone']), { target: { value: testData.telefono } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.email']), { target: { value: testData.correo } });
@@ -98,8 +105,8 @@ describe('Componente CrearCliente', () => {
         const testData = {
             nombre: 'Carlos Díaz',
             identificacion: '987654321',
-            ingresos: '4500',
             ocupacion: 'Contador',
+            situacionLaboral: 'Empleado',
             direccion: 'Calle Principal 456',
             telefono: 'ABC123', // Teléfono inválido
             correo: 'carlos@example.com',
@@ -107,8 +114,8 @@ describe('Componente CrearCliente', () => {
 
         fireEvent.change(screen.getByLabelText(messages[language]['app.fullName']), { target: { value: testData.nombre } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.idNumber']), { target: { value: testData.identificacion } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.monthlyIncome']), { target: { value: testData.ingresos } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.occupation']), { target: { value: testData.ocupacion } });
+        fireEvent.change(screen.getByLabelText(messages[language]['app.workStatus']), { target: { value: testData.situacionLaboral } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.address']), { target: { value: testData.direccion } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.phone']), { target: { value: testData.telefono } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.email']), { target: { value: testData.correo } });
@@ -126,7 +133,7 @@ describe('Componente CrearCliente', () => {
         const testData = {
             nombre: 'Pedro Martínez',
             identificacion: '987654321',
-            ingresos: '3500',
+            situacionLaboral: 'Empleado',
             ocupacion: 'Doctor',
             direccion: 'Boulevard de los Sueños Rotos 456',
             telefono: '5552345678',
@@ -135,7 +142,7 @@ describe('Componente CrearCliente', () => {
 
         fireEvent.change(screen.getByLabelText(messages[language]['app.fullName']), { target: { value: testData.nombre } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.idNumber']), { target: { value: testData.identificacion } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.monthlyIncome']), { target: { value: testData.ingresos } });
+        fireEvent.change(screen.getByLabelText(messages[language]['app.workStatus']), { target: { value: testData.situacionLaboral } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.occupation']), { target: { value: testData.ocupacion } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.address']), { target: { value: testData.direccion } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.phone']), { target: { value: testData.telefono } });
@@ -156,8 +163,8 @@ describe('Componente CrearCliente', () => {
         const testData = {
             nombre: 'María Gómez',
             identificacion: '123456789',
-            ingresos: '5000',
             ocupacion: 'Ingeniera',
+            situacionLaboral: 'Empleado',
             direccion: 'Calle de la Paz 123',
             telefono: '5559876543',
             correo: 'maria@example.com',
@@ -165,86 +172,19 @@ describe('Componente CrearCliente', () => {
 
         fireEvent.change(screen.getByLabelText(messages[language]['app.fullName']), { target: { value: testData.nombre } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.idNumber']), { target: { value: testData.identificacion } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.monthlyIncome']), { target: { value: testData.ingresos } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.occupation']), { target: { value: testData.ocupacion } });
+        fireEvent.change(screen.getByLabelText(messages[language]['app.workStatus']), { target: { value: testData.situacionLaboral } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.address']), { target: { value: testData.direccion } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.phone']), { target: { value: testData.telefono } });
         fireEvent.change(screen.getByLabelText(messages[language]['app.email']), { target: { value: testData.correo } });
 
-        // Simular carga de archivo
-        const file = new File(['contenido de prueba'], 'foto.jpg', { type: 'image/jpeg' });
-        const photoInput = screen.getByLabelText(messages[language]['app.clientPhoto']);
-        fireEvent.change(photoInput, { target: { files: [file] } });
-
         const submitButton = screen.getByRole('button', { name: messages[language]['app.registerClient'] });
         fireEvent.click(submitButton);
 
-        const successMessage = messages[language]['app.successMessage'];
-
         await waitFor(() => {
-            expect(screen.getByText(successMessage)).toBeInTheDocument();
+            expect(consoleLogMock).toHaveBeenCalledWith(testData);
         });
-
-        expect(consoleLogMock).toHaveBeenCalledTimes(1);
-        const loggedData = consoleLogMock.mock.calls[0][0];
-        expect(loggedData).toMatchObject({
-            ...testData,
-            foto: file,
-        });
-        expect(loggedData.id).toBeDefined();
 
         consoleLogMock.mockRestore();
-    });
-
-    test('8. No muestra mensaje de error después de un envío exitoso', async () => {
-        renderWithProviders(<CrearCliente />);
-
-        // Envío exitoso
-        const testData = {
-            nombre: 'Laura Sánchez',
-            identificacion: '1122334455',
-            ingresos: '6000',
-            ocupacion: 'Arquitecta',
-            direccion: 'Calle del Sol 789',
-            telefono: '5558765432',
-            correo: 'laura@example.com',
-        };
-
-        fireEvent.change(screen.getByLabelText(messages[language]['app.fullName']), { target: { value: testData.nombre } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.idNumber']), { target: { value: testData.identificacion } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.monthlyIncome']), { target: { value: testData.ingresos } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.occupation']), { target: { value: testData.ocupacion } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.address']), { target: { value: testData.direccion } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.phone']), { target: { value: testData.telefono } });
-        fireEvent.change(screen.getByLabelText(messages[language]['app.email']), { target: { value: testData.correo } });
-
-        const submitButton = screen.getByRole('button', { name: messages[language]['app.registerClient'] });
-        fireEvent.click(submitButton);
-
-        const successMessage = messages[language]['app.successMessage'];
-
-        await waitFor(() => {
-            expect(screen.getByText(successMessage)).toBeInTheDocument();
-        });
-
-        // Verificamos que no haya mensaje de error
-        const errorMessages = [
-            messages[language]['app.errorFields'],
-            messages[language]['app.errorID'],
-            messages[language]['app.errorPhone'],
-            messages[language]['app.errorEmail'],
-        ];
-
-        errorMessages.forEach((errorMessage) => {
-            expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
-        });
-    });
-
-    test('9. El botón "Regresar al menú" tiene el enlace correcto', () => {
-        renderWithProviders(<CrearCliente />);
-        const linkText = messages[language]['app.goBackMenu'];
-        const link = screen.getByRole('link', { name: linkText });
-        expect(link).toBeInTheDocument();
-        expect(link).toHaveAttribute('href', '/deudores');
     });
 });

@@ -9,6 +9,15 @@ import { useEffect } from 'react';
 
 export default function Index() {
     const [total, setTotal] = React.useState(0);
+    const [prestamista, setPrestamista] = React.useState({
+        nombre: "John Doe",
+        direccion: "123 Main Street",
+        telefono: "1234567890",
+        correo: "john.doe@example.com",
+        foto: "https://example.com/john.jpg",
+        fondosTotales: 100000,
+        saldo: 50000,
+    });
     const [deudores, setDeudores] = React.useState([]);
     const [filteredDeudores, setFilteredDeudores] = React.useState([]);
     const [searchTerm, setSearchTerm] = React.useState("");
@@ -38,6 +47,20 @@ export default function Index() {
         } else {
             console.error('No hay token disponible');
         }
+        fetch(`http://localhost:3000/prestamistas/${prestamistaId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setPrestamista(data);
+            })
+            .catch((error) => {
+                console.error('Error al obtener el prestamista:', error);
+            });
     }, []);
 
     // Función para manejar el cambio en el input de búsqueda
@@ -61,7 +84,7 @@ export default function Index() {
         { name: "Crear Deudor", url: "/crearcliente" },
         { name: "Consultar Deudor", url: "/consultarcliente" },
     ];
-    const nombre_usuario = "Jorge";
+    const nombre_usuario = prestamista.nombre;
 
     const handleSendId = (e, id) => {
         localStorage.setItem('deudorId', id);
@@ -93,7 +116,7 @@ export default function Index() {
         <>
             <Header nav_links={nav_links} logged={true} usuario={nombre_usuario}></Header>
             <Container style={{ display: "grid", padding: '1rem' }}>
-                <h1 style={{ textAlign: 'left' }}><FormattedMessage id="app.welcome" defaultMessage="Welcome" />, Jorge</h1>
+                <h1 style={{ textAlign: 'left' }}><FormattedMessage id="app.welcome" defaultMessage="Welcome" />, {nombre_usuario}</h1>
                 <h3><FormattedMessage id="app.thismonth" defaultMessage="This month you have earned" /></h3>
                 <h2 style={{ color: "#004AAC" }}>${total}</h2>
                 

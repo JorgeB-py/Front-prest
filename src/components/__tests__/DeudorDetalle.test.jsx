@@ -14,6 +14,18 @@ const language = 'en';
 // Mensajes de prueba
 describe('DeudorDetalle', () => {
     beforeEach(() => {
+        jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => {
+            if (key === 'deudorId') {
+                return '1'; // Valor de prueba para deudorId
+            }
+            return null;
+        });
+        jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => {
+            if (key === 'token') {
+                return '123124342'; // Valor de prueba para deudorId
+            }
+            return null;
+        });
         render(
             <MemoryRouter>
                 <IntlProvider locale={language} messages={messages[language]}>

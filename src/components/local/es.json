@@ -229,5 +229,21 @@
     "app.LoanDebt":"Deuda",
     "app.capital":"Capital",
     "app.DatesError":"Las fechas de inicio y vencimiento deben ser coherentes.",
-    "app.InterestError":"El interés debe estar entre 0 y 100."
+    "app.InterestError":"El interés debe estar entre 0 y 100.",
+    "app.employee":"Empleado",
+    "app.unemployed":"Desempleado",
+    "app.workStatus":"Situación laboral",
+    "app.placeholderId":"Ingresa la identificación",
+    "app.placeholderPhotoUrl":"Ingresa la URL de la foto",
+    "app.loanDetails":"Detalles del préstamo",
+    "app.loanDateInit":"Fecha de inicio del préstamo",
+    "app.loanDateEnd":"Fecha de vencimiento del préstamo",
+    "app.loanInterest":"Interés del préstamo",
+    "app.loanName": "Nombre del prestamo",
+    "app.loanAmount": "Monto del prestamo",
+    "app.loanEnd": "Prestamo pagado",
+    "app.placeholderAmount": "Ingresa el valor",
+    "app.placeholderLoan": "Ingresa el nombre del prestamo",
+    "app.photo": "URL de la foto",
+    "app.placeholderPhoto": "Ingresa la URL de la foto"
   }
