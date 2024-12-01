@@ -213,5 +213,7 @@
     "app.crearPrestamoBoton": "Create Loan",
     "app.november":"November",
     "app.monthly":"Monthly",
-    "app.su":"Su"
+    "app.su":"Su",
+    "app.DatesError":"Start and Due Dates must be consistent.",
+    "app.InterestError":"Interest must be between 0 and 100."
     }

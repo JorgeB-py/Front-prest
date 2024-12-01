@@ -64,7 +64,7 @@ export default function Pasarela() {
             if (paymentData.phoneNumber.length !== 10) {
                 errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.ELnumero" defaultMessage="El numero telefónico debe tener 10 digitos" /><br /></Form.Text>)
             }
-            if (paymentData.id < 6 || paymentData.id > 9) {
+            if (paymentData.id.length < 6 || paymentData.id.length > 9) {
                 errorsArray.push(<Form.Text className="text-danger"><FormattedMessage id="app.ELID" defaultMessage="El ID debe tener entre 6-9 digitos" /><br /></Form.Text>)
             }
         }

@@ -13,8 +13,8 @@ import './styles/deudorApp.css';  // Estilos personalizados
 export default function DeudorApp() {
   const [deudorData, setDeudorData] = useState({
     nombre: 'Joseph',
-    fechaInicio: new Date(),
-    fechaVencimiento: new Date(),
+    fechaInicio: new Date('2023-11-01'),
+    fechaVencimiento: new Date('2024-02-01'),
     prestado: 100000,
     interes: 5,
     frecuenciaPago: 'Semanal',
@@ -26,22 +26,14 @@ export default function DeudorApp() {
       return this.prestado + this.totalInterest()
     }
   });
-
-  // Datos de prueba para la  HU11
-  const debtorDataTest = {
-    nombre: "Armando",
-    fechaVencimiento: "3/21/2024",
-    prestado: 0,
-    interes: 5,
-    fechaPago: "2024/03/22"
-  };
-
   const [newDeudorData, setNewDeudorData] = useState(0);
   const [newPayment, setNewPayment] = useState(0);      // Estado para la nuevo pago
 
   const [historialPagos, setHistorialPagos] = useState([]);
   const [showModal, setShowModal] = useState(false);  // Estado para controlar el modal de pagos
   const [showModalInteres, setShowModalInteres] = useState(false); // Estado para controlar el modal de modificar interés
+  const [showDatesError,setShowDatesError] = useState(false);
+  const [interestError,setInterestError] = useState(false);
   // Estado para modificar el interés del deudor
 
   // useEffect(() => {
@@ -105,9 +97,27 @@ export default function DeudorApp() {
     setHistorialPagos([...historialPagos, nuevoPago]);
     setShowModal(false);  // Cerrar el modal después de agregar el pago
   };
+  const checkDatesCoherence = (fechaInicio,fechaVencimiento) => {
+    if (fechaInicio<fechaVencimiento){
+      setShowDatesError(false)
+      return true
+    };
+    setShowDatesError(true)
+    return false;
+  }
 
+  const checkInterest= (newInterest)=>{
+    if (newInterest>=0 && newInterest<=100){
+        setInterestError(false)
+        return true
+      }
+      setInterestError(true)
+      return false
+  }
   // Función para actualizar el interés
   const actualizarDeudorData = () => {
+    if (!checkDatesCoherence(newDeudorData.fechaInicio,newDeudorData.fechaVencimiento))return;
+    if (!checkInterest(newDeudorData.interes)) return;
     setDeudorData({
       ...deudorData,
       ...newDeudorData
@@ -184,6 +194,10 @@ export default function DeudorApp() {
                       <option value="Mensual"><FormattedMessage id="app.Mensual" defaultMessage="Mensual" /></option>
                     </select>
                   </Form.Group>
+                  <Form.Text className="text-danger">
+                    {showDatesError?<FormattedMessage id="app.DatesError" defaultMessage="Start and Due Dates must be consistent." />:""}
+                    {interestError?<FormattedMessage id="app.interestError" defaultMessage="Interest must be between 0 and 100." />:""}
+                  </Form.Text>
                 </Col>
               </Row>
           </Form>
