@@ -1,67 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import { Header } from "./header";
 import { Footer } from "./footer";
-import { v4 as uuidv4 } from 'uuid';
 import { Link } from "react-router-dom";
 import { FormattedMessage, useIntl } from 'react-intl';
 import "./styles/crearCliente.css";
+import axios from 'axios';
 
 export default function CrearCliente() {
     const [cliente, setCliente] = useState({
-        nombre: "",
-        identificacion: "",
-        ingresos: "",
+        nombrecompleto: "",
         direccion: "",
         telefono: "",
+        email: "", 
         ocupacion: "",
-        correo: "", 
-        foto: null
+        foto: "",
+        fecha: ""  // Fecha en formato 'YYYY-MM-DD'
     });
-
     const intl = useIntl();
     const [mensaje, setMensaje] = useState("");
     const [error, setError] = useState(false);
 
+    useEffect(() => {
+        // Establecer la fecha actual en formato string 'yyyy-mm-dd'
+        setCliente(prevState => ({
+            ...prevState,
+            fecha: new Date().toISOString().split('T')[0]  // Solo la parte de la fecha
+        }));
+    }, []);  // Solo se ejecuta al montar el componente
+
     const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        if (name === "foto") {
-            setCliente({
-                ...cliente,
-                foto: files[0]
-            });
-        } else {
-            setCliente({
-                ...cliente,
-                [name]: value
-            });
-        }
+        const { name, value } = e.target;
+        setCliente({
+            ...cliente,
+            [name]: value // Aseguramos que todos los campos sean strings
+        });
     };
 
     const validarDatos = () => {
-        const { nombre, identificacion, ingresos, ocupacion, direccion, telefono, correo } = cliente;
+        const { nombrecompleto, direccion, telefono, email, ocupacion, foto, fecha } = cliente;
 
-        if (!nombre || !identificacion || !ingresos || !ocupacion || !direccion || !telefono || !correo) {
+        if (!nombrecompleto || !direccion || !telefono || !email || !ocupacion || !foto || !fecha) {
             setMensaje(intl.formatMessage({ id: 'app.errorFields' }));
             setError(true);
             return false;
         }
 
-        if (!/^\d+$/.test(identificacion)) {
-            setMensaje(intl.formatMessage({ id: 'app.errorID' }));
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setMensaje(intl.formatMessage({ id: 'app.errorEmail' }));
             setError(true);
             return false;
         }
 
+        // Validación de telefono solo para ser numérico
         if (!/^\d+$/.test(telefono)) {
             setMensaje(intl.formatMessage({ id: 'app.errorPhone' }));
-            setError(true);
-            return false;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(correo)) {
-            setMensaje(intl.formatMessage({ id: 'app.errorEmail' }));
             setError(true);
             return false;
         }
@@ -70,28 +64,57 @@ export default function CrearCliente() {
         return true;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (validarDatos()) {
-            const clienteConId = { ...cliente, id: uuidv4() };
-            setMensaje(intl.formatMessage({ id: 'app.successMessage' }));  // Mensaje de éxito internacionalizado
-            setError(false);
-            console.log(clienteConId);
+            // Aseguramos que todos los datos sean enviados como strings
+            const clienteConId = { 
+                ...cliente,
+                nombrecompleto: cliente.nombrecompleto.toString(),
+                direccion: cliente.direccion.toString(),
+                telefono: cliente.telefono.toString(),
+                email: cliente.email.toString(),
+                ocupacion: cliente.ocupacion.toString(),
+                foto: cliente.foto.toString(),
+                fecha: cliente.fecha.toString()  // Fecha como string (yyyy-mm-dd)
+            };
+
+            try {
+                // Realizar la solicitud POST
+                const token = localStorage.getItem('token');
+                const response = await axios.post('http://localhost:3000/deudor', clienteConId, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`, // Si necesitas un token JWT
+                    }
+                });
+
+                // Manejar la respuesta de éxito
+                setMensaje(intl.formatMessage({ id: 'app.successMessage' }));
+                setError(false);
+                console.log('Cliente creado con éxito:', response.data);
+
+            } catch (err) {
+                // Manejar errores de la API
+                setMensaje(intl.formatMessage({ id: 'app.errorMessage' }));
+                setError(true);
+                console.error('Error al crear el cliente:', err);
+            }
         }
     };
 
     return (
         <>
             <Header
-                nav_links={[
+                nav_links={[ 
                     { name: intl.formatMessage({ id: 'nav.deudores' }), url: "/deudores" },
                     { name: intl.formatMessage({ id: 'nav.crearDeudor' }), url: "/crearcliente" },
                     { name: intl.formatMessage({ id: 'nav.consultarDeudor' }), url: "/consultarcliente" },
                 ]}
-                logged={true} 
+                logged={true}
                 usuario="Jorge"
             />
-
             <Container className="crear-cliente-container">
                 <Row className="justify-content-md-center">
                     <Col md={10}>
@@ -99,57 +122,17 @@ export default function CrearCliente() {
                         <Form onSubmit={handleSubmit}>
                             <Row>
                                 <Col md={6}>
-                                    <Form.Group controlId="nombre">
+                                    <Form.Group controlId="nombrecompleto">
                                         <Form.Label><FormattedMessage id="app.fullName" /></Form.Label>
                                         <Form.Control
                                             type="text"
-                                            name="nombre"
-                                            value={cliente.nombre}
+                                            name="nombrecompleto"
+                                            value={cliente.nombrecompleto}
                                             onChange={handleChange}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderName' })}
                                         />
                                     </Form.Group>
                                 </Col>
-                                <Col md={6}>
-                                    <Form.Group controlId="identificacion">
-                                        <Form.Label><FormattedMessage id="app.idNumber" /></Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="identificacion"
-                                            value={cliente.identificacion}
-                                            onChange={handleChange}
-                                            placeholder={intl.formatMessage({ id: 'app.placeholderID' })}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col md={6}>
-                                    <Form.Group controlId="ingresos">
-                                        <Form.Label><FormattedMessage id="app.monthlyIncome" /></Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            name="ingresos"
-                                            value={cliente.ingresos}
-                                            onChange={handleChange}
-                                            placeholder={intl.formatMessage({ id: 'app.placeholderIncome' })}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Group controlId="ocupacion">
-                                        <Form.Label><FormattedMessage id="app.occupation" /></Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="ocupacion"
-                                            value={cliente.ocupacion}
-                                            onChange={handleChange}
-                                            placeholder={intl.formatMessage({ id: 'app.placeholderOccupation' })}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                            <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="direccion">
                                         <Form.Label><FormattedMessage id="app.address" /></Form.Label>
@@ -162,6 +145,8 @@ export default function CrearCliente() {
                                         />
                                     </Form.Group>
                                 </Col>
+                            </Row>
+                            <Row>
                                 <Col md={6}>
                                     <Form.Group controlId="telefono">
                                         <Form.Label><FormattedMessage id="app.phone" /></Form.Label>
@@ -174,17 +159,29 @@ export default function CrearCliente() {
                                         />
                                     </Form.Group>
                                 </Col>
-                            </Row>
-                            <Row>
                                 <Col md={6}>
-                                    <Form.Group controlId="correo">
+                                    <Form.Group controlId="email">
                                         <Form.Label><FormattedMessage id="app.email" /></Form.Label>
                                         <Form.Control
                                             type="email"
-                                            name="correo"
-                                            value={cliente.correo}
+                                            name="email"
+                                            value={cliente.email}
                                             onChange={handleChange}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderEmail' })}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <Form.Group controlId="ocupacion">
+                                        <Form.Label><FormattedMessage id="app.occupation" /></Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="ocupacion"
+                                            value={cliente.ocupacion}
+                                            onChange={handleChange}
+                                            placeholder={intl.formatMessage({ id: 'app.placeholderOccupation' })}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -192,10 +189,24 @@ export default function CrearCliente() {
                                     <Form.Group controlId="foto">
                                         <Form.Label><FormattedMessage id="app.clientPhoto" /></Form.Label>
                                         <Form.Control
-                                            type="file"
+                                            type="url"  // Foto debe ser una URL
                                             name="foto"
+                                            value={cliente.foto}
                                             onChange={handleChange}
-                                            accept="image/*"
+                                            placeholder={intl.formatMessage({ id: 'app.placeholderPhotoUrl' })}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <Form.Group controlId="fecha">
+                                        <Form.Label><FormattedMessage id="app.date" /></Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            name="fecha"
+                                            value={cliente.fecha}
+                                            onChange={handleChange}
                                         />
                                     </Form.Group>
                                 </Col>
