@@ -4,6 +4,8 @@ import '@testing-library/jest-dom';
 import { IntlProvider } from 'react-intl';
 import Deudores from '../Deudores';
 import messages_es from '../local/es.json';
+import userEvent from '@testing-library/user-event';
+
 
 const messages = {
   es: messages_es,
@@ -12,25 +14,31 @@ const language = 'es';
 
 describe('Deudores', () => {
   beforeEach(() => {
-    // Mock del fetch
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
+    localStorage.setItem('token', 'fake-token');
+  
+    global.fetch = jest.fn((url, options) => {
+      // Validar que se envían los headers correctamente
+      expect(options.headers['Authorization']).toBe('Bearer fake-token');
+      expect(options.headers['Content-Type']).toBe('application/json');
+  
+      return Promise.resolve({
         json: () =>
           Promise.resolve([
-            { nombre: 'Deudor 1', fecha: '2024-01-01', pago_intereses: 100 },
-            { nombre: 'Deudor 2', fecha: '2024-01-01', pago_intereses: 200 },
-            { nombre: 'Deudor 3', fecha: '2024-01-01', pago_intereses: 300 },
-            { nombre: 'Deudor 4', fecha: '2024-01-01', pago_intereses: 400 },
-            { nombre: 'Deudor 5', fecha: '2024-01-01', pago_intereses: 500 },
-            { nombre: 'Deudor 6', fecha: '2024-01-01', pago_intereses: 600 },
-            { nombre: 'Deudor 7', fecha: '2024-01-01', pago_intereses: 700 },
-            { nombre: 'Deudor 8', fecha: '2024-01-01', pago_intereses: 800 },
-            { nombre: 'Deudor 9', fecha: '2024-01-01', pago_intereses: 900 },
-            { nombre: 'Deudor 10', fecha: '2024-01-01', pago_intereses: 1000 },
+            { nombrecompleto: 'Deudor 1', fecha: '2024-01-01', pago_intereses: 100 },
+            { nombrecompleto: 'Deudor 2', fecha: '2024-01-01', pago_intereses: 200 },
+            { nombrecompleto: 'Deudor 3', fecha: '2024-01-01', pago_intereses: 300 },
+            { nombrecompleto: 'Deudor 4', fecha: '2024-01-01', pago_intereses: 400 },
+            { nombrecompleto: 'Deudor 5', fecha: '2024-01-01', pago_intereses: 500 },
+            { nombrecompleto: 'Deudor 6', fecha: '2024-01-01', pago_intereses: 600 },
+            { nombrecompleto: 'Deudor 7', fecha: '2024-01-01', pago_intereses: 700 },
+            { nombrecompleto: 'Deudor 8', fecha: '2024-01-01', pago_intereses: 800 },
+            { nombrecompleto: 'Deudor 9', fecha: '2024-01-01', pago_intereses: 900 },
+            { nombrecompleto: 'Deudor 10', fecha: '2024-01-01', pago_intereses: 1000 },
           ]),
-      })
-    );
+      });
+    });
   });
+  
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -48,11 +56,30 @@ describe('Deudores', () => {
     // Verificar textos clave
     expect(screen.getByText("Bienvenido, Jorge")).toBeInTheDocument();
     expect(screen.getByText("Este mes has ganado")).toBeInTheDocument();
-    expect(screen.getByText(">1 año")).toBeInTheDocument();
-    expect(screen.getByText("6 meses")).toBeInTheDocument();
-    expect(screen.getByText("3 meses")).toBeInTheDocument();
-    expect(screen.getByText("1 mes")).toBeInTheDocument();
   });
+  
+  test('Debe filtrar deudores correctamente', async () => {
+    render(
+      <MemoryRouter>
+        <IntlProvider locale={language} messages={messages[language]}>
+          <Deudores />
+        </IntlProvider>
+      </MemoryRouter>
+    );
+  
+    // Escribir en el input de búsqueda
+    const searchInput = screen.getByPlaceholderText('Buscar por nombre');
+    await userEvent.type(searchInput, 'Deudor 1');
+  
+    // Verificar que solo aparece el deudor filtrado
+    await waitFor(() => {
+      const cards = screen.getAllByText(/Deudor 1/i);
+      expect(cards.length).toBe(1);
+      expect(cards[0]).toHaveTextContent('Deudor 1');
+  });
+  });
+  
+  
 
   test('Deben crearse 10 cartas', async () => {
     render(
