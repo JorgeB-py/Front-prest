@@ -32,12 +32,12 @@ describe('Pruebas para DeudorDetalle', () => {
 		let date;
 
 		startDate.click();
-		date = { day: "10", month: "January", year: "2024" }
+		date = { day: "10", month: "January", year: "2023" }
 		findDateInCalendar(cy.get('button[aria-label="Before"]').click(), date);
 		startDate.click();
 
 		dueDate.click();
-		date = { day: "15", month: "June", year: "2024" }
+		date = { day: "15", month: "June", year: "2023" }
 		findDateInCalendar(cy.get('button[aria-label="Before"]').click(), date);
 		dueDate.click();
 
@@ -45,8 +45,8 @@ describe('Pruebas para DeudorDetalle', () => {
 		cy.contains('button', 'Save').click();
 
 		// Comprabar los datos
-		cy.contains('January 10, 2024').should('be.visible');
-		cy.contains('June 15, 2024').should('be.visible');
+		cy.contains('January 10, 2023').should('be.visible');
+		cy.contains('June 15, 2023').should('be.visible');
 		cy.contains('Biweekly').should('be.visible');
 	})
 
@@ -57,12 +57,12 @@ describe('Pruebas para DeudorDetalle', () => {
 		let date;
 
 		startDate.click();
-		date = { day: "15", month: "June", year: "2024" }
+		date = { day: "15", month: "June", year: "2023" }
 		findDateInCalendar(cy.get('button[aria-label="Before"]').click(), date);
 		startDate.click();
 		
 		dueDate.click();
-		date = { day: "10", month: "January", year: "2024" }
+		date = { day: "10", month: "January", year: "2023" }
 		findDateInCalendar(cy.get('button[aria-label="Before"]').click(), date);
 		dueDate.click();
 
