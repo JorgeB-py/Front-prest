@@ -227,5 +227,7 @@
     "app.LoanValorCuota":"Valor de la cuota",
     "app.LoanStatus":"Estado del préstamo",
     "app.LoanDebt":"Deuda",
-    "app.capital":"Capital"
+    "app.capital":"Capital",
+    "app.DatesError":"Las fechas de inicio y vencimiento deben ser coherentes.",
+    "app.InterestError":"El interés debe estar entre 0 y 100."
   }

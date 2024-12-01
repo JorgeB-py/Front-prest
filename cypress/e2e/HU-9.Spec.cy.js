@@ -1,7 +1,16 @@
 describe('Pruebas para DeudorDetalle', () => {
     beforeEach(() => {
       // Acceder al componente principal
-      cy.visit('http://localhost:3000/infodeudor');
+      cy.visit('http://localhost:3000/infodeudor', {
+        onBeforeLoad(win) {
+          Object.defineProperty(win.navigator, 'languages', {
+            value: ['es-ES'],
+          });
+          Object.defineProperty(win.navigator, 'language', {
+            value: 'es-ES',
+          });
+        }
+      });
     });
   
     it('Debe cargar los datos iniciales del deudor correctamente', () => {
