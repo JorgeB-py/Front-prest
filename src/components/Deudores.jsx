@@ -24,8 +24,8 @@ export default function Index() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-
-        const prestamistaId = 1;
+        localStorage.setItem('prestamistaId', 1);
+        const prestamistaId = localStorage.getItem('prestamistaId');
 
         if (token) {
             fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {

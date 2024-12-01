@@ -121,6 +121,7 @@ export default function CrearCliente() {
 
             try {
                 const token = localStorage.getItem('token');
+                const idPrestamista = localStorage.getItem('prestamistaId');
                 const responseCliente = await fetch('http://localhost:3000/deudor', {
                     method: 'POST',
                     headers: {
@@ -171,7 +172,7 @@ export default function CrearCliente() {
                 const dataPrestamoDeudor = await responsePrestamoDeudor.json();
                 console.log('Préstamo asociado al cliente con éxito:', dataPrestamoDeudor);
 
-                const responsePrestamistaPrestamo = await fetch(`http://localhost:3000/prestamistas/1/prestamos/${dataPrestamo.id}`, {
+                const responsePrestamistaPrestamo = await fetch(`http://localhost:3000/prestamistas/${idPrestamista}/prestamos/${dataPrestamo.id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

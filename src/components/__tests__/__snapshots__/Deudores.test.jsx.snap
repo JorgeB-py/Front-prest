@@ -80,7 +80,7 @@ exports[`Deudores Component Debe coincidir con el snapshot 1`] = `
               role="button"
               tabindex="0"
             >
-              Jorge
+              John Doe
             </a>
           </div>
         </div>
@@ -94,7 +94,7 @@ exports[`Deudores Component Debe coincidir con el snapshot 1`] = `
     <h1
       style="text-align: left;"
     >
-      Bienvenido, Jorge
+      Bienvenido, John Doe
     </h1>
     <h3>
       Este mes has ganado
