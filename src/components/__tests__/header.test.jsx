@@ -60,7 +60,7 @@ describe('Header', () => {
 
         const userButton = screen.getByRole('button', { name: mockUsuario });
         expect(userButton).toBeInTheDocument();
-        expect(userButton).toHaveAttribute('href', '/perfil');
+        expect(userButton).toHaveAttribute('href', '/perfilPrestamista');
     });
 
     test('does not render "Entra" and "Empieza ahora" buttons when logged in', () => {
