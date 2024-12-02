@@ -301,7 +301,7 @@ export default function DeudorApp() {
             </Form.Group>
 
             <Form.Group controlId="interes">
-              <Form.Label>Interés (%)</Form.Label>
+              <Form.Label>Interés</Form.Label>
               <Form.Control 
                 type="number" 
                 placeholder="Tasa de Interés" 

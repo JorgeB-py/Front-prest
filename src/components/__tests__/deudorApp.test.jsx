@@ -89,10 +89,10 @@ describe('DeudorApp', () => {
     fireEvent.click(screen.getByText("Edit"));
 
     // Cambiar el valor del interés
-    fireEvent.change(screen.getByLabelText("Interest"), { target: { value: '10' } });
+    fireEvent.change(screen.getByLabelText("interés"), { target: { value: '10' } });
 
     // Guardar cambios
-    fireEvent.click(screen.getByText("Save"));
+    fireEvent.click(screen.getByText("Actualizar Datos"));
 
     // Verificar que el nuevo interés se haya guardado correctamente
     await waitFor(() => {
