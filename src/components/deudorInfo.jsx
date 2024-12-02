@@ -7,6 +7,8 @@ import { Modal, Button } from 'react-bootstrap';
 
 const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
 
+  let estado = "Activa";
+
   //Renderizado condicional del botón de paz y salvo.
   const renderBalance = () => {
     return (
@@ -34,10 +36,27 @@ const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
   const handleGenerate = () => {
     console.log('Paz y salvo generado correctamente');
     console.log('Enviando correo de confirmación al deudor...');
+
+    prestamo.pagado=true;
+
+    fetch(`http://localhost:3000/prestamo/${prestamo.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(prestamo)
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+    })
+
     setShowConfirmationModal(false);
   };
+
   
-  let estado = "OK";
+  if(prestamo.pagado){
+    estado = "Pagada";
+  } 
 
   const language = navigator.language.split(/[-_]/)[0]; 
 

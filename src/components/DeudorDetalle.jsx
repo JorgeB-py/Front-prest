@@ -241,8 +241,14 @@ export default function DeudorDetalle() {
           </Button>
         </Modal.Footer>
       </Modal>
-
+      <div className="text-center">
+        <Button className="btn buttom-general" onClick={() => navigate('/crearPrestamo')}>
+          <FormattedMessage id="app.crearPrestamoBoton" />
+        </Button>
+      </div>
       <Footer />
+      <div className="text-center">
+    </div>
     </div>
   );
 }
