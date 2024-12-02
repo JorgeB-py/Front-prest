@@ -62,6 +62,7 @@ describe('DeudorApp', () => {
         const saveBtn = screen.queryByText(/Actualizar Datos/i);
         fireEvent.click(saveBtn);
 
+        const cancelBtn = screen.getByRole("button",{name:"Close"});
         
         expect(cancelBtn).toBeInTheDocument();
         fireEvent.click(cancelBtn);
