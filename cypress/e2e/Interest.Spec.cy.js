@@ -1,4 +1,4 @@
-describe('Pruebas para DeudorDetalle', () => {
+describe('Pruebas para HU-2', () => {
     beforeEach(() => {
       // Acceder al componente principal
       cy.visit('http://localhost:3000/deudorApp', {

@@ -1,4 +1,4 @@
-describe('Pruebas para DeudorDetalle', () => {
+describe('Pruebas para HU-7', () => {
 	const findDateInCalendar = (beforeButton, dateObj) => {
 		cy.get('.title-calendar').invoke('text').then((text) => { // Obtener el texto de .title-calendar
 			if (text === `${dateObj.month} ${dateObj.year}`) { // Comprabar si es el mes-año escogido

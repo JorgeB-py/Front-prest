@@ -1,4 +1,4 @@
-describe('Pruebas para DeudorDetalle', () => {
+describe('Pruebas para HU-8', () => {
   beforeEach(() => {
     // Acceder al componente principal
     cy.visit('http://localhost:3000/pasarela', {

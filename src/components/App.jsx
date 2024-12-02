@@ -20,7 +20,7 @@ import PerfilDeudor from "./PerfilDeudor";
 
 export default function App() {
     const nav_links = [
-        { url: "pasarela", component: Pasarela },
+        { url: "pasarela/:idPrestamo", component: Pasarela },
         { url: "soluciones", component: Soluciones },
         { url: "nosotros", component: Nosotros },
         { url: "recursos", component: Recursos },
