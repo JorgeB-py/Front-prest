@@ -1,17 +1,31 @@
-describe('Pruebas para DeudorDetalle', () => {
+describe('Pruebas para HU-8', () => {
   beforeEach(() => {
-    // Acceder al componente principal
-    cy.visit('http://localhost:3000/pasarela', {
-      onBeforeLoad(win) {
-        Object.defineProperty(win.navigator, 'languages', {
-          value: ['en-US'],
-        });
-        Object.defineProperty(win.navigator, 'language', {
-          value: 'en-US',
-        });
-      }
-    });
-  });
+		// Acceder al componente principal
+		cy.visit('http://localhost:3001/login',{
+			onBeforeLoad(win) {
+				Object.defineProperty(win.navigator, 'languages', {
+					value: ['en-US'],
+				});
+				Object.defineProperty(win.navigator, 'language', {
+					value: 'en-US',
+				});
+			}
+		})
+		cy.get("input[id='username']").clear().type('deudor');
+		cy.get("input[id='password']").clear().type('deudor');
+		cy.contains('button', 'Login como Cliente').click();
+		cy.wait(1000)
+		cy.visit('http://localhost:3001/pasarela/1',{
+			onBeforeLoad(win) {
+				Object.defineProperty(win.navigator, 'languages', {
+					value: ['en-US'],
+				});
+				Object.defineProperty(win.navigator, 'language', {
+					value: 'en-US',
+				});
+			}
+		})
+	});
 
   it("Verificar que los componentes de las opciones de pago están presentes", () => {
     cy.contains('Debit or credit card').should('be.visible');

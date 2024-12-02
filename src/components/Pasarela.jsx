@@ -4,11 +4,11 @@ import { Header } from './header';
 import { Footer } from './footer';
 import { React, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 
 export default function Pasarela() {
-
+    const {idPrestamo} = useParams()
     const [showModalCard, setShowModalCard] = useState(false);
     const [showModalNequi, setShowModalNequi] = useState(false);
     const [showModalPSE, setShowModalPSE] = useState(false);
@@ -16,7 +16,7 @@ export default function Pasarela() {
     const [nombreDeuda, setNombreDeuda] = useState("Carro");
     const [paymentData, setPaymentData] = useState(0)
     const [messageErrorModal, setMessageErrorModal] = useState("")
-
+    const [token, setToken] = useState()
 
     const mesesNumeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     const aniosNumeros = [2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034];
@@ -28,12 +28,33 @@ export default function Pasarela() {
     ];
 
     useEffect(() => {
-        fetch("https://my.api.mockaroo.com/hhuu_payment.json?key=70f6caa0")
-            .then((response) => response.json())
-            .then((data) => {
-                setNombreDeudor(data.nombreDeudor);
-                setNombreDeuda(data.deudaNombre);
-            })
+        const newToken = localStorage.getItem("token")
+        if (!newToken){
+            navigate('/login')
+            return;
+        }
+        setToken(newToken)
+
+        const userType = localStorage.getItem("userType")
+        if (userType==="prestamista"){
+            navigate('/login')
+            return;
+        }
+        console.log('Obteniendo Prestamo')
+        fetch('http://localhost:3000/prestamo/'+idPrestamo,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${newToken}`,
+            },
+        })
+        .then((response)=>response.json())
+        .then((data)=>{
+            if (data.deudor){
+                setNombreDeudor(data.deudor.nombrecompleto)
+            }
+            setNombreDeuda(data.nombre)
+        })
     }, []);
 
     function validateForm(type) {
@@ -75,6 +96,33 @@ export default function Pasarela() {
         return false;
 
 
+    }
+
+    async function hacerPago(){
+        const actualDate = new Date();
+        const res = await fetch('http://localhost:3000/pagos/',{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body:JSON.stringify({
+                fecha: actualDate.toISOString().split("T")[0],
+                capital: paymentData.principal,
+                interes: paymentData.interest
+            })
+        });
+        const pago= await res.json()
+        const res2 = await fetch(`http://localhost:3000/prestamos/${idPrestamo}/pagos/${pago.id}`,{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            }
+        });
+        if(res2.status===201){
+            alert('Pago Creado Exitosamente')
+        }
     }
     return (<div>
         <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
@@ -261,7 +309,10 @@ export default function Pasarela() {
                 <Button variant="secondary" onClick={() => setShowModalCard(false)}>
                     <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
                 </Button>
-                <Button variant="primary" onClick={() => { if (validateForm("card")) navigate('/visualizar-transacciones/1') }}> {/*TODO VALIDACIÓN */}
+                <Button variant="primary" onClick={() => { if (validateForm("card")) {
+                    hacerPago();
+                    navigate('/visualizar-transacciones/'+idPrestamo)
+                }}}> {/*TODO VALIDACIÓN */}
                     <FormattedMessage id="app.save" defaultMessage="Save" />
                 </Button>
             </Modal.Footer>
@@ -330,7 +381,10 @@ export default function Pasarela() {
                 <Button variant="secondary" onClick={() => setShowModalNequi(false)}>
                     <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
                 </Button>
-                <Button variant="primary" onClick={() => { if (validateForm("nequi")) navigate('/visualizar-transacciones/1') }}> {/*TODO VALIDACIÓN */}
+                <Button variant="primary" onClick={() => { if (validateForm("nequi")) {
+                    hacerPago();
+                    navigate('/visualizar-transacciones/'+idPrestamo)
+                }}}> {/*TODO VALIDACIÓN */}
                     <FormattedMessage id="app.save" defaultMessage="Save" />
                 </Button>
             </Modal.Footer>
@@ -419,7 +473,11 @@ export default function Pasarela() {
                 <Button variant="secondary" onClick={() => setShowModalPSE(false)}>
                     <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
                 </Button>
-                <Button variant="primary" onClick={() => { if (validateForm("pse")) navigate('/visualizar-transacciones/1') }}> {/*TODO VALIDACIÓN */}
+                <Button variant="primary" onClick={() => { if (validateForm("pse")) {
+                    hacerPago().then(()=>{
+                        navigate('/visualizar-transacciones/'+idPrestamo)
+                    })
+                }}}>
                     <FormattedMessage id="app.save" defaultMessage="Save" />
                 </Button>
             </Modal.Footer>

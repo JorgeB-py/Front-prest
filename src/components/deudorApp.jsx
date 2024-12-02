@@ -189,11 +189,10 @@ export default function DeudorApp() {
   const validateForm = () => {
     setShowDatesError(false);
     setInterestError(false);
-
-    if (newPrestamoData.fechaInicio && newPrestamoData.fechaVencimiento) {
-      const startDate = new Date(newPrestamoData.fechaInicio);
-      const endDate = new Date(newPrestamoData.fechaVencimiento);
-      if (startDate >= endDate) {
+    if (newPrestamoData.fechainicio && newPrestamoData.fechafin) {
+      const startDate = new Date(newPrestamoData.fechainicio);
+      const endDate = new Date(newPrestamoData.fechafin);
+      if (startDate > endDate) {
         setShowDatesError(true);
         return false;
       }
@@ -296,12 +295,15 @@ export default function DeudorApp() {
                 type="number" 
                 placeholder="Monto Prestado" 
                 value={newPrestamoData.monto} 
-                onChange={(e) => setnewPrestamoData({ ...newPrestamoData, monto: parseInt(e.target.value) })} 
+                onChange={(e) => {
+                  setnewPrestamoData({ ...newPrestamoData, monto: parseInt(e.target.value)});
+                  console.log(e.target.value)
+                }} 
               />
             </Form.Group>
 
             <Form.Group controlId="interes">
-              <Form.Label>Interés (%)</Form.Label>
+              <Form.Label>Interés</Form.Label>
               <Form.Control 
                 type="number" 
                 placeholder="Tasa de Interés" 
@@ -309,8 +311,10 @@ export default function DeudorApp() {
                 onChange={(e) => setnewPrestamoData({ ...newPrestamoData, interes: parseInt(e.target.value) })} 
               />
               {interestError && <p style={{ color: 'red' }}>El interés debe ser entre 0 y 100.</p>}
+              <Form.Text className='text-danger'>
+              {showDatesError?'Start and Due Dates must be consistent.':''}
+            </Form.Text>
             </Form.Group>
-
             <Button 
               variant="primary" 
               onClick={() => {

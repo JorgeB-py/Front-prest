@@ -92,6 +92,7 @@ export default function Index() {
             })
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log(data)
                     if (data.message!="El prestamista con el id proporcionado no fue encontrado") {
                         setDeudores(data.deudores);
                         setFilteredDeudores(data.deudores);
