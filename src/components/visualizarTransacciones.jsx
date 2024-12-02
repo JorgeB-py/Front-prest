@@ -165,7 +165,7 @@ export default function VisualizarTransacciones() {
                                 <Button variant="secondary" onClick={eliminarFiltros}>
                                     <FormattedMessage id="visualizarTransacciones.eliminarFiltros" defaultMessage="Eliminar Filtros" />
                                 </Button>
-                                <Button variant="secondary" onClick={() =>  navigate('/pasarela')}>
+                                <Button variant="secondary" onClick={() =>  navigate('/pasarela/'+id)}>
                                     <FormattedMessage id="visualizarTransacciones.MakePayment" defaultMessage="Make payment" />
                                 </Button>
                             </div>

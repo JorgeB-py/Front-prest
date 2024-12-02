@@ -311,7 +311,7 @@ export default function Pasarela() {
                 </Button>
                 <Button variant="primary" onClick={() => { if (validateForm("card")) {
                     hacerPago();
-                    navigate('/visualizar-transacciones/1')
+                    navigate('/visualizar-transacciones/'+idPrestamo)
                 }}}> {/*TODO VALIDACIÓN */}
                     <FormattedMessage id="app.save" defaultMessage="Save" />
                 </Button>
@@ -383,7 +383,7 @@ export default function Pasarela() {
                 </Button>
                 <Button variant="primary" onClick={() => { if (validateForm("nequi")) {
                     hacerPago();
-                    navigate('/visualizar-transacciones/1')
+                    navigate('/visualizar-transacciones/'+idPrestamo)
                 }}}> {/*TODO VALIDACIÓN */}
                     <FormattedMessage id="app.save" defaultMessage="Save" />
                 </Button>
@@ -475,7 +475,7 @@ export default function Pasarela() {
                 </Button>
                 <Button variant="primary" onClick={() => { if (validateForm("pse")) {
                     hacerPago().then(()=>{
-                        navigate('/visualizar-transacciones/1')
+                        navigate('/visualizar-transacciones/'+idPrestamo)
                     })
                 }}}>
                     <FormattedMessage id="app.save" defaultMessage="Save" />
