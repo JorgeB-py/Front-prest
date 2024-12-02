@@ -1,285 +1,331 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';  // Importar Modal y Form de react-bootstrap
+import { Modal, Button, Form } from 'react-bootstrap';
 import DeudorInfo from './deudorInfo';
 import HistorialPagos from './historialpagos';
-import Calendar from './Calendar'
 import { Header } from './header';
 import { Footer } from './footer';
 import { Container, Col, Row } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/deudorApp.css';  // Estilos personalizados
+import './styles/deudorApp.css';
 
 export default function DeudorApp() {
   const [deudorData, setDeudorData] = useState({
-    nombre: 'Joseph',
-    fechaInicio: new Date('2023-11-01'),
-    fechaVencimiento: new Date('2024-02-01'),
-    prestado: 100000,
-    interes: 5,
-    frecuenciaPago: 'Semanal',
-    state: 'Mora',
-    totalInterest: function () {
-      return this.prestado * (this.interes / 100);
-    },
-    getBalance: function () {
-      return this.prestado + this.totalInterest()
-    }
-  });
-  const [newDeudorData, setNewDeudorData] = useState(0);
-  const [newPayment, setNewPayment] = useState(0);      // Estado para la nuevo pago
+    nombrecompleto: 'Armando Casas',
+    cedula: '1110450340',
+    situacionLaboral: 'Empleado',
+    direccion: 'Calle 123',
+    fecha: '2024-01-01',
+    ocupacion: 'Ingeniero',
+    email: "jorge@gmail.com",
+    telefono: "3143807270",
+  }); // Datos del deudor
 
-  const [historialPagos, setHistorialPagos] = useState([]);
-  const [showModal, setShowModal] = useState(false);  // Estado para controlar el modal de pagos
-  const [showModalInteres, setShowModalInteres] = useState(false); // Estado para controlar el modal de modificar interés
-  const [showDatesError,setShowDatesError] = useState(false);
-  const [interestError,setInterestError] = useState(false);
-  // Estado para modificar el interés del deudor
+  const [prestamoData, setPrestamoData] = useState({
+    nombre: 'Préstamo de Armando Casas',
+    monto: 1000000,
+    interes: 10,
+    fechainicio: '2021-01-01',
+    fechafin: '2022-01-01',
+    pagado: false,
+    historialpagos: [
+      {
+        fecha: '2021-01-01',
+        capital: 50000,
+        interes: 5000,
+      },
+      {
+        fecha: '2021-02-01',
+        capital: 50000,
+        interes: 5000,
+      },
+    ],
+  }); // Datos del préstamo
+  
+  const [historialPagos, setHistorialPagos] = useState([]); // Historial de pagos del préstamo
+  const [newPayment, setNewPayment] = useState({ capital: 0, interes: 0 }); // Nuevo pago
+  const [showModal, setShowModal] = useState(false); // Control del modal para agregar pagos
+  const [showModalInteres, setShowModalInteres] = useState(false); // Control del modal para modificar datos
+  
+  const [newPrestamoData, setnewPrestamoData] = useState({
+    fechainicio: '',
+    fechafin: '',
+    monto: 0,
+    interes: 0,
+    nombre: '',
+    pagado:false,
+    historialpagos: [],
+  });
+
+  const [showDatesError, setShowDatesError] = useState(false);
+  const [interestError, setInterestError] = useState(false);
 
   useEffect(() => {
+    // Obtener los datos del préstamo y su historial de pagos
     const token = localStorage.getItem('token');
-    const deudorId = localStorage.getItem('deudorId');
-    if (!deudorId) {
-      console.error('No hay deudorId disponible');
-    } else {
-      if (token) {
-        fetch(`http://localhost:3000/deudor/${deudorId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            setDeudorData(data);
-            console.log(deudorData)
-            setHistorialPagos(data.prestamos.historialpagos);
-          })
-          .catch((error) => {
-            console.error('Error al obtener los deudores:', error);
-          });
-      } else {
-        console.error('No hay token disponible');
-      }
+    const prestamoId = localStorage.getItem('deudaId');
+    
+    if (!prestamoId || !token) {
+      console.error('No hay prestamoId o token disponible');
+      return;
     }
+
+    fetch(`http://localhost:3000/prestamo/${prestamoId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setPrestamoData(data);
+      setDeudorData(data.deudor);
+      setHistorialPagos(data.historialpagos);
+      console.log('Datos del préstamo obtenidos correctamente:', data);
+    })
+    .catch((error) => {
+      console.error('Error al obtener los datos del préstamo:', error);
+    });
   }, []);
 
-  useEffect(() => {
-    if (!showModalInteres) {
-      setNewDeudorData({
-        fechaInicio: deudorData.fechaInicio,
-        fechaVencimiento: deudorData.fechaVencimiento,
-        prestado: deudorData.prestado,
-        interes: deudorData.interes,
-        frecuenciaPago: deudorData.frecuenciaPago,
-      })
+  const actualizarDeudorData = async () => {
+    const token = localStorage.getItem('token');
+    const prestamoId = localStorage.getItem('deudaId');
+    
+    if (!prestamoId || !token) {
+      console.error('Faltan credenciales o identificadores');
+      return;
     }
-    if (!showModal) {
-      setNewPayment({
-        capital: 0,
-        interes: 0,
-        totalPayment: 0
-      })
-    }
-    if (historialPagos.length > 0) {
-      setDeudorData({
-        ...deudorData,
-        getBalance: function () {
-          return historialPagos[historialPagos.length - 1].balance
-        }
-      })
-    }
-  }, [showModalInteres, showModal, historialPagos])
+    
+    const updatedPrestamoData = {
+      ...newPrestamoData,
+      nombre: prestamoData.nombre,
+      historialpagos: prestamoData.historialpagos
+    };
 
-  // Links de navegación
-  const nav_links = [
-    { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: "/deudores" },
-    { name: <FormattedMessage id="app.MiDinero" defaultMessage="My Money" />, url: "/midinero" },
-  ];
+    try {
+      const response = await fetch(`http://localhost:3000/prestamo/${prestamoId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedPrestamoData),
+      });
 
-  // Función para agregar un nuevo pago
-  const agregarPago = () => {
-    const nuevoBalance = deudorData.getBalance() - newPayment.totalPayment;
+      if (!response.ok) {
+        throw new Error(`Error al actualizar los datos: ${response.statusText}`);
+      }
+
+      const updatedPrestamo = await response.json();
+      setPrestamoData(updatedPrestamo);
+      setDeudorData(updatedPrestamo.deudor);
+      setShowModalInteres(false);
+
+      console.log('Datos actualizados correctamente:', updatedPrestamo);
+    } catch (error) {
+      console.error('Error al actualizar los datos:', error);
+    }
+  };
+
+  const agregarPago = async () => {
+    const token = localStorage.getItem('token');
+    const prestamoId = localStorage.getItem('deudaId');
+
+    if (!prestamoId || !token) {
+      console.error('Faltan credenciales o identificadores');
+      return;
+    }
 
     const nuevoPago = {
-      fecha: new Date().toISOString().split('T')[0], // Fecha actual
       capital: newPayment.capital,
-      interest: newPayment.interest,
-      totalPayment: newPayment.totalPayment,
-      balance: nuevoBalance,
+      interes: newPayment.interes,
+      fecha: new Date().toISOString().split('T')[0],
     };
-    // Usar setHistorialPagos con una nueva copia del arreglo (sin mutarlo)
-    setHistorialPagos([...historialPagos, nuevoPago]);
-    setShowModal(false);  // Cerrar el modal después de agregar el pago
-  };
-  const checkDatesCoherence = (fechaInicio,fechaVencimiento) => {
-    if (fechaInicio<fechaVencimiento){
-      setShowDatesError(false)
-      return true
-    };
-    setShowDatesError(true)
-    return false;
-  }
 
-  const checkInterest= (newInterest)=>{
-    if (newInterest>=0 && newInterest<=100){
-        setInterestError(false)
-        return true
+
+
+    try {
+      const responsePago = await fetch(`http://localhost:3000/pagos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(nuevoPago),
+      });
+
+      if (!responsePago.ok) {
+        throw new Error(`Error al crear el pago: ${responsePago.statusText}`);
       }
-      setInterestError(true)
-      return false
-  }
-  // Función para actualizar el interés
-  const actualizarDeudorData = () => {
-    if (!checkDatesCoherence(newDeudorData.fechaInicio,newDeudorData.fechaVencimiento))return;
-    if (!checkInterest(newDeudorData.interes)) return;
-    setDeudorData({
-      ...deudorData,
-      ...newDeudorData
-    });
-    setShowModalInteres(false); // Cerrar el modal después de actualizar el interés
+
+      const dataPago = await responsePago.json();
+      const pagoId = dataPago.id;
+
+      const responseAsociar = await fetch(`http://localhost:3000/prestamos/${prestamoId}/pagos/${pagoId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!responseAsociar.ok) {
+        throw new Error(`Error al asociar el pago: ${responseAsociar.statusText}`);
+      }
+
+      const prestamo = await responseAsociar.json();
+      setHistorialPagos(prestamo.historialpagos);
+      setPrestamoData({ ...prestamo });
+      setShowModal(false);
+
+      console.log('Pago agregado y asociado con éxito:', prestamo);
+    } catch (error) {
+      console.error('Error al agregar el pago:', error);
+    }
+  };
+
+  const validateForm = () => {
+    setShowDatesError(false);
+    setInterestError(false);
+
+    if (newPrestamoData.fechaInicio && newPrestamoData.fechaVencimiento) {
+      const startDate = new Date(newPrestamoData.fechaInicio);
+      const endDate = new Date(newPrestamoData.fechaVencimiento);
+      if (startDate >= endDate) {
+        setShowDatesError(true);
+        return false;
+      }
+    }
+
+    if (newPrestamoData.interes < 0 || newPrestamoData.interes > 100) {
+      setInterestError(true);
+      return false;
+    }
+
+    return true;
   };
 
   return (
     <>
-      <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
+      <Header
+        nav_links={[
+          { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: '/deudores' },
+        ]}
+        logged={true}
+        usuario={'Jorge'}
+      />
       <Container>
         <Row className="mt-4">
           <Col className="text-center" md={12}>
-            <DeudorInfo deudor={deudorData} setShowModal={setShowModalInteres} />
+            {deudorData && <DeudorInfo deudor={deudorData} setShowModal={setShowModalInteres} prestamo={prestamoData} />}
           </Col>
         </Row>
         <Row className="mt-5">
           <Col>
             <h3><FormattedMessage id="app.recents" defaultMessage="Recents" /></h3>
-            <Button className="btn-add" onClick={() => setShowModal(true)}><FormattedMessage id="app.addPayment" defaultMessage="Add payment" /></Button>
-            <HistorialPagos pagos={historialPagos} />
+            <Button className="btn-add" onClick={() => setShowModal(true)}>
+              <FormattedMessage id="app.addPayment" defaultMessage="Add payment" />
+            </Button>
+            <HistorialPagos pagos={historialPagos} prestamo={prestamoData} />
           </Col>
         </Row>
       </Container>
-      <Footer />
 
-      {/* Modal para modificar el interés */}
-      <Modal show={showModalInteres} onHide={() => setShowModalInteres(false)}>
-        <Modal.Header closeButton style={{ borderBottom: 'none' }}>
-          <Modal.Title className="TWK-titulo-modal"><FormattedMessage id="app.editInfo" /></Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Container className='mt-0'>
-            <Form>
-              {/*// TODO Traducir */}
-              <Row className='mt-0'>
-                <Col md={6}>
-                  <Form.Group controlId="Start Date">
-                    <Form.Label><FormattedMessage id="app.startDate" defaultMessage="Start Date" /></Form.Label>
-                    <Calendar defaultValue={deudorData.fechaInicio} onChange={(value) => { setNewDeudorData({ ...newDeudorData, fechaInicio: value }) }} />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group controlId="Due Date">
-                    <Form.Label><FormattedMessage id="app.dueDate" defaultMessage="Due Date" /></Form.Label>
-                    <Calendar id="Start Due" defaultValue={deudorData.fechaVencimiento} onChange={(value) => { setNewDeudorData({ ...newDeudorData, fechaVencimiento: value }) }} />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={12}>
-                  <Form.Group controlId="Total Loan">
-                    <Form.Label><FormattedMessage id="app.newLoan" defaultMessage="Total Loan" /></Form.Label>
-                    <Form.Control
-                      type="number"
-                      defaultValue={deudorData.prestado}
-                      onChange={(e) => setNewDeudorData({ ...newDeudorData, prestado: parseFloat(e.target.value) })}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="Interest">
-                    <Form.Label><FormattedMessage id="app.newInterest" defaultMessage="Interest" /></Form.Label>
-                    <Form.Control
-                      aria-label='Interest'
-                      type="number"
-                      defaultValue={deudorData.interes}
-                      onChange={(e) => setNewDeudorData({ ...newDeudorData, interes: parseFloat(e.target.value) })}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="Payment Frequency">
-                    <Form.Label><FormattedMessage id="app.paymentFrequency" defaultMessage="Payment Frequency" /></Form.Label>
-                    <select className="form-select" aria-label="Payment Frequency" defaultValue={deudorData.frecuenciaPago} onChange={(e) => { setNewDeudorData({ ...newDeudorData, frecuenciaPago: e.target.value }) }}> {/*//TODO Traducir */}
-                      <option value="Semanal"><FormattedMessage id="app.Semanal" defaultMessage="Semanal" /></option>
-                      <option value="Quincenal"><FormattedMessage id="app.Quincenal" defaultMessage="Quincenal" /></option>
-                      <option value="Mensual"><FormattedMessage id="app.Mensual" defaultMessage="Mensual" /></option>
-                    </select>
-                  </Form.Group>
-                  <Form.Text className="text-danger">
-                    {showDatesError?<FormattedMessage id="app.DatesError" defaultMessage="Start and Due Dates must be consistent." />:""}
-                    {interestError?<FormattedMessage id="app.interestError" defaultMessage="Interest must be between 0 and 100." />:""}
-                  </Form.Text>
-                </Col>
-              </Row>
-          </Form>
-        </Container>
-      </Modal.Body>
-      <Modal.Footer style={{ borderTop: 'none' }} >
-        <Button variant="secondary" onClick={() => setShowModalInteres(false)}>
-          <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
-        </Button>
-        <Button variant="primary" onClick={actualizarDeudorData}>
-          <FormattedMessage id="app.save" defaultMessage="Save" />
-        </Button>
-      </Modal.Footer>
-    </Modal >
-
-      {/* Modal para agregar pagos */ }
-      < Modal show = { showModal } onHide = {() => setShowModal(false)
-}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title><FormattedMessage id="app.addPayment" defaultMessage="Add pay" /></Modal.Title>
+          <Modal.Title><FormattedMessage id="app.addPayment" defaultMessage="Add Payment" /></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group>
-              <Form.Label><FormattedMessage id="app.capital" defaultMessage="Capital" /></Form.Label>
-              <Form.Control
-                type="number"
-                aria-label='Capital'
-                defaultValue={newPayment.capital}
-                onChange={(e) => {
-                  let value = parseFloat(e.target.value);
-                  if (isNaN(value))value = 0;
-                  setNewPayment({...newPayment,capital:value,totalPayment:newPayment.interest+value})
-                }}
-              />
-              <Form.Label><FormattedMessage id="app.interest" defaultMessage="Interest" /></Form.Label>
-              <Form.Control
-                type="number"
-                defaultValue={newPayment.interest}
-                aria-label='Interest'
-                onChange={(e) => {
-                  let value = parseFloat(e.target.value);
-                  if (isNaN(value))value = 0;
-                  setNewPayment({...newPayment,interest:value,totalPayment:newPayment.capital+value})
-                }}
-              />
-              <Form.Label><FormattedMessage id="app.totalPayment" defaultMessage="Total Payment" /></Form.Label>
-              <Form.Control
-                aria-label='Total Payment'
-                type="number"
-                value={newPayment.totalPayment}
-                disabled
+            <Form.Group controlId="capital">
+              <Form.Label>Capital</Form.Label>
+              <Form.Control 
+                type="number" 
+                placeholder="Enter capital" 
+                value={newPayment.capital} 
+                onChange={(e) => setNewPayment({ ...newPayment, capital: parseInt(e.target.value) })} 
               />
             </Form.Group>
+
+            <Form.Group controlId="interes">
+              <Form.Label>Interes</Form.Label>
+              <Form.Control 
+                type="number" 
+                placeholder="Enter interes" 
+                value={newPayment.interes} 
+                onChange={(e) => setNewPayment({ ...newPayment, interes: parseInt(e.target.value) })} 
+              />
+            </Form.Group>
+
+            <Button variant="primary" onClick={agregarPago}>
+              Agregar Pago
+            </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            <FormattedMessage id="app.cancel" defaultMessage="Cancel" />
-          </Button>
-          <Button variant="primary" onClick={agregarPago}>
-            <FormattedMessage id="app.addPayment" defaultMessage="Add" />
-          </Button>
-        </Modal.Footer>
-      </Modal >
+      </Modal>
+
+      <Modal show={showModalInteres} onHide={() => setShowModalInteres(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Actualizar Información de Deudor</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="fechaInicio">
+              <Form.Label>Fecha de Inicio</Form.Label>
+              <Form.Control
+                type="date"
+                value={newPrestamoData.fechainicio}
+                onChange={(e) => setnewPrestamoData({ ...newPrestamoData, fechainicio: e.target.value })}
+              />
+            </Form.Group>
+            
+            <Form.Group controlId="fechafin">
+              <Form.Label>Fecha de Vencimiento</Form.Label>
+              <Form.Control
+                type="date"
+                value={newPrestamoData.fechafin}
+                onChange={(e) => setnewPrestamoData({ ...newPrestamoData, fechafin: e.target.value })}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="prestado">
+              <Form.Label>Monto Prestado</Form.Label>
+              <Form.Control 
+                type="number" 
+                placeholder="Monto Prestado" 
+                value={newPrestamoData.monto} 
+                onChange={(e) => setnewPrestamoData({ ...newPrestamoData, monto: parseInt(e.target.value) })} 
+              />
+            </Form.Group>
+
+            <Form.Group controlId="interes">
+              <Form.Label>Interés (%)</Form.Label>
+              <Form.Control 
+                type="number" 
+                placeholder="Tasa de Interés" 
+                value={newPrestamoData.interes} 
+                onChange={(e) => setnewPrestamoData({ ...newPrestamoData, interes: parseInt(e.target.value) })} 
+              />
+              {interestError && <p style={{ color: 'red' }}>El interés debe ser entre 0 y 100.</p>}
+            </Form.Group>
+
+            <Button 
+              variant="primary" 
+              onClick={() => {
+                if (validateForm()) {
+                  actualizarDeudorData();
+                }
+              }}
+            >
+              Actualizar Datos
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      <Footer />
     </>
   );
 }

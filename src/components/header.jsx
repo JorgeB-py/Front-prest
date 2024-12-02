@@ -30,7 +30,7 @@ export function Header({ nav_links = [{ name: "Prestamista", url: "/login" }, { 
     return (
         <Navbar expand="lg" className="custom-navbar">
             <Container fluid>
-                <Navbar.Brand as={Link} to="/" className="custom-logo">
+                <Navbar.Brand as={Link} to="/deudores" className="custom-logo">
                     <img src="/Logo_letras.png" alt="Logo" width="213" height="73" className="img-fluid" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

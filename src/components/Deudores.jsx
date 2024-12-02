@@ -5,6 +5,7 @@ import './styles/Index.css';
 import { Footer } from './footer';
 import { FormattedMessage } from 'react-intl';
 import { useEffect } from 'react';
+import "./styles/deudores.css";
 
 
 export default function Index() {
@@ -17,8 +18,62 @@ export default function Index() {
         foto: "https://example.com/john.jpg",
         fondosTotales: 100000,
         saldo: 50000,
+        prestamos:[
+            {
+                id:1,
+                nomrbre:"Estudios",
+                monto:1000000,
+                interes:5,
+                fechainicio:"2024-11-03",
+                fechafin:"2024-12-03",
+                saldo:1000000,
+                historialpagos:[{
+                    id:1,
+                    capital:100000,
+                    interes:5000,
+                    fecha:"2024-11-3",
+                    saldo:900000
+                }]
+            }
+        ]
     });
-    const [deudores, setDeudores] = React.useState([]);
+    const [deudores, setDeudores] = React.useState([
+        {
+            id:1,
+            nombrecompleto:"Mariana",
+            direccion:"La esmeralda",
+            cedula:"106686400",
+            fecha:"2024-11-3",
+            telefono:"3115322015",
+            situacionLaboral:"empleado",
+            email:"marianamarin@gmail.com",
+            ocupacion:"estudiante",
+            foto:"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dzoom.org.es%2F11-consejos-para-hacer-mejores-fotos-que-siempre-me-funcionan%2F&psig=AOvVaw3sSLz7eBigqa2xj-7adQxE&ust=1732147608494000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKidpenO6YkDFQAAAAAdAAAAABAJ",
+            prestamos:[{
+                id:1,
+                nomrbre:"Estudios",
+                monto:1000000,
+                interes:5,
+                fechainicio:"2024-11-03",
+                fechafin:"2024-12-03",
+                saldo:1000000,
+                prestamista:{
+                    id:1,
+                    nombre:"John Doe",
+                    direccion:"123 Main Street",
+                    telefono:"1234567890",
+                    correo:"nose@gmail.com"
+                },
+                historialpagos:[{
+                    id:1,
+                    capital:100000,
+                    interes:5000,
+                    fecha:"2024-11-3",
+                    saldo:900000
+                }]
+            }]
+        }
+    ]);
     const [filteredDeudores, setFilteredDeudores] = React.useState([]);
     const [searchTerm, setSearchTerm] = React.useState("");
 
@@ -37,9 +92,12 @@ export default function Index() {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    setDeudores(data.deudores);
-                    setFilteredDeudores(data.deudores);
-                    setTotal(data.interesesGanados);
+                    if (data.message!="El prestamista con el id proporcionado no fue encontrado") {
+                        setDeudores(data.deudores);
+                        setFilteredDeudores(data.deudores);
+                        setTotal(data.interesesGanados);
+                    }
+                    
                 })
                 .catch((error) => {
                     console.error('Error al obtener los deudores:', error);
@@ -56,7 +114,9 @@ export default function Index() {
         })
             .then((response) => response.json())
             .then((data) => {
-                setPrestamista(data);
+                if (data.message!="El prestamista con el id proporcionado no fue encontrado") {
+                    setPrestamista(data);
+                }
             })
             .catch((error) => {
                 console.error('Error al obtener el prestamista:', error);
@@ -95,7 +155,7 @@ export default function Index() {
             <Col>
                 <div className="card card-style" data-testid="deudor-card" style={{ width: "15rem", height: "25rem" }}>
                     <img
-                        src="./2148859448.jpg"
+                        src={deudor.foto}
                         className="card-img-top"
                         alt="imagen deudor"
                         style={{ height: "200px", objectFit: "cover" }} // Ajusta el tamaño de la imagen
@@ -113,32 +173,34 @@ export default function Index() {
     };
 
     return (
-        <>
+        <div className='all'>
             <Header nav_links={nav_links} logged={true} usuario={nombre_usuario}></Header>
-            <Container style={{ display: "grid", padding: '1rem' }}>
-                <h1 style={{ textAlign: 'left' }}><FormattedMessage id="app.welcome" defaultMessage="Welcome" />, {nombre_usuario}</h1>
-                <h3><FormattedMessage id="app.thismonth" defaultMessage="This month you have earned" /></h3>
-                <h2 style={{ color: "#004AAC" }}>${total}</h2>
-                
-                {/* Filtro por nombre */}
-                <Form.Control
-                    type="text"
-                    placeholder="Buscar por nombre"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    style={{ marginTop: '20px' }}
-                />
-            </Container>
-            <Container>
-                <Row style={{ padding: "50px" }}>
-                    {
-                        filteredDeudores.map((deudor, index) => (
-                            <RenderCards key={index} deudor={deudor}></RenderCards>
-                        ))
-                    }
-                </Row>
-            </Container>
+            <main>
+                <Container style={{ display: "grid", padding: '1rem' }}>
+                    <h1 style={{ textAlign: 'left' }}><FormattedMessage id="app.welcome" defaultMessage="Welcome" />, {nombre_usuario}</h1>
+                    <h3><FormattedMessage id="app.thismonth" defaultMessage="This month you have earned" /></h3>
+                    <h2 style={{ color: "#004AAC" }}>${total}</h2>
+                    
+                    {/* Filtro por nombre */}
+                    <Form.Control
+                        type="text"
+                        placeholder="Buscar por nombre"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        style={{ marginTop: '20px' }}
+                    />
+                </Container>
+                <Container>
+                    <Row style={{ padding: "50px" }}>
+                        {
+                            filteredDeudores.map((deudor, index) => (
+                                <RenderCards key={index} deudor={deudor}></RenderCards>
+                            ))
+                        }
+                    </Row>
+                </Container>
+            </main>
             <Footer />
-        </>
+        </div>
     );
 }

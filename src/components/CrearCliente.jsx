@@ -15,7 +15,7 @@ export default function CrearCliente() {
         telefono: "",
         email: "",
         ocupacion: "",
-        foto: "",
+        foto: "https://img.freepik.com/foto-gratis/retrato-hombre-reir_23-2148859448.jpg?t=st=1733094543~exp=1733098143~hmac=9721362422b028f5fb3f5628fc4547ade6bc9939e3f6743d76fc94916c3afee9&w=740",
         fecha: "",  // Fecha en formato 'YYYY-MM-DD'
     });
 
@@ -62,7 +62,7 @@ export default function CrearCliente() {
         const { monto, interes, nombre, pagado, fechainicio, fechafin,  } = prestamo;
 
         // Validación de campos de cliente
-        if (!nombrecompleto || !direccion || !telefono || !email || !ocupacion || !foto || !fecha || !cedula || !situacionLaboral) {
+        if (!nombrecompleto || !direccion || !telefono || !email || !ocupacion || !fecha || !cedula || !situacionLaboral) {
             setMensaje(intl.formatMessage({ id: 'app.errorFields' }));
             setError(true);
             return false;
@@ -307,7 +307,6 @@ export default function CrearCliente() {
                                         <Form.Control
                                             type="text"
                                             name="foto"
-                                            value={cliente.foto}
                                             onChange={handleChangeDeudor}
                                             placeholder={intl.formatMessage({ id: 'app.placeholderPhoto' })}
                                         />

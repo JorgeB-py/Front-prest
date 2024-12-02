@@ -12,7 +12,6 @@ export default function DeudorDetalle() {
   // Links de navegación
   const nav_links = [
     { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: "/deudores" },
-    { name: <FormattedMessage id="app.MiDinero" defaultMessage="My Money" />, url: "/midinero" },
   ];
 
   const [deudor, setDeudor] = useState({
@@ -120,7 +119,7 @@ export default function DeudorDetalle() {
       <Container className="custom-container">
         <Row className="align-items-center">
           <Col>
-            <Image src='./2148859448.jpg' roundedCircle width={200} height={200} className="mb-3" alt='imgperfil' />
+            <Image src={deudor.foto} roundedCircle width={200} height={200} className="mb-3" alt='imgperfil' />
           </Col>
           <Col >
             <h4>{deudor.nombrecompleto}</h4>
@@ -184,7 +183,9 @@ export default function DeudorDetalle() {
                 ></progress>
               </Col>
               <Col lg={1}>
-                <button aria-label="Show Details" className="eye-button" onClick={() => navigate('/deudorApp')}>
+                <button aria-label="Show Details" className="eye-button" onClick={() => {navigate('/deudorApp')
+                localStorage.setItem('deudaId', deuda.id);
+                }}>
                   <i className="bi bi-eye"></i>
                 </button>
               </Col>

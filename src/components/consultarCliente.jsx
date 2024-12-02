@@ -13,36 +13,54 @@ export default function ConsultarCliente() {
     const [todosClientes, setTodosClientes] = useState([]);
     const [mensajeError, setMensajeError] = useState("");
     const nombre_usuario = "Jorge";
+    const token = localStorage.getItem('token');
+    localStorage.setItem('prestamistaId', 1);
+    const prestamistaId = localStorage.getItem('prestamistaId');
 
     // Función para obtener un cliente específico desde el API
     const buscarCliente = async () => {
-        try {
-            const response = await fetch("https://my.api.mockaroo.com/consultarcliente_mock.json?key=2a692260");
-            const data = await response.json();
-            const clienteEncontrado = data.find(
-                c => c.nombre === criterio || c.identification.toString() === criterio
-            );
-
-            if (clienteEncontrado) {
-                setCliente(clienteEncontrado);
-                setMensajeError("");
-                setTodosClientes([]); // Limpia la tabla de todos los clientes cuando se encuentra uno
-            } else {
-                setCliente(null);
-                setMensajeError(intl.formatMessage({ id: 'consultarCliente.mensajeError' }));
+        if(token){
+            try {
+                const response = await fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },});
+                var data = await response.json();
+                data = data.deudores;
+                const clienteEncontrado = data.find(
+                    c => c.nombrecompleto === criterio || c.cedula.toString() === criterio
+                );
+    
+                if (clienteEncontrado) {
+                    setCliente(clienteEncontrado);
+                    setMensajeError("");
+                    setTodosClientes([]); // Limpia la tabla de todos los clientes cuando se encuentra uno
+                } else {
+                    setCliente(null);
+                    setMensajeError(intl.formatMessage({ id: 'consultarCliente.mensajeError' }));
+                }
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+                setMensajeError(intl.formatMessage({ id: 'consultarCliente.errorDatos' }));
             }
-        } catch (error) {
-            console.error("Error fetching data: ", error);
-            setMensajeError(intl.formatMessage({ id: 'consultarCliente.errorDatos' }));
+        };
         }
-    };
+        
 
     // Función para obtener todos los clientes desde el API
     const consultarTodos = async () => {
         try {
-            const response = await fetch("https://my.api.mockaroo.com/consultarcliente_mock.json?key=2a692260");
+            const response = await fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },});
             const data = await response.json();
-            setTodosClientes(data);
+            setTodosClientes(data.deudores);
+            console.log(data.deudores);
             setCliente(null);  // Limpia la selección de un solo cliente
             setMensajeError("");
         } catch (error) {
@@ -108,11 +126,11 @@ export default function ConsultarCliente() {
                                         <tbody>
                                             <tr>
                                                 <td><FormattedMessage id="consultarCliente.nombre" /></td>
-                                                <td>{cliente.nombre}</td>
+                                                <td>{cliente.nombrecompleto}</td>
                                             </tr>
                                             <tr>
                                                 <td><FormattedMessage id="consultarCliente.identificacion" /></td>
-                                                <td>{cliente.identification}</td>
+                                                <td>{cliente.cedula}</td>
                                             </tr>
                                             <tr>
                                                 <td><FormattedMessage id="consultarCliente.direccion" /></td>
@@ -124,7 +142,7 @@ export default function ConsultarCliente() {
                                             </tr>
                                             <tr>
                                                 <td><FormattedMessage id="consultarCliente.correo" /></td>
-                                                <td>{cliente.correo}</td>
+                                                <td>{cliente.email}</td>
                                             </tr>
                                             <tr>
                                                 <td><FormattedMessage id="consultarCliente.ocupacion" /></td>
@@ -133,9 +151,9 @@ export default function ConsultarCliente() {
                                             <tr>
                                                 <td><FormattedMessage id="consultarCliente.historialPrestamos" /></td>
                                                 <td>
-                                                    {cliente.historial.map((prestamo, index) => (
+                                                    {cliente.prestamos.map((prestamo, index) => (
                                                         <div key={index}>
-                                                            {prestamo.nombre}: {prestamo.estado}
+                                                            {prestamo.nombre}: {prestamo.pagado ? "Pagado" : "Pendiente"}
                                                         </div>
                                                     ))}
                                                 </td>
@@ -162,10 +180,10 @@ export default function ConsultarCliente() {
                                     <tbody>
                                         {todosClientes.map((cliente, index) => (
                                             <tr key={index}>
-                                                <td>{cliente.nombre}</td>
-                                                <td>{cliente.identification}</td>
+                                                <td>{cliente.nombrecompleto}</td>
+                                                <td>{cliente.cedula}</td>
                                                 <td>{cliente.telefono}</td>
-                                                <td>{cliente.correo}</td>
+                                                <td>{cliente.email}</td>
                                                 <td>{cliente.ocupacion}</td>
                                             </tr>
                                         ))}
