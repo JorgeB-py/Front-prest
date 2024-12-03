@@ -50,7 +50,7 @@ export default function Login() {
             localStorage.setItem("prestamistaId", prestamista.id);
 
             if (!createPrestamista.ok) {
-                setErrorMessage(data.error || "Error al iniciar sesión.");
+                setErrorMessage(prestamista.error || "Error al iniciar sesión.");
                 return;
             }
             const response = await fetch("http://localhost:3000/users/login", {
@@ -68,15 +68,12 @@ export default function Login() {
                 return;
             }
 
+
             // Guardar token y tipo de usuario en localStorage
             localStorage.setItem("token", data.token);
-            localStorage.setItem("userType", userType);
 
-            // Redirigir basado en el tipo de usuario
-            if (userType === "prestamista") {
+            if (response.ok) {
                 window.location.href = "/deudores";
-            } else if (userType === "cliente") {
-                window.location.href = "/creditos";
             }
         } catch (error) {
             setErrorMessage("Ocurrió un error. Por favor, intenta nuevamente.");
@@ -158,13 +155,6 @@ export default function Login() {
                                     className="btn btn-primary btn-lg me-2"
                                 >
                                     Login como Prestamista
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={(e) => handleLogin(e, "cliente")}
-                                    className="btn btn-secondary btn-lg"
-                                >
-                                    Login como Cliente
                                 </button>
                                 <p className="small fw-bold mt-2 pt-1 mb-0">
                                     Don't have an account? <a href="/signup" className="link-danger">Register</a>
