@@ -97,6 +97,7 @@ export default function DeudorDetalle() {
           });
       } else {
         console.error('No hay token disponible');
+        window.location.href = "/login";
       }
     }
   }, []);

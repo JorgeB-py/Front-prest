@@ -4,10 +4,17 @@ import { Row, Col, Image } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';  // Importar FormattedMessage de react-intl
 import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { useEffect } from 'react';
 
 const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
 
   let estado = "Activa";
+  useEffect(() => {
+    let token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = "/login";
+    }
+  }, []);
 
   //Renderizado condicional del botón de paz y salvo.
   const renderBalance = () => {

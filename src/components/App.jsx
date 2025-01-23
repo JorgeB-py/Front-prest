@@ -16,11 +16,9 @@ import VisualizarTransacciones from "./visualizarTransacciones";
 import Pasarela from "./Pasarela";
 import CrearPrestamo from "./CrearPrestamo";
 import PerfilPrestamista from "./PerfilPrestamista";
-import PerfilDeudor from "./PerfilDeudor";
 
 export default function App() {
     const nav_links = [
-        { url: "pasarela/:idPrestamo", component: Pasarela },
         { url: "soluciones", component: Soluciones },
         { url: "nosotros", component: Nosotros },
         { url: "recursos", component: Recursos },
@@ -32,11 +30,8 @@ export default function App() {
         { url:"deudorApp", component: DeudorApp}, 
         { url:"crearcliente", component: CrearCliente},
         { url:"consultarcliente", component: ConsultarCliente},
-        { url: "creditos", component: ListaCreditos }, 
-        { url: "visualizar-transacciones/:id", component: VisualizarTransacciones },
         { url: "crearPrestamo", component: CrearPrestamo},
         { url: "perfilPrestamista", component: PerfilPrestamista },
-        { url: "perfilDeudor", component: PerfilDeudor },
 
     ];
     return (

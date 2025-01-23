@@ -4,8 +4,13 @@ import { Link } from 'react-router-dom';
 import { Header } from "./header";
 import { Footer } from "./footer";
 import "./styles/landing.css";
+import { useEffect } from 'react';
 
 export default function Landing() {
+    useEffect(() => {
+        localStorage.removeItem('token');
+      }, []);
+      
     return (
         <div className="d-flex flex-column min-vh-100">
             <header>

@@ -35,24 +35,6 @@ export default function Login() {
         }
 
         try {
-            const createPrestamista = await fetch(`http://localhost:3000/prestamistas`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ nombre:"Jorge Bustamante", direccion:"Calle 18 #3-43", telefono:"3147227637", correo:"jorgebtm26@gmail.com", foto:"https://media.licdn.com/dms/image/v2/D4E03AQH3sXYnylgKlg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1732513539755?e=1738800000&v=beta&t=WnyReVAsNj6bB-VTVl9dS-Awewij5u8GPcjXcZ06auE"
-                    , fondosTotales: 1000000, saldo: 500000
-                 }), // Enviar userType al backend
-            });
-
-            const prestamista = await createPrestamista.json();
-
-            localStorage.setItem("prestamistaId", prestamista.id);
-
-            if (!createPrestamista.ok) {
-                setErrorMessage(prestamista.error || "Error al iniciar sesión.");
-                return;
-            }
             const response = await fetch("http://localhost:3000/users/login", {
                 method: "POST",
                 headers: {
@@ -62,15 +44,15 @@ export default function Login() {
             });
 
             const data = await response.json();
-
             if (!response.ok) {
                 setErrorMessage(data.error || "Error al iniciar sesión.");
                 return;
             }
 
-
             // Guardar token y tipo de usuario en localStorage
             localStorage.setItem("token", data.token);
+            
+            localStorage.setItem("prestamistaId", data.iduser);
 
             if (response.ok) {
                 window.location.href = "/deudores";

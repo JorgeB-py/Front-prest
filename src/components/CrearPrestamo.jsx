@@ -70,6 +70,11 @@ export default function CrearPrestamo() {
 
     // Revisar si el formulario está completamente llenado
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('No hay token disponible');
+            window.location.href = '/login';
+        }
         const isValid = Object.values(prestamo).every(field => {
             if (typeof field === "string") {
                 return field.trim() !== ""; // Validar cadenas

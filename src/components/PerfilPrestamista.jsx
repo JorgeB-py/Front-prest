@@ -17,6 +17,10 @@ function PerfilPrestamista() {
     const [isSaving, setIsSaving] = useState(false); // Indicador de guardado
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.href = "/login";
+        }
         const fetchPerfilPrestamista = async () => {
             const token = localStorage.getItem("token");
             const idprestamista = localStorage.getItem("prestamistaId");
@@ -80,7 +84,7 @@ function PerfilPrestamista() {
     if (isLoading) {
         return (
             <div>
-                <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
+                <Header nav_links={nav_links} logged={true} usuario={perfilPrestamista.nombre} />
                 <Container className="custom-container">
                     <Row>
                         <Col className="text-center">
@@ -96,7 +100,7 @@ function PerfilPrestamista() {
     if (!perfilPrestamista) {
         return (
             <div>
-                <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
+                <Header nav_links={nav_links} logged={true} usuario={perfilPrestamista.nombre} />
                 <Container className="custom-container">
                     <Row>
                         <Col className="text-center">
@@ -111,7 +115,7 @@ function PerfilPrestamista() {
 
     return (
         <div>
-            <Header nav_links={nav_links} logged={true} usuario={'Jorge'} />
+            <Header nav_links={nav_links} logged={true} usuario={perfilPrestamista.nombre} />
 
             <Container className='custom-container'>
                 <Row>

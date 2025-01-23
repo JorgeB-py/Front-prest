@@ -33,6 +33,11 @@ export default function CrearCliente() {
     const [error, setError] = useState(false);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('No hay token disponible');
+            window.location.href = '/login';
+          }
         setCliente(prevState => ({
             ...prevState,
             fecha: new Date().toISOString().split('T')[0]  // Solo la parte de la fecha

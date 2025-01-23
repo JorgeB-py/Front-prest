@@ -15,16 +15,17 @@ export default function Index() {
 
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const prestamistaId = localStorage.getItem('prestamistaId');
 
         if (token) {
+            console.log(token);
 
             fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
                 },
             })
                 .then((response) => response.json())
@@ -51,6 +52,8 @@ export default function Index() {
                     }
                 })
                 .catch((error) => console.error('Error al obtener el prestamista:', error));
+        }else{
+            window.location.href = "/login";
         }
     }, []);
 

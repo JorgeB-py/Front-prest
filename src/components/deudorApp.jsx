@@ -65,8 +65,12 @@ export default function DeudorApp() {
     const token = localStorage.getItem('token');
     const prestamoId = localStorage.getItem('deudaId');
     
-    if (!prestamoId || !token) {
-      console.error('No hay prestamoId o token disponible');
+    if (!token) {
+      console.error('No hay token disponible');
+      window.location.href = '/login';
+    }else if (!prestamoId) {
+      console.error('No hay identificador de préstamo disponible');
+      window.location.href = '/deudores';
       return;
     }
 

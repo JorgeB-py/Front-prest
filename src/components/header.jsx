@@ -1,9 +1,21 @@
 import React from "react";
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './styles/header.css';
 
 export function Header({ nav_links = [{ name: "Prestamista", url: "/login" }, { name: "Cliente", url: "/login" }], logged, usuario }) {
+    const navigate = useNavigate();
+
+    const handleLogoClick = () => {
+        // Verifica si existe un token en localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/deudores'); // Redirige a la página de deudores si hay token
+        } else {
+            navigate('/'); // Redirige a landing si no hay token
+        }
+    };
+
     const Greetings = () => {
         if (logged) {
             return (
@@ -19,7 +31,7 @@ export function Header({ nav_links = [{ name: "Prestamista", url: "/login" }, { 
                     <Nav.Item className="custom-links">
                         <Link className="nav-link" to="login">Entra</Link>
                     </Nav.Item>
-                    <Nav.Item style={{padding:"20px"}}>
+                    <Nav.Item style={{ padding: "20px" }}>
                         <Button data-testid="cta-button" as={Link} to="/signup" variant="primary" className="button-empieza-landing" size="lg">Empieza ahora</Button>
                     </Nav.Item>
                 </Nav>
@@ -30,7 +42,8 @@ export function Header({ nav_links = [{ name: "Prestamista", url: "/login" }, { 
     return (
         <Navbar expand="lg" className="custom-navbar">
             <Container fluid>
-                <Navbar.Brand as={Link} to="/deudores" className="custom-logo">
+                {/* Modificación del botón del logo */}
+                <Navbar.Brand onClick={handleLogoClick} className="custom-logo" style={{ cursor: "pointer" }}>
                     <img src="/Logo_letras.png" alt="Logo" width="213" height="73" className="img-fluid" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

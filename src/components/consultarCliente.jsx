@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Container, Row, Form, Button, Alert, Table } from "react-bootstrap";
 import { Header } from "./header";
 import { Footer } from "./footer";
@@ -14,9 +14,14 @@ export default function ConsultarCliente() {
     const [mensajeError, setMensajeError] = useState("");
     const nombre_usuario = "Jorge";
     const token = localStorage.getItem('token');
-    localStorage.setItem('prestamistaId', 1);
     const prestamistaId = localStorage.getItem('prestamistaId');
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = "/login";
+        }
+    }, []);
     // Función para obtener un cliente específico desde el API
     const buscarCliente = async () => {
         if(token){
