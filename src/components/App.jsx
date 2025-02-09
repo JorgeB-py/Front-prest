@@ -11,9 +11,6 @@ import Deudores from "./Deudores";
 import DeudorApp from "./deudorApp";
 import CrearCliente from "./CrearCliente";
 import ConsultarCliente from "./consultarCliente";
-import ListaCreditos from "./listaCreditos";
-import VisualizarTransacciones from "./visualizarTransacciones";
-import Pasarela from "./Pasarela";
 import CrearPrestamo from "./CrearPrestamo";
 import PerfilPrestamista from "./PerfilPrestamista";
 

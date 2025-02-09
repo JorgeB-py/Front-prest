@@ -84,7 +84,7 @@ function PerfilPrestamista() {
     if (isLoading) {
         return (
             <div>
-                <Header nav_links={nav_links} logged={true} usuario={perfilPrestamista.nombre} />
+                <Header nav_links={nav_links} logged={true} usuario={perfilPrestamista} />
                 <Container className="custom-container">
                     <Row>
                         <Col className="text-center">

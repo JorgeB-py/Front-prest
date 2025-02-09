@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import { Header } from "./header";
 import { Footer } from "./footer";
-import { Link } from "react-router-dom";
 import { FormattedMessage, useIntl } from 'react-intl';
 import "./styles/crearCliente.css";
 
@@ -63,8 +62,8 @@ export default function CrearCliente() {
 
 
     const validarDatos = () => {
-        const { nombrecompleto, cedula, situacionLaboral, direccion, telefono, email, ocupacion, foto, fecha } = cliente;
-        const { monto, interes, nombre, pagado, fechainicio, fechafin,  } = prestamo;
+        const { nombrecompleto, cedula, situacionLaboral, direccion, telefono, email, ocupacion, fecha } = cliente;
+        const { monto, interes, nombre, fechainicio, fechafin,  } = prestamo;
 
         // Validación de campos de cliente
         if (!nombrecompleto || !direccion || !telefono || !email || !ocupacion || !fecha || !cedula || !situacionLaboral) {
