@@ -21,7 +21,7 @@ export default function Index() {
         if (token) {
             console.log(token);
 
-            fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {
+            fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/deudores`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export default function Index() {
                 })
                 .catch((error) => console.error('Error al obtener los deudores:', error));
 
-            fetch(`http://localhost:3000/prestamistas/${prestamistaId}`, {
+            fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ export default function Index() {
 
     const handleDeleteDeudor = (deudorId) => {
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/deudor/${deudorId}`, {
+        fetch(`http://https://back-prest.onrender.com/deudor/${deudorId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

@@ -74,7 +74,7 @@ export default function DeudorApp() {
       return;
     }
 
-    fetch(`http://localhost:3000/prestamo/${prestamoId}`, {
+    fetch(`http://https://back-prest.onrender.com/prestamo/${prestamoId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export default function DeudorApp() {
     };
 
     try {
-      const response = await fetch(`http://localhost:3000/prestamo/${prestamoId}`, {
+      const response = await fetch(`http://https://back-prest.onrender.com/prestamo/${prestamoId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ export default function DeudorApp() {
 
 
     try {
-      const responsePago = await fetch(`http://localhost:3000/pagos`, {
+      const responsePago = await fetch(`http://https://back-prest.onrender.com/pagos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ export default function DeudorApp() {
       const dataPago = await responsePago.json();
       const pagoId = dataPago.id;
 
-      const responseAsociar = await fetch(`http://localhost:3000/prestamos/${prestamoId}/pagos/${pagoId}`, {
+      const responseAsociar = await fetch(`http://https://back-prest.onrender.com/prestamos/${prestamoId}/pagos/${pagoId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

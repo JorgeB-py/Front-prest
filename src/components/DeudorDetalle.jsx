@@ -54,7 +54,7 @@ export default function DeudorDetalle() {
       console.error('No hay deudorId disponible');
     } else {
       if (token) {
-        fetch(`http://localhost:3000/deudor/${deudorId}`, {
+        fetch(`http://https://back-prest.onrender.com/deudor/${deudorId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export default function DeudorDetalle() {
       console.error('No hay deudorId disponible');
     } else {
       if (token) {
-        fetch(`http://localhost:3000/deudor/${deudorId}`, {
+        fetch(`http://https://back-prest.onrender.com/deudor/${deudorId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

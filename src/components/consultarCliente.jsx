@@ -26,7 +26,7 @@ export default function ConsultarCliente() {
     const buscarCliente = async () => {
         if(token){
             try {
-                const response = await fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {
+                const response = await fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/deudores`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export default function ConsultarCliente() {
     // Función para obtener todos los clientes desde el API
     const consultarTodos = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/prestamistas/${prestamistaId}/deudores`, {
+            const response = await fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/deudores`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

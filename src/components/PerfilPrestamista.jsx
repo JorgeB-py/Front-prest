@@ -24,7 +24,7 @@ function PerfilPrestamista() {
         const fetchPerfilPrestamista = async () => {
             const token = localStorage.getItem("token");
             const idprestamista = localStorage.getItem("prestamistaId");
-            const url = `http://localhost:3000/prestamistas/${idprestamista}`;
+            const url = `http://https://back-prest.onrender.com/prestamistas/${idprestamista}`;
 
             try {
                 const response = await fetch(url, {
@@ -55,7 +55,7 @@ function PerfilPrestamista() {
         setIsSaving(true);
         const token = localStorage.getItem("token");
         const idprestamista = localStorage.getItem("prestamistaId");
-        const url = `http://localhost:3000/prestamistas/${idprestamista}`;
+        const url = `http://https://back-prest.onrender.com/prestamistas/${idprestamista}`;
 
         try {
             const response = await fetch(url, {

@@ -95,7 +95,7 @@ export default function CrearPrestamo() {
     // Crear el préstamo en el servidor
     const crearPrestamo = async () => {
         const token = localStorage.getItem('token');
-        const url = "http://localhost:3000/prestamo";
+        const url = "http://https://back-prest.onrender.com/prestamo";
 
         try {
             const response = await fetch(url, {
@@ -122,7 +122,7 @@ export default function CrearPrestamo() {
     // Asociar el préstamo al deudor
     const asociarPrestamoADeudor = async (prestamoId, deudorId) => {
         const token = localStorage.getItem('token');
-        const url = `http://localhost:3000/deudor/${deudorId}/prestamos/${prestamoId}`;
+        const url = `http://https://back-prest.onrender.com/deudor/${deudorId}/prestamos/${prestamoId}`;
 
         try {
             const response = await fetch(url, {
@@ -144,7 +144,7 @@ export default function CrearPrestamo() {
     // Asociar el préstamo al prestamista
     const asociarPrestamoAPrestamista = async (prestamoId, prestamistaId) => {
         const token = localStorage.getItem('token');
-        const url = `http://localhost:3000/prestamistas/${prestamistaId}/prestamos/${prestamoId}`;
+        const url = `http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/prestamos/${prestamoId}`;
 
         try {
             const response = await fetch(url, {

@@ -1,6 +1,6 @@
 describe('Exploration of the crearPrestamo component', () => {
     beforeEach(()=>{
-      cy.visit('http://localhost:3000/deudorApp')
+      cy.visit('http://https://back-prest.onrender.com/deudorApp')
     })
 
     it('Añadir pago y confirmar cambio intereses y capital', () => {

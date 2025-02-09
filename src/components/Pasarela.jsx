@@ -41,7 +41,7 @@ export default function Pasarela() {
             return;
         }
         console.log('Obteniendo Prestamo')
-        fetch('http://localhost:3000/prestamo/'+idPrestamo,{
+        fetch('http://https://back-prest.onrender.com/prestamo/'+idPrestamo,{
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ export default function Pasarela() {
 
     async function hacerPago(){
         const actualDate = new Date();
-        const res = await fetch('http://localhost:3000/pagos/',{
+        const res = await fetch('http://https://back-prest.onrender.com/pagos/',{
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function Pasarela() {
             })
         });
         const pago= await res.json()
-        const res2 = await fetch(`http://localhost:3000/prestamos/${idPrestamo}/pagos/${pago.id}`,{
+        const res2 = await fetch(`http://https://back-prest.onrender.com/prestamos/${idPrestamo}/pagos/${pago.id}`,{
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

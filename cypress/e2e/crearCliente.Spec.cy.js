@@ -1,7 +1,7 @@
 describe('Register New Client Form', () => {
     beforeEach(() => {
       // Visitar la página del formulario
-      cy.visit('http://localhost:3000/crearcliente'); // Cambia esta ruta según corresponda
+      cy.visit('http://https://back-prest.onrender.com/crearcliente'); // Cambia esta ruta según corresponda
     });
   
     it('should render all form fields correctly', () => {

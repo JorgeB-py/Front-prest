@@ -46,7 +46,7 @@ const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
 
     prestamo.pagado=true;
 
-    fetch(`http://localhost:3000/prestamo/${prestamo.id}`, {
+    fetch(`http://https://back-prest.onrender.com/prestamo/${prestamo.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

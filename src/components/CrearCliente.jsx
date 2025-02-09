@@ -126,7 +126,7 @@ export default function CrearCliente() {
             try {
                 const token = localStorage.getItem('token');
                 const idPrestamista = localStorage.getItem('prestamistaId');
-                const responseCliente = await fetch('http://localhost:3000/deudor', {
+                const responseCliente = await fetch('http://https://back-prest.onrender.com/deudor', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ export default function CrearCliente() {
 
                 // Ahora enviamos el préstamo asociado al cliente recién creado
                 console.log('Enviando préstamo:', prestamoConId);
-                const responsePrestamo = await fetch('http://localhost:3000/prestamo', {
+                const responsePrestamo = await fetch('http://https://back-prest.onrender.com/prestamo', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ export default function CrearCliente() {
                 setMensaje(intl.formatMessage({ id: 'app.successMessage' }));
                 setError(false);
                 console.log('Préstamo creado con éxito:', dataPrestamo);
-                const responsePrestamoDeudor = await fetch(`http://localhost:3000/deudor/${dataCliente.id}/prestamos/${dataPrestamo.id}`, {
+                const responsePrestamoDeudor = await fetch(`http://https://back-prest.onrender.com/deudor/${dataCliente.id}/prestamos/${dataPrestamo.id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ export default function CrearCliente() {
                 const dataPrestamoDeudor = await responsePrestamoDeudor.json();
                 console.log('Préstamo asociado al cliente con éxito:', dataPrestamoDeudor);
 
-                const responsePrestamistaPrestamo = await fetch(`http://localhost:3000/prestamistas/${idPrestamista}/prestamos/${dataPrestamo.id}`, {
+                const responsePrestamistaPrestamo = await fetch(`http://https://back-prest.onrender.com/prestamistas/${idPrestamista}/prestamos/${dataPrestamo.id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
