@@ -1,6 +1,6 @@
 describe('Exploration of the crearPrestamo component', () => {
   beforeEach(()=>{
-    cy.visit('http://https://back-prest.onrender.com')
+    cy.visit('${apiurl}')
     cy.get('a.nav-link').contains('Entra').click()
     cy.get('input#form3Example3').type('testuser@gmail.com')
     cy.get('input#form3Example4').type('12345678')
@@ -11,9 +11,9 @@ describe('Exploration of the crearPrestamo component', () => {
   })
 
   it('Test links using button "volver"', () => {
-    cy.url().should('eq', 'http://https://back-prest.onrender.com/crearPrestamo')
+    cy.url().should('eq', '${apiurl}/crearPrestamo')
     cy.get('a').contains('Volver').click()
-    cy.url().should('eq', 'http://https://back-prest.onrender.com/infodeudor')
+    cy.url().should('eq', '${apiurl}/infodeudor')
   })
 
   it('Crear prestamo button disabled', () => {

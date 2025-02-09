@@ -3,11 +3,13 @@ import "./styles/Login.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import config from "../../config";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const apiurl = config.apiUrl;
 
     // Función para validar el formulario
     const validateForm = () => {
@@ -35,7 +37,7 @@ export default function Login() {
         }
 
         try {
-            const response = await fetch("http://https://back-prest.onrender.com/users/login", {
+            const response = await fetch(`${apiurl}/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

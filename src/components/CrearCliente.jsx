@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import { Header } from "./header";
 import { Footer } from "./footer";
+import config from "../../config";
 import { FormattedMessage, useIntl } from 'react-intl';
 import "./styles/crearCliente.css";
 
@@ -17,6 +18,7 @@ export default function CrearCliente() {
         foto: "https://img.freepik.com/foto-gratis/retrato-hombre-reir_23-2148859448.jpg?t=st=1733094543~exp=1733098143~hmac=9721362422b028f5fb3f5628fc4547ade6bc9939e3f6743d76fc94916c3afee9&w=740",
         fecha: "",  // Fecha en formato 'YYYY-MM-DD'
     });
+    const apiurl = config.apiUrl;
 
     const [prestamo, setPrestamo] = useState({
         monto: 0,
@@ -126,7 +128,7 @@ export default function CrearCliente() {
             try {
                 const token = localStorage.getItem('token');
                 const idPrestamista = localStorage.getItem('prestamistaId');
-                const responseCliente = await fetch('http://https://back-prest.onrender.com/deudor', {
+                const responseCliente = await fetch(`${apiurl}/deudor`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -144,7 +146,7 @@ export default function CrearCliente() {
 
                 // Ahora enviamos el préstamo asociado al cliente recién creado
                 console.log('Enviando préstamo:', prestamoConId);
-                const responsePrestamo = await fetch('http://https://back-prest.onrender.com/prestamo', {
+                const responsePrestamo = await fetch(`${apiurl}/prestamo`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -161,7 +163,7 @@ export default function CrearCliente() {
                 setMensaje(intl.formatMessage({ id: 'app.successMessage' }));
                 setError(false);
                 console.log('Préstamo creado con éxito:', dataPrestamo);
-                const responsePrestamoDeudor = await fetch(`http://https://back-prest.onrender.com/deudor/${dataCliente.id}/prestamos/${dataPrestamo.id}`, {
+                const responsePrestamoDeudor = await fetch(`${apiurl}/deudor/${dataCliente.id}/prestamos/${dataPrestamo.id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -176,7 +178,7 @@ export default function CrearCliente() {
                 const dataPrestamoDeudor = await responsePrestamoDeudor.json();
                 console.log('Préstamo asociado al cliente con éxito:', dataPrestamoDeudor);
 
-                const responsePrestamistaPrestamo = await fetch(`http://https://back-prest.onrender.com/prestamistas/${idPrestamista}/prestamos/${dataPrestamo.id}`, {
+                const responsePrestamistaPrestamo = await fetch(`${apiurl}/prestamistas/${idPrestamista}/prestamos/${dataPrestamo.id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

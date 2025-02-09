@@ -5,6 +5,7 @@ import './styles/Index.css';
 import { Footer } from './footer';
 import { FormattedMessage } from 'react-intl';
 import "./styles/deudores.css";
+import config from '../../config';
 
 export default function Index() {
     const [total, setTotal] = React.useState(0);
@@ -12,6 +13,7 @@ export default function Index() {
     const [deudores, setDeudores] = React.useState([]);
     const [filteredDeudores, setFilteredDeudores] = React.useState([]);
     const [searchTerm, setSearchTerm] = React.useState("");
+    const apiurl = config.apiUrl;
 
 
     useEffect(() => {
@@ -21,7 +23,7 @@ export default function Index() {
         if (token) {
             console.log(token);
 
-            fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/deudores`, {
+            fetch(`${apiurl}/prestamistas/${prestamistaId}/deudores`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +40,7 @@ export default function Index() {
                 })
                 .catch((error) => console.error('Error al obtener los deudores:', error));
 
-            fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}`, {
+            fetch(`${apiurl}/prestamistas/${prestamistaId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +81,7 @@ export default function Index() {
 
     const handleDeleteDeudor = (deudorId) => {
         const token = localStorage.getItem('token');
-        fetch(`http://https://back-prest.onrender.com/deudor/${deudorId}`, {
+        fetch(`${apiurl}/deudor/${deudorId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

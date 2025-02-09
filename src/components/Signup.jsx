@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import config from "../../config";
 
 export default function Signup() {
+    const apiurl = config.apiUrl;
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -22,7 +24,7 @@ export default function Signup() {
     const goLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://https://back-prest.onrender.com/users/register", {
+            const response = await fetch(`${apiurl}/users/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

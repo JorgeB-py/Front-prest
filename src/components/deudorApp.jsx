@@ -7,6 +7,7 @@ import { Footer } from './footer';
 import { Container, Col, Row } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import config from '../../config';
 import './styles/deudorApp.css';
 
 export default function DeudorApp() {
@@ -20,6 +21,7 @@ export default function DeudorApp() {
     email: "jorge@gmail.com",
     telefono: "3143807270",
   }); // Datos del deudor
+  const apiurl = config.apiUrl;
 
   const [prestamoData, setPrestamoData] = useState({
     nombre: 'Préstamo de Armando Casas',
@@ -74,7 +76,7 @@ export default function DeudorApp() {
       return;
     }
 
-    fetch(`http://https://back-prest.onrender.com/prestamo/${prestamoId}`, {
+    fetch(`${apiurl}/prestamo/${prestamoId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -109,7 +111,7 @@ export default function DeudorApp() {
     };
 
     try {
-      const response = await fetch(`http://https://back-prest.onrender.com/prestamo/${prestamoId}`, {
+      const response = await fetch(`${apiurl}/prestamo/${prestamoId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +153,7 @@ export default function DeudorApp() {
 
 
     try {
-      const responsePago = await fetch(`http://https://back-prest.onrender.com/pagos`, {
+      const responsePago = await fetch(`${apiurl}/pagos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -167,7 +169,7 @@ export default function DeudorApp() {
       const dataPago = await responsePago.json();
       const pagoId = dataPago.id;
 
-      const responseAsociar = await fetch(`http://https://back-prest.onrender.com/prestamos/${prestamoId}/pagos/${pagoId}`, {
+      const responseAsociar = await fetch(`${apiurl}/prestamos/${prestamoId}/pagos/${pagoId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

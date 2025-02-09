@@ -7,6 +7,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./styles/crearPrestamo.css";
 import { useNavigate } from 'react-router-dom';
+import config from '../../config';
 
 export default function CrearPrestamo() {
     const intl = useIntl();
@@ -18,6 +19,7 @@ export default function CrearPrestamo() {
         { name: intl.formatMessage({ id: 'nav.crearDeudor' }), url: "/crearcliente" },
         { name: intl.formatMessage({ id: 'nav.consultarDeudor' }), url: "/consultarcliente" },
     ];
+    const apiurl = config.apiUrl;
 
     // Configuración del modal
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -95,7 +97,7 @@ export default function CrearPrestamo() {
     // Crear el préstamo en el servidor
     const crearPrestamo = async () => {
         const token = localStorage.getItem('token');
-        const url = "http://https://back-prest.onrender.com/prestamo";
+        const url = `${apiurl}/prestamo`;
 
         try {
             const response = await fetch(url, {
@@ -122,7 +124,7 @@ export default function CrearPrestamo() {
     // Asociar el préstamo al deudor
     const asociarPrestamoADeudor = async (prestamoId, deudorId) => {
         const token = localStorage.getItem('token');
-        const url = `http://https://back-prest.onrender.com/deudor/${deudorId}/prestamos/${prestamoId}`;
+        const url = `${apiurl}/deudor/${deudorId}/prestamos/${prestamoId}`;
 
         try {
             const response = await fetch(url, {
@@ -144,7 +146,7 @@ export default function CrearPrestamo() {
     // Asociar el préstamo al prestamista
     const asociarPrestamoAPrestamista = async (prestamoId, prestamistaId) => {
         const token = localStorage.getItem('token');
-        const url = `http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/prestamos/${prestamoId}`;
+        const url = `${apiurl}/prestamistas/${prestamistaId}/prestamos/${prestamoId}`;
 
         try {
             const response = await fetch(url, {

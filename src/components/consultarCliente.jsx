@@ -5,6 +5,7 @@ import { Footer } from "./footer";
 import { Link } from "react-router-dom";
 import { useIntl, FormattedMessage } from 'react-intl';
 import "./styles/consultarCliente.css";
+import config from "../../config";
 
 export default function ConsultarCliente() {
     const intl = useIntl();
@@ -15,6 +16,7 @@ export default function ConsultarCliente() {
     const nombre_usuario = "Jorge";
     const token = localStorage.getItem('token');
     const prestamistaId = localStorage.getItem('prestamistaId');
+    const apiurl = config.apiUrl;
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -26,7 +28,7 @@ export default function ConsultarCliente() {
     const buscarCliente = async () => {
         if(token){
             try {
-                const response = await fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/deudores`, {
+                const response = await fetch(`${apiurl}/prestamistas/${prestamistaId}/deudores`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -57,7 +59,7 @@ export default function ConsultarCliente() {
     // Función para obtener todos los clientes desde el API
     const consultarTodos = async () => {
         try {
-            const response = await fetch(`http://https://back-prest.onrender.com/prestamistas/${prestamistaId}/deudores`, {
+            const response = await fetch(`${apiurl}/prestamistas/${prestamistaId}/deudores`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import { Footer } from './footer';
 import { React, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate,useParams } from "react-router-dom";
+import config from '../../config';
 
 
 export default function Pasarela() {
@@ -17,6 +18,7 @@ export default function Pasarela() {
     const [paymentData, setPaymentData] = useState(0)
     const [messageErrorModal, setMessageErrorModal] = useState("")
     const [token, setToken] = useState()
+    const apiurl = config.apiUrl;
 
     const mesesNumeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     const aniosNumeros = [2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034];
@@ -41,7 +43,7 @@ export default function Pasarela() {
             return;
         }
         console.log('Obteniendo Prestamo')
-        fetch('http://https://back-prest.onrender.com/prestamo/'+idPrestamo,{
+        fetch(`${apiurl}/prestamo/'+idPrestamo`,{
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -100,7 +102,7 @@ export default function Pasarela() {
 
     async function hacerPago(){
         const actualDate = new Date();
-        const res = await fetch('http://https://back-prest.onrender.com/pagos/',{
+        const res = await fetch('${apiurl}/pagos/',{
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -113,7 +115,7 @@ export default function Pasarela() {
             })
         });
         const pago= await res.json()
-        const res2 = await fetch(`http://https://back-prest.onrender.com/prestamos/${idPrestamo}/pagos/${pago.id}`,{
+        const res2 = await fetch(`${apiurl}/prestamos/${idPrestamo}/pagos/${pago.id}`,{
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

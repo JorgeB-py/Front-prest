@@ -1,7 +1,7 @@
 describe('Pruebas para HU-2', () => {
     beforeEach(() => {
       // Acceder al componente principal
-      cy.visit('http://https://back-prest.onrender.com/deudorApp', {
+      cy.visit('${apiurl}/deudorApp', {
         onBeforeLoad(win) {
           Object.defineProperty(win.navigator, 'languages', {
             value: ['en-US'],

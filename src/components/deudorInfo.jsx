@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';  // Importar FormattedMessage de 
 import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useEffect } from 'react';
-
+import config from '../../config';
+const apiurl = config.apiUrl;
 const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
 
   let estado = "Activa";
@@ -46,7 +47,7 @@ const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
 
     prestamo.pagado=true;
 
-    fetch(`http://https://back-prest.onrender.com/prestamo/${prestamo.id}`, {
+    fetch(`${apiurl}/prestamo/${prestamo.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -4,12 +4,14 @@ import './styles/DeudorDetalle.css';
 import { Header } from './header';
 import { Footer } from './footer';
 import { FormattedMessage } from 'react-intl';
+import config from '../../config';
 
 function PerfilPrestamista() {
     const nav_links = [
         { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: "/deudores" },
         { name: <FormattedMessage id="app.MiDinero" defaultMessage="My Money" />, url: "/midinero" },
     ];
+    const apiurl = config.apiUrl;
 
     const [perfilPrestamista, setPerfilPrestamista] = useState(null); // Estado inicial del perfil
     const [isLoading, setIsLoading] = useState(true); // Indicador de carga
@@ -24,7 +26,7 @@ function PerfilPrestamista() {
         const fetchPerfilPrestamista = async () => {
             const token = localStorage.getItem("token");
             const idprestamista = localStorage.getItem("prestamistaId");
-            const url = `http://https://back-prest.onrender.com/prestamistas/${idprestamista}`;
+            const url = `${apiurl}/prestamistas/${idprestamista}`;
 
             try {
                 const response = await fetch(url, {
@@ -55,7 +57,7 @@ function PerfilPrestamista() {
         setIsSaving(true);
         const token = localStorage.getItem("token");
         const idprestamista = localStorage.getItem("prestamistaId");
-        const url = `http://https://back-prest.onrender.com/prestamistas/${idprestamista}`;
+        const url = `${apiurl}/prestamistas/${idprestamista}`;
 
         try {
             const response = await fetch(url, {

@@ -2,7 +2,7 @@ describe('Pruebas en la página de Créditos', () => {
   
   beforeEach(() => {
     // Visita la página de créditos antes de cada prueba
-    cy.visit('http://https://back-prest.onrender.com/creditos');
+    cy.visit('${apiurl}/creditos');
   });
 
   it('debe mostrar un mensaje de carga mientras se obtienen los créditos', () => {

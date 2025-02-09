@@ -1,7 +1,7 @@
 describe('Consultar Cliente', () => {
   // Antes de cada prueba, visitamos la página
   beforeEach(() => {
-    cy.visit('http://https://back-prest.onrender.com/consultarcliente');
+    cy.visit('${apiurl}/consultarcliente');
   });
 
   it('Debe cargar la página correctamente', () => {

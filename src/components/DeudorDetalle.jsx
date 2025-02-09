@@ -5,7 +5,7 @@ import { Header } from './header';
 import { Footer } from './footer';
 import { useNavigate } from "react-router-dom";
 import { FormattedMessage } from 'react-intl';
-
+import config from '../../config';
 export default function DeudorDetalle() {
   const navigate = useNavigate();
 
@@ -13,6 +13,7 @@ export default function DeudorDetalle() {
   const nav_links = [
     { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: "/deudores" },
   ];
+  const apiurl = config.apiUrl;
 
   const [deudor, setDeudor] = useState({
     nombrecompleto: 'Armando Casas',
@@ -54,7 +55,7 @@ export default function DeudorDetalle() {
       console.error('No hay deudorId disponible');
     } else {
       if (token) {
-        fetch(`http://https://back-prest.onrender.com/deudor/${deudorId}`, {
+        fetch(`${apiurl}/deudor/${deudorId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ export default function DeudorDetalle() {
       console.error('No hay deudorId disponible');
     } else {
       if (token) {
-        fetch(`http://https://back-prest.onrender.com/deudor/${deudorId}`, {
+        fetch(`${apiurl}/deudor/${deudorId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
