@@ -5,7 +5,7 @@ import './styles/Index.css';
 import { Footer } from './footer';
 import { FormattedMessage } from 'react-intl';
 import "./styles/deudores.css";
-import config from '../../config';
+import config from '../config';
 
 export default function Index() {
     const [total, setTotal] = React.useState(0);

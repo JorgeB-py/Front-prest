@@ -3,7 +3,7 @@ import "./styles/Login.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import config from "../../config";
+import config from "../config";
 
 export default function Login() {
     const [username, setUsername] = useState("");

@@ -5,7 +5,7 @@ import { Footer } from "./footer";
 import { Link } from "react-router-dom";
 import { useIntl, FormattedMessage } from 'react-intl';
 import "./styles/consultarCliente.css";
-import config from "../../config";
+import config from "../config";
 
 export default function ConsultarCliente() {
     const intl = useIntl();

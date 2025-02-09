@@ -5,7 +5,7 @@ import { Header } from './header';
 import { Footer } from './footer';
 import { useNavigate } from "react-router-dom";
 import { FormattedMessage } from 'react-intl';
-import config from '../../config';
+import config from '../config';
 export default function DeudorDetalle() {
   const navigate = useNavigate();
 

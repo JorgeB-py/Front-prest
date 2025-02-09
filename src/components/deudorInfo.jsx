@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';  // Importar FormattedMessage de 
 import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useEffect } from 'react';
-import config from '../../config';
+import config from '../config';
 const apiurl = config.apiUrl;
 const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import { Header } from "./header";
 import { Footer } from "./footer";
-import config from "../../config";
+import config from "../config";
 import { FormattedMessage, useIntl } from 'react-intl';
 import "./styles/crearCliente.css";
 

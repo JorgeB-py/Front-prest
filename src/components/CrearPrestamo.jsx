@@ -7,7 +7,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./styles/crearPrestamo.css";
 import { useNavigate } from 'react-router-dom';
-import config from '../../config';
+import config from '../config';
 
 export default function CrearPrestamo() {
     const intl = useIntl();

@@ -5,7 +5,7 @@ import { Footer } from './footer';
 import { React, useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate,useParams } from "react-router-dom";
-import config from '../../config';
+import config from '../config';
 
 
 export default function Pasarela() {

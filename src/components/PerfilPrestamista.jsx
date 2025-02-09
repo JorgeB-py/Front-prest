@@ -4,7 +4,7 @@ import './styles/DeudorDetalle.css';
 import { Header } from './header';
 import { Footer } from './footer';
 import { FormattedMessage } from 'react-intl';
-import config from '../../config';
+import config from '../config';
 
 function PerfilPrestamista() {
     const nav_links = [

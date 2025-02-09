@@ -7,7 +7,7 @@ import { Footer } from './footer';
 import { Container, Col, Row } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import config from '../../config';
+import config from '../config';
 import './styles/deudorApp.css';
 
 export default function DeudorApp() {
