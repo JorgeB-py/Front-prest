@@ -16,19 +16,19 @@ import PerfilPrestamista from "./PerfilPrestamista";
 
 export default function App() {
     const nav_links = [
-        { url: "soluciones", component: Soluciones },
-        { url: "nosotros", component: Nosotros },
-        { url: "recursos", component: Recursos },
-        { url: "signup", component: Signup },
-        { url: "login", component: Login},
+        { url: "/soluciones", component: Soluciones },
+        { url: "/nosotros", component: Nosotros },
+        { url: "/recursos", component: Recursos },
+        { url: "/signup", component: Signup },
+        { url: "/login", component: Login},
         { url: "/", component: Landing },
         { url: "/infodeudor", component: DeudorDetalle },
-        { url:"deudores", component: Deudores},
-        { url:"deudorApp", component: DeudorApp}, 
-        { url:"crearcliente", component: CrearCliente},
-        { url:"consultarcliente", component: ConsultarCliente},
-        { url: "crearPrestamo", component: CrearPrestamo},
-        { url: "perfilPrestamista", component: PerfilPrestamista },
+        { url:"/deudores", component: Deudores},
+        { url:"/deudorApp", component: DeudorApp}, 
+        { url:"/crearcliente", component: CrearCliente},
+        { url:"/consultarcliente", component: ConsultarCliente},
+        { url: "/crearPrestamo", component: CrearPrestamo},
+        { url: "/perfilPrestamista", component: PerfilPrestamista },
 
     ];
     return (
