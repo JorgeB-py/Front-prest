@@ -67,7 +67,6 @@ export default function ConsultarCliente() {
                     },});
             const data = await response.json();
             setTodosClientes(data.deudores);
-            console.log(data.deudores);
             setCliente(null);  // Limpia la selección de un solo cliente
             setMensajeError("");
         } catch (error) {

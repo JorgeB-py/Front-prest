@@ -303,7 +303,6 @@ export default function DeudorApp() {
                 value={newPrestamoData.monto} 
                 onChange={(e) => {
                   setnewPrestamoData({ ...newPrestamoData, monto: parseInt(e.target.value)});
-                  console.log(e.target.value)
                 }} 
               />
             </Form.Group>

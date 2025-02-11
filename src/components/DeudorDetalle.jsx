@@ -88,7 +88,6 @@ export default function DeudorDetalle() {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             setDeudor(data);
             setDeudas(data.prestamos);
             setTotalDeudas(data.deudaTotal);

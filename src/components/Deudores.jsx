@@ -21,7 +21,6 @@ export default function Index() {
         const prestamistaId = localStorage.getItem('prestamistaId');
 
         if (token) {
-            console.log(token);
 
             fetch(`${apiurl}/prestamistas/${prestamistaId}/deudores`, {
                 method: 'GET',
@@ -145,7 +144,7 @@ export default function Index() {
                 <Container style={{ display: "grid", padding: '1rem' }}>
                     <h1 style={{ textAlign: 'left' }}><FormattedMessage id="app.welcome" defaultMessage="Welcome" />, {nombre_usuario}</h1>
                     <h3><FormattedMessage id="app.thismonth" defaultMessage="This month you have earned" /></h3>
-                    <h2 style={{ color: "#004AAC" }}>${total}</h2>
+                    <h2 style={{ color: "#004AAC" }}>${total.toLocaleString()}</h2>
 
                     <Form.Control
                         type="text"
