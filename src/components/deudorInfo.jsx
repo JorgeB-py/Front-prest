@@ -55,7 +55,6 @@ const DeudorInfo = ({ deudor, setShowModal, prestamo }) => {
       },
       body: JSON.stringify(prestamo)
     }).then(response => response.json()).then(data => {
-      console.log(data);
     })
 
     setShowConfirmationModal(false);

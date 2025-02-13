@@ -45,7 +45,7 @@ export default function DeudorApp() {
   }); // Datos del préstamo
   
   const [historialPagos, setHistorialPagos] = useState([]); // Historial de pagos del préstamo
-  const [newPayment, setNewPayment] = useState({ capital: 0, interes: 0 }); // Nuevo pago
+  const [newPayment, setNewPayment] = useState({ capital: 0, interes: 0, fecha: '' }); // Nuevo pago con fecha
   const [showModal, setShowModal] = useState(false); // Control del modal para agregar pagos
   const [showModalInteres, setShowModalInteres] = useState(false); // Control del modal para modificar datos
   
@@ -55,7 +55,7 @@ export default function DeudorApp() {
     monto: 0,
     interes: 0,
     nombre: '',
-    pagado:false,
+    pagado: false,
     historialpagos: [],
   });
 
@@ -70,7 +70,7 @@ export default function DeudorApp() {
     if (!token) {
       console.error('No hay token disponible');
       window.location.href = '/login';
-    }else if (!prestamoId) {
+    } else if (!prestamoId) {
       console.error('No hay identificador de préstamo disponible');
       window.location.href = '/deudores';
       return;
@@ -107,7 +107,7 @@ export default function DeudorApp() {
     const updatedPrestamoData = {
       ...newPrestamoData,
       nombre: prestamoData.nombre,
-      historialpagos: prestamoData.historialpagos
+      historialpagos: prestamoData.historialpagos,
     };
 
     try {
@@ -147,10 +147,8 @@ export default function DeudorApp() {
     const nuevoPago = {
       capital: newPayment.capital,
       interes: newPayment.interes,
-      fecha: new Date().toISOString().split('T')[0],
+      fecha: newPayment.fecha, // Se incluye la fecha aquí
     };
-
-
 
     try {
       const responsePago = await fetch(`${apiurl}/pagos`, {
@@ -215,9 +213,7 @@ export default function DeudorApp() {
   return (
     <>
       <Header
-        nav_links={[
-          { name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: '/deudores' },
-        ]}
+        nav_links={[{ name: <FormattedMessage id="app.Deudores" defaultMessage="Deudores" />, url: '/deudores' }]}
         logged={true}
         usuario={'Jorge'}
       />
@@ -246,21 +242,30 @@ export default function DeudorApp() {
           <Form>
             <Form.Group controlId="capital">
               <Form.Label>Capital</Form.Label>
-              <Form.Control 
-                type="number" 
-                placeholder="Enter capital" 
-                value={newPayment.capital} 
-                onChange={(e) => setNewPayment({ ...newPayment, capital: parseInt(e.target.value) })} 
+              <Form.Control
+                type="number"
+                placeholder="Enter capital"
+                value={newPayment.capital}
+                onChange={(e) => setNewPayment({ ...newPayment, capital: parseInt(e.target.value) })}
               />
             </Form.Group>
 
             <Form.Group controlId="interes">
               <Form.Label>Interes</Form.Label>
-              <Form.Control 
-                type="number" 
-                placeholder="Enter interes" 
-                value={newPayment.interes} 
-                onChange={(e) => setNewPayment({ ...newPayment, interes: parseInt(e.target.value) })} 
+              <Form.Control
+                type="number"
+                placeholder="Enter interes"
+                value={newPayment.interes}
+                onChange={(e) => setNewPayment({ ...newPayment, interes: parseInt(e.target.value) })}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="fechaPago">
+              <Form.Label>Fecha de Pago</Form.Label>
+              <Form.Control
+                type="date"
+                value={newPayment.fecha}
+                onChange={(e) => setNewPayment({ ...newPayment, fecha: e.target.value })}
               />
             </Form.Group>
 
@@ -297,31 +302,31 @@ export default function DeudorApp() {
 
             <Form.Group controlId="prestado">
               <Form.Label>Monto Prestado</Form.Label>
-              <Form.Control 
-                type="number" 
-                placeholder="Monto Prestado" 
-                value={newPrestamoData.monto} 
+              <Form.Control
+                type="number"
+                placeholder="Monto Prestado"
+                value={newPrestamoData.monto}
                 onChange={(e) => {
-                  setnewPrestamoData({ ...newPrestamoData, monto: parseInt(e.target.value)});
-                }} 
+                  setnewPrestamoData({ ...newPrestamoData, monto: parseInt(e.target.value) });
+                }}
               />
             </Form.Group>
 
             <Form.Group controlId="interes">
               <Form.Label>Interés</Form.Label>
-              <Form.Control 
-                type="number" 
-                placeholder="Tasa de Interés" 
-                value={newPrestamoData.interes} 
-                onChange={(e) => setnewPrestamoData({ ...newPrestamoData, interes: parseInt(e.target.value) })} 
+              <Form.Control
+                type="number"
+                placeholder="Tasa de Interés"
+                value={newPrestamoData.interes}
+                onChange={(e) => setnewPrestamoData({ ...newPrestamoData, interes: parseInt(e.target.value) })}
               />
               {interestError && <p style={{ color: 'red' }}>El interés debe ser entre 0 y 100.</p>}
               <Form.Text className='text-danger'>
-              {showDatesError?'Start and Due Dates must be consistent.':''}
-            </Form.Text>
+                {showDatesError ? 'Start and Due Dates must be consistent.' : ''}
+              </Form.Text>
             </Form.Group>
-            <Button 
-              variant="primary" 
+            <Button
+              variant="primary"
               onClick={() => {
                 if (validateForm()) {
                   actualizarDeudorData();
