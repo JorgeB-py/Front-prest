@@ -62,11 +62,6 @@ const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
       if (!response.ok) {
         throw new Error('Error al actualizar el pago');
       }
-  
-      if (!updatePrestamoResponse.ok) {
-        throw new Error('Error al actualizar el pago del préstamo');
-      }
-  
       // Actualizar el pago en el componente
       if (onUpdatePago) {
         onUpdatePago(selectedPago, editedPago);
