@@ -50,7 +50,7 @@ const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
   
     try {
       // Primero, actualizar el pago en la API de pagos
-      const response = await fetch(`${apiurl}/pagos/${selectedPago.id}`, {
+      const response = await fetch(`${apiurl}/pagos`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -62,17 +62,6 @@ const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
       if (!response.ok) {
         throw new Error('Error al actualizar el pago');
       }
-  
-      // Luego, actualizar el pago asociado al préstamo
-      const prestamoId = prestamo.id; // Suponiendo que tienes acceso al ID del préstamo
-      const updatePrestamoResponse = await fetch(`${apiurl}/prestamos/${prestamoId}/pagos/${selectedPago.id}`, {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(editedPago),
-      });
   
       if (!updatePrestamoResponse.ok) {
         throw new Error('Error al actualizar el pago del préstamo');
