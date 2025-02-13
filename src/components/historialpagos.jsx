@@ -51,7 +51,7 @@ const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
     }
 
     try {
-      const response = await fetch(`${apiUrl}/pagos/${selectedPago.id}`, {
+      const response = await fetch(`${apiurl}/pagos/${selectedPago.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
