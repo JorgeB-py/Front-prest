@@ -42,15 +42,14 @@ const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
   };
 
   const handleSaveEdit = async () => {
-    // Realizar el fetch para actualizar el pago
-    const token = localStorage.getItem('token'); // Asegúrate de tener un token válido o un sistema de autenticación
-
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error("No token found");
       return;
     }
-
+  
     try {
+      // Primero, actualizar el pago en la API de pagos
       const response = await fetch(`${apiurl}/pagos/${selectedPago.id}`, {
         method: 'PUT',
         headers: {
@@ -59,21 +58,37 @@ const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
         },
         body: JSON.stringify(editedPago),
       });
-
+  
       if (!response.ok) {
         throw new Error('Error al actualizar el pago');
       }
-
-      // Al actualizar el pago exitosamente, puedes llamar a onUpdatePago si se pasó como prop
+  
+      // Luego, actualizar el pago asociado al préstamo
+      const prestamoId = prestamo.id; // Suponiendo que tienes acceso al ID del préstamo
+      const updatePrestamoResponse = await fetch(`${apiurl}/prestamos/${prestamoId}/pagos/${selectedPago.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(editedPago),
+      });
+  
+      if (!updatePrestamoResponse.ok) {
+        throw new Error('Error al actualizar el pago del préstamo');
+      }
+  
+      // Actualizar el pago en el componente
       if (onUpdatePago) {
         onUpdatePago(selectedPago, editedPago);
       }
-
+  
       setShowEditModal(false); // Cerrar el modal
     } catch (error) {
       console.error('Error al actualizar el pago:', error);
     }
   };
+  
 
   const handleGenerate = () => {
     const doc = new jsPDF();
