@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import { jsPDF } from 'jspdf';
+import config from '../config';
 
 const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -9,7 +10,7 @@ const HistorialPagos = ({ pagos = [], prestamo, onUpdatePago }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPago, setSelectedPago] = useState(null);
   const [editedPago, setEditedPago] = useState({});
-  const apiUrl = 'https://tu-backend.com/api/'; // Cambia esto a tu URL real del backend
+  const apiurl = config.apiUrl; // Cambia esto a tu URL real del backend
 
   const handleCloseConfirmationModal = () => setShowConfirmationModal(false);
   const handleCloseEditModal = () => setShowEditModal(false);
